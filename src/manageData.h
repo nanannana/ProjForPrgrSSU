@@ -5,4 +5,3 @@ extern struct Daeho* struuuct;
 /// fileIO.c 에서 읽기, 쓰기
 /// manageData.c에서 정렬 등을 간편하게 사용 가능합니다.
 
-void SortData(struct *..
