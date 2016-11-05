@@ -12,8 +12,8 @@ clean :
 $(BUILD) : $(OBJS) 
 	ld -o $(addprefix $(OUTDIR)/,$@) $(addprefix $(OUTDIR)/,$^)
 
-main.o : $($(notdir $@):.o=.c) $($(filter-out main.o,$(OBJS)):.o=.h)
-%.o : $($(notdir $@):.o=.c) $($(notdir $@):.o=.c)
+main.o : $(subst .o,.c,$(notdir $@)) $(subst .o,.c,$(filter-out main.o,$(OBJS)))
+%.o : $(subst .o,.c,$(notdir $@)) $(subst .o,.c,$(notdir $@))
 
 .c.o :
 	gcc -c -o $(addprefix $(OUTDIR)/,$@) $<
