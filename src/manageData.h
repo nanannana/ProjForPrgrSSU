@@ -98,3 +98,8 @@ int replace_book(const Book* const p_origin, Book book);
 
 int replace_borrow(const Borrow* const p_origin, Borrow borrow);
 
+
+/// 리스트들의 모든 원소를 메모리에서 해제해버립니다.
+/// 프로그램 종료하기 직전에 호출되어야만 합니다.
+
+void free_all_lists(void);
