@@ -30,12 +30,11 @@ void book_f_s(FILE *book_fp ,Book * book)
 	{
 		trash = fgetc(book_fp);
 	}
-	while(trash != '|') // current error!!
+	while(trash != '|')
 	{
 		temp[i++] = trash;
 		trash = fgetc(book_fp);
 	}
-	printf("%s\n",temp);
 }
 void borrow_f_s(FILE *borrow_fp, Borrow *borrow)
 {
@@ -163,9 +162,9 @@ void file_data_struct(Client *client, Book *book, Borrow *borrow)
 	Borrow *borrow_current;
 	int check = 1;	
 	
-	client_fp = fopen("client.txt", "r");
-	borrow_fp = fopen("borrow.txt", "r");
-	book_fp = fopen("book.txt", "r");
+	client_fp = fopen("data/client.txt", "r");
+	borrow_fp = fopen("data/borrow.txt", "r");
+	book_fp = fopen("data/book.txt", "r");
 	
 	client_current = client;
 	while(check != -1)
