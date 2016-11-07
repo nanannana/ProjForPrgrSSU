@@ -15,7 +15,7 @@ typedef struct client
 typedef struct book
 {
 	int book_num; // 7
-	int ISBN;	// 13
+	int ISBN	// 13
 	char *name;
 	char *publisher;
 	char *author;
