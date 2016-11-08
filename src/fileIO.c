@@ -4,6 +4,10 @@
 #include"fileIO.h"
 #include<string.h>
 
+	/*
+	   file_data_struct(&client, &book, &borrow);을 적으신다면
+	   데이터가 불러와 질 것 입니다아... 
+	  */
 char temp[200];
 
 Client client;
@@ -330,11 +334,4 @@ void client_struct_data_monitor(Client *client, Book *book, Borrow *borrow)
 		else
 			break;
 	}
-}
-
-int main(void)
-{
-	file_data_struct(&client, &book, &borrow);
-	client_struct_data_monitor(&client, &book, &borrow);
-	return 0;
 }
