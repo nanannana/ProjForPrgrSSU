@@ -6,7 +6,7 @@
 
 char temp[200];
 
-void client_f_s(FILE *client_fp, Client *client)
+void client_f_s_word(FILE *client_fp, Client *client)
 {
 	char trash = '\n';
 	int i = 0;
@@ -21,7 +21,8 @@ void client_f_s(FILE *client_fp, Client *client)
 		trash = fgetc(client_fp);
 	}
 }
-void book_f_s(FILE *book_fp ,Book * book)
+
+void book_f_s_word(FILE *book_fp ,Book * book)
 {
 	char trash = '\n';
 	int i = 0;
@@ -36,9 +37,114 @@ void book_f_s(FILE *book_fp ,Book * book)
 		trash = fgetc(book_fp);
 	}
 }
-void borrow_f_s(FILE *borrow_fp, Borrow *borrow)
+void borrow_f_s_word(FILE *borrow_fp, Borrow *borrow)
 {
 	printf("borrow\n");
+}
+
+int book_f_s_sentence(FILE *book_fp, Book *book)
+{
+	int i;
+	char a;
+	FILE *fp = book_fp;
+	Book *sp = book;
+	for(i=0; i<7; i++)
+	{
+		memset(temp,0,sizeof(temp));
+		book_f_s_word(fp,sp);
+		
+		switch(i)
+		{
+			case 0:
+			/*	if(strlen(temp) != 7)
+					printf("Data eorror!!\n");
+				else*/
+					sp -> book_num = atoi(temp);
+				break;
+			case 1:
+			/*	if(strlen(temp) != 13)
+					printf("Data eorror!!\n");
+				else*/
+					sp -> ISBN = atoi(temp);
+				break;
+			case 2:
+				sp -> name = malloc( strlen(temp) + 1 );
+				strcpy(sp -> name, temp);
+				break;
+			case 3:
+				sp -> publisher = malloc( strlen(temp) + 1 );
+				strcpy(sp -> publisher, temp);
+				break;
+			case 4:
+				sp -> author = malloc( strlen(temp) + 1 );
+				strcpy(sp -> author, temp);
+				break;
+			case 5:
+				sp -> owner = malloc( strlen(temp) + 1 );
+				strcpy(sp -> owner, temp);
+			case 6:
+				sp -> borrow_Y_N = malloc( strlen(temp) + 1 );
+				strcpy(sp -> borrow_Y_N, temp);
+				a = fgetc(fp);
+				fseek(fp,-1, SEEK_CUR);
+		}
+	}
+	
+	if(a == EOF)
+	{
+		return a;
+	}
+	else
+		fseek(fp , 1 , SEEK_CUR);
+	
+	return a;
+}
+
+int client_f_s_sentence(FILE *client_fp, Client *client)
+{
+	int i;
+	char a;
+	FILE * fp = client_fp;
+	Client *sp = client;
+	for(i=0; i<5; i++)
+	{
+		memset(temp,0,sizeof(temp));
+		client_f_s_word(fp,sp);
+		switch(i)
+		{
+			case 0:
+				sp -> sch_num = atoi(temp);
+				break;
+			case 1:
+				sp -> name = malloc( strlen(temp) + 1 );
+				strcpy(sp -> name, temp);
+				break;
+			case 2:
+				sp -> password = malloc( strlen(temp) + 1 );
+				strcpy(sp -> password, temp);
+				break;
+			case 3:
+				sp -> address = malloc( strlen(temp) + 1 );
+				strcpy(sp -> address, temp);
+				break;
+			case 4:
+				sp -> phone_num = malloc( strlen(temp) + 1 );
+				strcpy(sp -> phone_num, temp);
+				a = fgetc(fp);
+				fseek(fp,-1, SEEK_CUR);
+				break;
+					break;
+		}
+	}
+
+	if(a == EOF)
+	{
+		return a;
+	}
+	else
+		fseek(fp,1,SEEK_CUR);
+	return a;
+	
 }
 
 int what_struct(void *fp ,void * vsp, int n)
@@ -47,104 +153,15 @@ int what_struct(void *fp ,void * vsp, int n)
 	char a;
 	if(n==1)
 	{
-		Client *sp = vsp;
-		for(i=0; i<5; i++)
-		{
-			memset(temp,0,sizeof(temp));
-			client_f_s(fp,sp);
-			switch(i)
-			{
-				case 0:
-					sp -> sch_num = atoi(temp);
-					break;
-				case 1:
-					sp -> name = malloc( strlen(temp) + 1 );
-					strcpy(sp -> name, temp);
-					break;
-				case 2:
-					sp -> password = malloc( strlen(temp) + 1 );
-					strcpy(sp -> password, temp);
-					break;
-				case 3:
-					sp -> address = malloc( strlen(temp) + 1 );
-					strcpy(sp -> address, temp);
-					break;
-				case 4:
-					sp -> phone_num = malloc( strlen(temp) + 1 );
-					strcpy(sp -> phone_num, temp);
-					a = fgetc(fp);
-					fseek(fp,-1, SEEK_CUR);
-					break;
-			}
-		}
-		if(a == EOF)
-		{
-			return a;
-		}
-		else
-			fseek(fp , 1 , SEEK_CUR);
-
+		return client_f_s_sentence(fp,vsp);
 	}
 	else if(n==2)
 	{
-		borrow_f_s(fp,vsp);
-
-		return 1;
+		//return borrow_f_s_sentence(fp,vsp);
 	}
 	else if(n==3)
 	{
-		Book *sp = vsp;
-		for(i=0; i<7; i++)
-		{
-			memset(temp,0,sizeof(temp));
-			book_f_s(fp,sp);
-			
-			switch(i)
-			{
-				case 0:
-				/*	if(strlen(temp) != 7)
-						printf("Data eorror!!\n");
-					else*/
-						sp -> book_num = atoi(temp);
-					break;
-				case 1:
-				/*	if(strlen(temp) != 13)
-						printf("Data eorror!!\n");
-					else*/
-						sp -> ISBN = atoi(temp);
-					break;
-				case 2:
-					sp -> name = malloc( strlen(temp) + 1 );
-					strcpy(sp -> name, temp);
-					break;
-				case 3:
-					sp -> publisher = malloc( strlen(temp) + 1 );
-					strcpy(sp -> publisher, temp);
-					break;
-				case 4:
-					sp -> author = malloc( strlen(temp) + 1 );
-					strcpy(sp -> author, temp);
-					break;
-				case 5:
-					sp -> owner = malloc( strlen(temp) + 1 );
-					strcpy(sp -> owner, temp);
-				case 6:
-					sp -> borrow_Y_N = malloc( strlen(temp) + 1 );
-					strcpy(sp -> borrow_Y_N, temp);
-					a = fgetc(fp);
-					fseek(fp,-1, SEEK_CUR);
-					break;
-			}
-	
-		}
-		if(a == EOF)
-		{
-			return a;
-		}
-		else
-		{
-			fseek(fp , 1 , SEEK_CUR);
-		}
+		return book_f_s_sentence(fp,vsp);
 	}
 	else
 	{
