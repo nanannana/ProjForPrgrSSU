@@ -6,6 +6,10 @@
 
 char temp[200];
 
+Client client;
+Book book;
+Borrow borrow; 
+
 void client_f_s_word(FILE *client_fp, Client *client)
 {
 	char trash = '\n';
@@ -39,7 +43,18 @@ void book_f_s_word(FILE *book_fp ,Book * book)
 }
 void borrow_f_s_word(FILE *borrow_fp, Borrow *borrow)
 {
-	printf("borrow\n");
+	char trash = '\n';
+	int i = 0;
+	trash = fgetc(borrow_fp);
+	while(trash == '|')
+	{
+		trash = fgetc(borrow_fp);
+	}
+	while(trash != '|')
+	{
+		temp[i++] = trash;
+		trash = fgetc(borrow_fp);
+	}
 }
 
 int book_f_s_sentence(FILE *book_fp, Book *book)
@@ -147,6 +162,44 @@ int client_f_s_sentence(FILE *client_fp, Client *client)
 	
 }
 
+int borrow_f_s_sentence(FILE *borrow_fp, Borrow *borrow)
+{
+	int i;
+	char a;
+	FILE * fp = borrow_fp;
+	Borrow *sp = borrow;
+	for(i=0; i<4; i++)
+	{
+		memset(temp,0,sizeof(temp));
+		borrow_f_s_word(fp,sp);
+		switch(i)
+		{
+			case 0:
+				sp -> sch_num = atoi(temp);
+				break;
+			case 1:
+				sp -> book_num = atoi(temp);
+				break;
+			case 2:
+				sp -> borrow_day = atol(temp);
+				break;
+			case 3:
+				sp -> return_day = atol(temp);
+				a = fgetc(fp);
+				fseek(fp,-1, SEEK_CUR);
+				break;
+		}
+	}
+	if(a == EOF)
+	{
+		return a;
+	}
+	else
+		fseek(fp,1,SEEK_CUR);
+	return a;
+
+}
+
 int what_struct(void *fp ,void * vsp, int n)
 {
 	int i =0;
@@ -157,7 +210,7 @@ int what_struct(void *fp ,void * vsp, int n)
 	}
 	else if(n==2)
 	{
-		//return borrow_f_s_sentence(fp,vsp);
+		return borrow_f_s_sentence(fp,vsp);
 	}
 	else if(n==3)
 	{
@@ -190,14 +243,20 @@ void file_data_struct(Client *client, Book *book, Borrow *borrow)
 		client_current = client_current -> next;
 		check =what_struct((void *)client_fp ,(void *)client_current, 1) ;
 	}
+	client_current -> next = (Client *)malloc(sizeof(Client));
+	client_current = client_current -> next;
 	check = 1;
 
 	borrow_current = borrow;
-	while(ftell(borrow_fp) > EOF)
+	while(check != -1)
 	{
-		
-		break;	
+		borrow_current -> next = (Borrow *)malloc(sizeof(Borrow));
+		borrow_current = borrow_current -> next;
+		check = what_struct((void *)borrow_fp ,(void *)borrow_current, 2) ;
+
 	}
+	borrow_current -> next = (Borrow *)malloc(sizeof(Borrow));
+	borrow_current = borrow_current -> next;
 	check = 1;
 
 	book_current = book;
@@ -208,6 +267,9 @@ void file_data_struct(Client *client, Book *book, Borrow *borrow)
 		book_current = book_current -> next;
 		check = what_struct((void *)book_fp ,(void *)book_current, 3);
 	}
+	book_current -> next = (Book *)malloc(sizeof(Book));
+	book_current -> next -> last = book_current;
+	book_current = book_current -> next;
 	check = 1;
 
 
@@ -218,19 +280,53 @@ void file_data_struct(Client *client, Book *book, Borrow *borrow)
 	
 }
 
-void client_struct_data_monitor(Client *client)
+void client_struct_data_monitor(Client *client, Book *book, Borrow *borrow)
 {
 	Client *current;
+	Book * bk_current;
+	Borrow *br_current;
+	
+	bk_current = book -> next;
+	br_current = borrow -> next;
 	current = client -> next;
 	int i = 1;
 	while(1)
 	{
-		printf("%d번쨰 데이터\n",i++);
-		printf("|%d|%s|%s",current -> sch_num, current -> name, current -> password);
-		printf("|%s|%s|\n",current -> address, current -> phone_num);
-	
 		if(current -> next)
+		{
+			printf("%d번쨰 데이터\n",i++);
+			printf("|%d|%s|%s",current -> sch_num, current -> name, current -> password);
+			printf("|%s|%s|\n",current -> address, current -> phone_num);
 			current= current -> next;
+		}
+		else
+			break;
+	}
+	
+	i=1;
+	while(1)
+	{
+		if(bk_current -> next)
+		{
+			printf("%d번쨰 데이터\n",i++);
+			printf("|%d|%d|%s",bk_current -> book_num, bk_current -> ISBN, bk_current -> name); 
+			printf("|%s|%s|%s%s|\n",bk_current -> publisher, bk_current -> author, bk_current -> owner, bk_current -> borrow_Y_N); 
+			bk_current= bk_current -> next;
+		}
+		else
+			break;
+	}
+
+	i=1;
+	while(1)
+	{
+		if(br_current -> next)	
+		{
+			printf("%d번쨰 데이터\n",i++);
+			printf("|%d|%d",br_current ->sch_num, br_current-> book_num);
+			printf("|%ld|%ld|\n",br_current -> borrow_day, br_current-> return_day);
+			br_current = br_current -> next;
+		}
 		else
 			break;
 	}
@@ -238,10 +334,7 @@ void client_struct_data_monitor(Client *client)
 
 int main(void)
 {
-	Client client;
-	Book book;
-	Borrow borrow;
 	file_data_struct(&client, &book, &borrow);
-	client_struct_data_monitor(&client);
+	client_struct_data_monitor(&client, &book, &borrow);
 	return 0;
 }
