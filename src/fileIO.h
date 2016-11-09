@@ -31,6 +31,9 @@ typedef struct borrow
 	int book_num; // 빌려간 책
 	time_t borrow_day; // 빌린날
 	time_t return_day; // 반날해야 하는 날
-	struct Borrow *next; // 다음 노드
+	struct borrow *next; // 다음 노드
 }Borrow;
 
+extern Client client;
+extern Book book;
+extern Borrow borrow;
