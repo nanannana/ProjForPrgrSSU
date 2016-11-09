@@ -52,24 +52,36 @@ int remove_book(int book_num);
 int remove_borrow(int book_num);
 
 /***********************************************************************
-  something get_something(int some_key)
+  int get_something(int some_key, const struct something ** sth)
   이 함수는 특정 원소를 결정할 수 있는 키(학번, 도서번호)를 가지고,
-  그 원소를 찾아내, 그 원소의 포인터를 반환합니다. 
+  그 원소를 찾아내, const struct something ** sth가 가리키는
+  주소에 집어넣습니다.
 
   만약 원소를 출력하고 싶다면 이 함수를 이용하면 됩니다.
   만약 원소를 변경하고 싶다면 이 함수로 받아온 포인터를
   변수에 할당하고 수정한 후, replace_something 함수를 이용하여 주십시오.
+  굳이 const 포인터를 반환하고 replace함수를 따로 두는 이유는
+  key 충돌 문제, 리스트가 변경되었음에도 불구하고 저장을 하지 않을 수 있는
+  문제를 해결하기 위함입니다.
+
+  const struct something * sth = NULL;
+  if (get_something(4, &sth) == success)
+  {
+  	printf("출력: %d \n", sth->first_one);
+  }
+  else
+  //실패
 
   반환 가능 값 : 
   Success
   Fail_No_Element
 ***********************************************************************/
 
-const Client const* get_client(int sch_num);
+int get_client(int sch_num, const Client ** result);
 
-const Book const* get_book(int book_num);
+int get_book(int book_num, const Book ** result);
 
-const Borrow const* get_borrow(int book_num);
+int get_borrow(int book_num, const Borrow ** result);
 
 /***********************************************************************
   int replace_something(const struct something* const p_origin, struct something sth)
@@ -78,13 +90,20 @@ const Borrow const* get_borrow(int book_num);
   변경 후 파일 저장 (잊어버릴 가능성)을 고려하여 사용합니다.
   일반적인 사용 방법은 다음과 같습니다.
 
-  const struct something* const sth = get_something(2);
-  struct something temp = &sth;
-  temp.firstone = 2;
-  if (replace_something(sth, temp) == Success)
-  // 변환 성공
-  else
-  // 실패
+  const struct something * sth = NULL;
+  if (get_something(2, &sth) == success)
+  { // 찾는데 성공했다면
+  	struct something temp = *sth;
+  	temp.first_one = 2; //내용 변경
+	Return_Flags flag;
+
+  	if ((flag = replace_something(sth, temp)) == Success)
+  	// 변환 성공
+  	else if (flag == Fail_Two_Same_Value)
+  	// 실패
+	else
+	// 실패2
+  }
 
   반환 가능 값 : 
   Success
@@ -92,11 +111,11 @@ const Borrow const* get_borrow(int book_num);
   Fail_No_Element
 ***********************************************************************/
 
-int replace_client(const Client* const p_origin, Client client);
+int replace_client(const Client* p_origin, Client client);
 
-int replace_book(const Book* const p_origin, Book book);
+int replace_book(const Book* p_origin, Book book);
 
-int replace_borrow(const Borrow* const p_origin, Borrow borrow);
+int replace_borrow(const Borrow* p_origin, Borrow borrow);
 
 
 /// 리스트들의 모든 원소를 메모리에서 해제해버립니다.
