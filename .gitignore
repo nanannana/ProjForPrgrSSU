@@ -1,1 +1,3 @@
 src/*.out
+src/*.gch
+*.DS_Store
