@@ -1,9 +1,10 @@
+#include"fileIO.h"
+
 /// 아래 나오는 int를 반환하는 모든 함수는 성공 여부에 따라 아래 열거형을 반환할 것입니다. 
 typedef enum {
 	Success = 1,					// 성공했을 때 반환합니다. 비교할 때 반드시 이 값과 비교해야 성공함을 알 수 있습니다. 
 	Fail_Two_Same_Value = -1, 		// 같아서는 안되는 값이 두 개 이상 같을 때 반환합니다.
 	Fail_No_Element = -2			// 해당하는 원소가 존재하지 않을 경우 반환합니다.
-	Fail_Invaild_p_origin_Or_Struct = -3// 유효하지 않은 파라미터를 넘겨줬습니다. key가 달라지지 않았는지, 혹은 포인터가 다른 원소를 가리키지 않는지 확인해 주시시오.
 } Return_Flags;
 
 /***********************************************************************
@@ -102,15 +103,12 @@ int get_borrow(int book_num, const Borrow ** result);
   	// 실패
 	else if (flag == Fail_No_Element)
 	// 실패2
-	else
-	// 실패3
   }
 
   반환 가능 값 : 
   Success
   Fail_Two_Same_Value
   Fail_No_Element
-  Fail_Invalid_p_origin_Or_Struct
 ***********************************************************************/
 
 int replace_client(const Client* p_origin, Client client);
