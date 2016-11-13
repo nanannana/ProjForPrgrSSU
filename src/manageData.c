@@ -1,14 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"manageData.h"
-#include"fileIO.h"
 
 #ifdef DEBUG
-List_Client *list_client = NULL;
-list_client = (List_Client*)malloc(sizeof(List_Client));
-*list_client = {NULL};
-List_Book *list_book = NULL;
-List_Borrow *list_borrow = NULL;
+extern List_Client *list_client;
+extern List_Book * list_book;
+extern List_Borrow * list_borrow;
 
 void file_write_client(void){return;}
 void file_write_book(void){return;}
@@ -27,7 +24,7 @@ int private_get_##sth(int key)									\
 	list_##sth->current = list_##sth->head;						\
 	/* 리스트가 오름차순으로 정렬 되어 있으므로 자신보다 작은 값을 가진 원소까지 */\
 	/* 검사하면 충분합니다. key값이 같거나 클 경우 반복문에서 빠져나옵니다. */\
-	while(list_##sth->current->key < key || list_##sth->current->next != NULL)\
+	while(list_##sth->current->key < key && list_##sth->current->next != NULL)\
 		list_##sth->current = list_##sth->current->next;		\
 																\
 	/* 열심히 찾았는데 없을경우 실패를 반환합니다. */			\
@@ -42,7 +39,7 @@ int append_##sth(Sth sth)										\
 	/* 리스트에 추가할 원소를 동적할당하여 공간을 만듭니다.*/	\
 	Sth * element = (Sth *)malloc(sizeof(Sth));					\
 	*element = sth; 											\
-	B P(list_##sth->head) B															\
+																\
 	if (list_##sth->head == NULL)								\
 	{															\
 		list_##sth->head = element;								\
@@ -133,43 +130,18 @@ int get_##sth(int key, const Sth** result)						\
 																\
 int replace_##sth(const Sth* p_origin, Sth sth)					\
 {																\
-	Sth *element = (Sth*)malloc(sizeof(Sth));					\
-	*element = sth;												\
-																\
 	/* 예외 검사 */												\
-	if(private_get_##sth(element->key) == Success)				\
-		return Fail_Two_Same_Value;								\
+	/* 미리 p_origin 요소가 있는지, sth 자리가 있는지 */		\
+	/* 확인한 후 기존의 함수를 이용해 처리합니다. */			\
+	printf("%d %d",private_get_##sth(p_origin->key),p_origin->key);\
 	if(private_get_##sth(p_origin->key) != Success)				\
 		return Fail_No_Element;									\
+	if(private_get_##sth(sth.key) == Success && p_origin->key != sth.key)\
+		return Fail_Two_Same_Value;								\
 																\
-	/* 원소를 바꿔치기 합니다. */								\
-	if (p_origin->next == NULL)									\
-	{															\
-		Sth *last = p_origin->last;								\
-																\
-		last->next = element;									\
-		element->last = last;									\
-	}															\
-	else if(p_origin->last == NULL)								\
-	{															\
-		Sth *next = p_origin->next;								\
-																\
-		next->last = element;									\
-		element->next = next;									\
-	}															\
-	else														\
-	{															\
-		Sth *last = p_origin->last, *next = p_origin->next;		\
-																\
-		last->next = element;									\
-		next->last = element;									\
-																\
-		element->last = last;									\
-		element->next = next;									\
-	}															\
-	free((void *)p_origin);										\
-																\
-	file_write_##sth();											\
+	remove_##sth(p_origin->key);								\
+	append_##sth(sth);											\
+	/* 파일저장은 위 함수에서 수행한다. */						\
 																\
 	return Success;												\
 }																
@@ -185,10 +157,11 @@ int main(void)
 	int j = 0;
 	int key = 0;
 	const Client* t = NULL;
+	list_client = (List_Client*)calloc(1,sizeof(List_Client));
 	while(1)
 	{
-		printf("디버깅 모드입니다.\n");
-		printf("1. 리스트 추가\n2. 리스트 제거\n3. 리스트 얻기\n4. 리스트 대체\n 5. 현재 리스트 출력\n");
+		printf("\n디버깅 모드입니다.\n");
+		printf("1. 리스트 추가\n2. 리스트 제거\n3. 리스트 얻기\n4. 리스트 대체\n5. 현재 리스트 출력\n");
 		scanf("%d",&i);
 
 		switch(i)
@@ -237,9 +210,11 @@ int main(void)
 			case 5:
 				list_client->current = list_client->head;
 				printf("리스트 출력\n");
-				while(list_client->current != list_client->tail)
+				while(1)
 				{
 					printf("%d\n",list_client->current->sch_num);
+					if (list_client->current->next == NULL)
+						break;
 					list_client->current = list_client->current->next;
 				}
 				break;
