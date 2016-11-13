@@ -9,71 +9,6 @@ List_Client *list_client = NULL;
 List_Book *list_book = NULL;
 List_Borrow *list_borrow = NULL;
 
-char temp[500] = {0};
-
-/**********************************************************************
-	make_XXX_node();
-
-	중간중간에 노드를 만들일이 생기거나 파일입력받을때는 엄청 쓰일 노드
-	를 만들어주는 함수입니다.!
- **********************************************************************/
-void make_client_node();
-void make_borrow_node();
-void make_book_node();
-
-
-
-/*********************************************************************
-	init_all_list();
-
-  	처음 혹은 맨 마지맥에 우리는 모든 포인터들을 NULL로 바꿔줄 필요가
-	있습니다. 그걸위해 여러분들은 init_all_list();호출만 해주시면
-	3개의 리스트 구조체에 있는 head, current, tail은 NULL이 될 것입니다
-	또한 맨 처음에는 리스트 구조체가 만들어지지 않았음으로 만들어 져 있
-	지가 않다면 만들어 줄 것 입니다.
- *********************************************************************/
-void init_all_list();
-void init_client_list();
-void init_borrow_list();
-void init_book_list();
-
-/*******************************************
-  free_all_node();
-
-  동적할당된 모든 노드들을 풀어 줄 것 입니다.
-
-   ******************************************/
-
-void free_all_node();
-void free_client_node();
-void free_book_node();
-void free_borrow_node();
-
-/***********************************************************************
-	print_XXXX_data( XXXX* current);
-
-	분명히 자료를 출력하는 상황은 탐색을 하는 상황즁에 옵니다. 그래서 		현재 리스트 포인터를 매개변수로 받아줍니다.
-	즉 여러분은 탐색하다가 걸린곳에서 포인터를 던져주면 될것 입니다.
-	또한 맨 마지막(tail) 혹은 NULL은 자료가 없다고 출력할 것입니다.
-  *********************************************************************/
-//void print_client_data(Client *current);
-//void print_book_data(Book *book);
-//void print_borrow_data(Borrow *borrow);
-
-
-/***********************************************************************
-	get_all_file_data();
-
-	이함수는 프로그램이 처음 실행 되었을 때 모든 .txt파일로 부터 데이터
-  	들을 읽어 들여 구조체에다가 저장해 주는 함수로 메인을 짜는 분깨서는 
-	초기화 후에 이 명령어를 한번 써 주시길 바랍니다.
-  *********************************************************************/
-void get_all_file_data();
-int get_client_file_data(FILE * fp);
-int get_book_file_data(FILE *fp);
-int get_borrow_file_data(FILE *fp);
-char * get_oneWord(FILE **fp);
-
 /**********************
   리스트 초기화 함수들
    ********************/
@@ -369,12 +304,4 @@ void make_book_node()
 		list_book -> tail -> next = NULL;
 	}
 }
-
-int main()
-{
-	init_all_list();
-	get_all_file_data();
-	free_all_node();
-	return 0;
-} 
 
