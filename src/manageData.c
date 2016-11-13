@@ -1,16 +1,22 @@
+#include<stdio.h>
 #include<stdlib.h>
 #include"manageData.h"
+#include"fileIO.h"
 
 #ifdef DEBUG
-List_Client *list_client = {NULL};
-List_Book *list_book = {NULL};
-List_Borrow *list_borrow = {NULL};
+List_Client *list_client = NULL;
+list_client = (List_Client*)malloc(sizeof(List_Client));
+*list_client = {NULL};
+List_Book *list_book = NULL;
+List_Borrow *list_borrow = NULL;
 
 void file_write_client(void){return;}
 void file_write_book(void){return;}
 void file_write_borrow(void){return;}
-
 #endif 
+
+#define B printf("Break\n");getchar();
+#define P(X) printf(#X" = %p\n",X); getchar();
 
 #define CODE(Sth, sth, key) 									\
 /* 이 c 파일에서만 사용되는 get함수입니다. 성공을 확인한 후 리스트의 current*/\
@@ -36,7 +42,7 @@ int append_##sth(Sth sth)										\
 	/* 리스트에 추가할 원소를 동적할당하여 공간을 만듭니다.*/	\
 	Sth * element = (Sth *)malloc(sizeof(Sth));					\
 	*element = sth; 											\
-																\
+	B P(list_##sth->head) B															\
 	if (list_##sth->head == NULL)								\
 	{															\
 		list_##sth->head = element;								\
