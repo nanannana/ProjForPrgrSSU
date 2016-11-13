@@ -12,9 +12,6 @@ void file_write_book(void){return;}
 void file_write_borrow(void){return;}
 #endif 
 
-#define B printf("Break\n");getchar();
-#define P(X) printf(#X" = %p\n",X); getchar();
-
 #define CODE(Sth, sth, key) 									\
 /* 이 c 파일에서만 사용되는 get함수입니다. 성공을 확인한 후 리스트의 current*/\
 /* 가져다 이용하시면 됩니다.												*/\
