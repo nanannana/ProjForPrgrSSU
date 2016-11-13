@@ -193,13 +193,13 @@ int get_client_file_data(FILE *fp)
 	}
 }
 
-void get_book_file_data(FILE *fp)
+int get_book_file_data(FILE *fp)
 {
 	Book *book;
 	book = list_book -> current;
 	
 	book -> book_num = atoi(get_oneWord(&fp));
-	book -> ISBN = atio(get_onwWord(&fp));
+	book -> ISBN = atoi(get_oneWord(&fp));
 	
 	get_oneWord(&fp);
 	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
@@ -232,7 +232,10 @@ void get_book_file_data(FILE *fp)
 	}
 }
 	
-//void get_borrow_file_data(FILE *fp)
+int get_borrow_file_data(FILE *fp)
+{
+	return 0;
+}
 
 /*********************************************************
 	node free 소스코드	
