@@ -48,7 +48,6 @@ void free_all_node();
 void free_client_node();
 void free_book_node();
 void free_borrow_node();
-void free_list_node();
 
 /***********************************************************************
 	print_XXXX_data( XXXX* current);
@@ -69,11 +68,11 @@ void free_list_node();
   	들을 읽어 들여 구조체에다가 저장해 주는 함수로 메인을 짜는 분깨서는 
 	초기화 후에 이 명령어를 한번 써 주시길 바랍니다.
   *********************************************************************/
- void get_all_file_data();
- int get_client_file_data(FILE * fp);
- int get_book_file_data(FILE *fp);
- int get_borrow_file_data(FILE *fp);
- char * get_oneWord(FILE **fp);
+void get_all_file_data();
+int get_client_file_data(FILE * fp);
+int get_book_file_data(FILE *fp);
+int get_borrow_file_data(FILE *fp);
+char * get_oneWord(FILE **fp);
 
 /**********************
   리스트 초기화 함수들
@@ -153,7 +152,7 @@ void get_all_file_data()
 		make_borrow_node();
 	}
 	
-	
+
 	fclose(client_fp);
 	fclose(book_fp);
 	fclose(borrow_fp);
@@ -206,20 +205,20 @@ int get_book_file_data(FILE *fp)
 	strcpy(book -> name,temp);
 
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> name,temp);
+	book -> publisher = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> publisher,temp);
 
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> name,temp);
+	book -> author = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> author,temp);
 
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> name,temp);
+	book -> owner = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> owner,temp);
 
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> name,temp);
+	book -> borrow_Y_N = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> borrow_Y_N ,temp);
 	fseek(fp,1,SEEK_CUR);	
 	
 	if(fgetc(fp) == EOF)
@@ -234,6 +233,23 @@ int get_book_file_data(FILE *fp)
 	
 int get_borrow_file_data(FILE *fp)
 {
+	Borrow *borrow;
+	borrow = list_borrow -> current;
+	borrow -> sch_num = atoi(get_oneWord(&fp));
+	borrow -> book_num = atoi(get_oneWord(&fp));
+	borrow -> borrow_day = atol(get_oneWord(&fp));
+	borrow -> return_day = atol(get_oneWord(&fp));
+	fseek(fp,1,SEEK_CUR);	
+
+	if(fgetc(fp) == EOF)
+	{	
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+	return 1;
 	return 0;
 }
 
@@ -247,7 +263,6 @@ void free_all_node()
 	free_client_node();
 	free_book_node();
 	free_borrow_node();
-	free_list_node();
 }
 
 void free_client_node()
@@ -278,6 +293,7 @@ void free_book_node()
 		list_book -> current = list_book -> current -> next;
 	}
 }
+
 void free_borrow_node()
 {
 	list_borrow -> current = list_borrow -> head;
@@ -287,12 +303,7 @@ void free_borrow_node()
 		list_borrow -> current = list_borrow -> current ->next;
 	}
 }
-void free_list_node()
-{
-	free(list_client);
-	free(list_book);
-	free(list_borrow);
-}
+
 
 
 
@@ -318,6 +329,7 @@ void make_client_node()
 		list_client -> tail -> next = NULL;
 	}
 }
+
 void make_borrow_node()
 {
 	if(list_borrow -> head == NULL)
@@ -337,6 +349,7 @@ void make_borrow_node()
 		list_borrow -> tail -> next = NULL;
 	}
 }
+
 void make_book_node()
 {
 	if(list_book -> head == NULL)
