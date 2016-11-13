@@ -84,7 +84,7 @@ int get_book(int book_num, const Book ** result);
 int get_borrow(int book_num, const Borrow ** result);
 
 /***********************************************************************
-  int replace_something(const struct something* const p_origin, struct something sth)
+  int replace_something(const struct something* p_origin, struct something sth)
   이 함수는 존재하는 구조체(p_origin)를 변경하고자 하는 구조체로 바꿉니다.
   굳이 번거롭게 이 함수를 쓰는 이유는, 양립 불가능한 데이터 중복 확인(학번 등)
   변경 후 파일 저장 (잊어버릴 가능성)을 고려하여 사용합니다.
@@ -101,7 +101,7 @@ int get_borrow(int book_num, const Borrow ** result);
   	// 변환 성공
   	else if (flag == Fail_Two_Same_Value)
   	// 실패
-	else
+	else if (flag == Fail_No_Element)
 	// 실패2
   }
 
