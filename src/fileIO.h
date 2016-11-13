@@ -54,7 +54,7 @@ typedef struct client
 typedef struct book
 {
 	int book_num; // 7자리 책 번호
-	int ISBN;	// 13자리 ISBN 번호 
+	long int ISBN;	// 13자리 ISBN 번호 
 	char *name; // 책 이름 
 	char *publisher; // 출판사 
 	char *author; // 저자
@@ -109,7 +109,26 @@ char temp[500] = {0};
 	함수 원형들
   ***********************************/
 
+/*************************************************************
+	여러분들은 회원가입함수를 만드시거나 뭐 구조체를 건들듯합니다.
+	그러면 구조체 건들자마자 바로 파일에 넣어줘야 할 것 입니다
+	그걸 위한 함수가 됩니다.
 
+	넣는방식은 기존 .txt파일 초기화후 현재 구조체내용을 넣음으로서
+	수정하는 방식임니다.
+
+	만약에 나중에 이방식이 문제가생기면 따로 바꾸겠습니다.
+
+	file_write();
+
+	file_write_xxxx();// xxxx.txt 에 현재 구조체 다 넣을것
+
+  *************************************************************/
+
+void file_write();
+void file_write_client();
+void file_write_book();
+void file_write_borrow();
 
 
 /**********************************************************************
@@ -149,17 +168,6 @@ void free_all_node();
 void free_client_node();
 void free_book_node();
 void free_borrow_node();
-
-/***********************************************************************
-	print_XXXX_data( XXXX* current);
- 
-	분명히 자료를 출력하는 상황은 탐색을 하는 상황즁에 옵니다. 그래서 		현재 리스트 포인터를 매개변수로 받아줍니다.
-	즉 여러분은 탐색하다가 걸린곳에서 포인터를 던져주면 될것 입니다.
-	또한 맨 마지막(tail) 혹은 NULL은 자료가 없다고 출력할 것입니다.
- *********************************************************************/
-//void print_client_data(Client *current);
-//void print_book_data(Book *book);
-//void print_borrow_data(Borrow *borrow);
 
 
 /***********************************************************************

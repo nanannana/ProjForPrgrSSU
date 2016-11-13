@@ -9,6 +9,85 @@ List_Client *list_client = NULL;
 List_Book *list_book = NULL;
 List_Borrow *list_borrow = NULL;
 
+
+/*****************************************************************
+	파일 입력함수
+  *************************************************************/
+
+void file_write()
+{
+	file_write_client();
+	file_write_book();
+	file_write_borrow();
+}
+
+void file_write_client()
+{
+	FILE *fp = fopen("data/client_s.txt", "w");
+
+	list_client -> current = list_client -> head;
+	while(list_client -> current)
+	{
+		fprintf(fp, "|%d",list_client ->current -> sch_num);	
+		fprintf(fp, "|%s",list_client -> current -> name);	
+		fprintf(fp, "|%s",list_client -> current -> password);	
+		fprintf(fp, "|%s",list_client -> current -> address);	
+		fprintf(fp, "|%s|\n",list_client -> current -> phone_num);	
+
+		list_client -> current = list_client -> current ->next;
+	}
+
+	fclose(fp);
+}
+
+void file_write_book()
+{
+	FILE *fp =fopen("data/book_s.txt", "w");
+
+	list_book -> current = list_book -> head;
+
+	while(list_book -> current)
+	{
+		fprintf(fp, "|%d", list_book -> current -> book_num);
+		
+		fprintf(fp, "|%ld", list_book -> current -> ISBN);
+		
+		fprintf(fp, "|%s", list_book -> current -> name);
+		
+		fprintf(fp, "|%s", list_book -> current -> publisher);
+		
+		fprintf(fp, "|%s", list_book -> current -> author);
+		
+		fprintf(fp, "|%s", list_book -> current -> owner);
+		
+		fprintf(fp, "|%s|\n", list_book -> current -> borrow_Y_N);
+	
+		list_book ->current = list_book -> current -> next;
+	}
+	fclose(fp);
+}
+
+void file_write_borrow()
+{
+	FILE *fp = fopen("data/borrow_s.txt", "w");
+
+	list_borrow ->current = list_borrow -> head;
+	
+	while(list_borrow -> current)
+	{
+		fprintf(fp, "|%d", list_borrow -> current -> sch_num);
+		fprintf(fp, "|%d", list_borrow -> current -> book_num);
+		fprintf(fp, "|%ld", list_borrow -> current -> borrow_day);
+		fprintf(fp, "|%ld|\n", list_borrow -> current -> return_day);
+		
+		list_borrow -> current = list_borrow -> current ->next;
+	}
+	fclose(fp);
+}
+
+
+
+
 /**********************
   리스트 초기화 함수들
    ********************/
@@ -116,15 +195,31 @@ int get_client_file_data(FILE *fp)
 	client -> phone_num = (char *)malloc(sizeof(strlen(temp) +1));
 	strcpy(client -> phone_num, temp);
 	fseek(fp,1,SEEK_CUR);	
+	char a = fgetc(fp);
 	
-	if(fgetc(fp) == EOF)
+	if(a == EOF)
 	{	
 		return 0;
+	}
+	else if(a == '\n')
+	{
+		while(a == '\n')
+		{
+			a=fgetc(fp);
+		}
+		fseek(fp,-1,SEEK_CUR);
+	
+		if(a == '|')
+			return 1;
+		else if(a == EOF)
+			return 0;
 	}
 	else
 	{
 		return 1;
 	}
+	printf("get client Error!!\n");
+	return 0;
 }
 
 int get_book_file_data(FILE *fp)
@@ -133,7 +228,7 @@ int get_book_file_data(FILE *fp)
 	book = list_book -> current;
 	
 	book -> book_num = atoi(get_oneWord(&fp));
-	book -> ISBN = atoi(get_oneWord(&fp));
+	book -> ISBN = atol(get_oneWord(&fp));
 	
 	get_oneWord(&fp);
 	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
@@ -155,15 +250,31 @@ int get_book_file_data(FILE *fp)
 	book -> borrow_Y_N = (char *)malloc(sizeof(strlen(temp) + 1));
 	strcpy(book -> borrow_Y_N ,temp);
 	fseek(fp,1,SEEK_CUR);	
+	char a = fgetc(fp);
 	
-	if(fgetc(fp) == EOF)
+	if(a == EOF)
 	{	
 		return 0;
+	}
+	else if(a == '\n')
+	{
+		while(a == '\n')
+		{
+			a=fgetc(fp);
+		}
+		fseek(fp,-1,SEEK_CUR);
+	
+		if(a == '|')
+			return 1;
+		else if(a == EOF)
+			return 0;
 	}
 	else
 	{
 		return 1;
 	}
+	printf("get book Error!!\n");
+	return 0;
 }
 	
 int get_borrow_file_data(FILE *fp)
@@ -175,16 +286,30 @@ int get_borrow_file_data(FILE *fp)
 	borrow -> borrow_day = atol(get_oneWord(&fp));
 	borrow -> return_day = atol(get_oneWord(&fp));
 	fseek(fp,1,SEEK_CUR);	
+	char a = fgetc(fp);
 
 	if(fgetc(fp) == EOF)
 	{	
 		return 0;
 	}
+	else if(a == '\n')
+	{
+		while(a == '\n')
+		{
+			a=fgetc(fp);
+		}
+		fseek(fp,-1,SEEK_CUR);
+	
+		if(a == '|')
+			return 1;
+		else if(a == EOF)
+			return 0;
+	}
 	else
 	{
 		return 1;
 	}
-	return 1;
+	printf("get borrow Error!!\n");
 	return 0;
 }
 
@@ -304,4 +429,13 @@ void make_book_node()
 		list_book -> tail -> next = NULL;
 	}
 }
+
+int main(void)
+{
+	init_all_list();
+	get_all_file_data();
+	file_write();
+	free_all_node();
+}
+
 
