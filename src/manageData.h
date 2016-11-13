@@ -3,6 +3,7 @@ typedef enum {
 	Success = 1,					// 성공했을 때 반환합니다. 비교할 때 반드시 이 값과 비교해야 성공함을 알 수 있습니다. 
 	Fail_Two_Same_Value = -1, 		// 같아서는 안되는 값이 두 개 이상 같을 때 반환합니다.
 	Fail_No_Element = -2			// 해당하는 원소가 존재하지 않을 경우 반환합니다.
+	Fail_Invaild_p_origin_Or_Struct = -3// 유효하지 않은 파라미터를 넘겨줬습니다. key가 달라지지 않았는지, 혹은 포인터가 다른 원소를 가리키지 않는지 확인해 주시시오.
 } Return_Flags;
 
 /***********************************************************************
@@ -82,7 +83,7 @@ int get_book(int book_num, const Book ** result);
 int get_borrow(int book_num, const Borrow ** result);
 
 /***********************************************************************
-  int replace_something(const struct something* const p_origin, struct something sth)
+  int replace_something(const struct something* p_origin, struct something sth)
   이 함수는 존재하는 구조체(p_origin)를 변경하고자 하는 구조체로 바꿉니다.
   굳이 번거롭게 이 함수를 쓰는 이유는, 양립 불가능한 데이터 중복 확인(학번 등)
   변경 후 파일 저장 (잊어버릴 가능성)을 고려하여 사용합니다.
@@ -99,14 +100,17 @@ int get_borrow(int book_num, const Borrow ** result);
   	// 변환 성공
   	else if (flag == Fail_Two_Same_Value)
   	// 실패
-	else
+	else if (flag == Fail_No_Element)
 	// 실패2
+	else
+	// 실패3
   }
 
   반환 가능 값 : 
   Success
   Fail_Two_Same_Value
   Fail_No_Element
+  Fail_Invalid_p_origin_Or_Struct
 ***********************************************************************/
 
 int replace_client(const Client* p_origin, Client client);
