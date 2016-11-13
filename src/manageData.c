@@ -120,8 +120,7 @@ int get_##sth(int key, const Sth** result)						\
 	/* 접근성을 제한하기 위해 const에 할당 후 그 주소를 이용합니다 */\
 	if (private_get_##sth(key) == Success)						\
 	{															\
-		const Sth temp = *(list_##sth->current);				\
-		*result = &temp;										\
+		*result = list_##sth->current;							\
 		return Success;											\
 	}															\
 	else														\
@@ -133,7 +132,6 @@ int replace_##sth(const Sth* p_origin, Sth sth)					\
 	/* 예외 검사 */												\
 	/* 미리 p_origin 요소가 있는지, sth 자리가 있는지 */		\
 	/* 확인한 후 기존의 함수를 이용해 처리합니다. */			\
-	printf("%d %d",private_get_##sth(p_origin->key),p_origin->key);\
 	if(private_get_##sth(p_origin->key) != Success)				\
 		return Fail_No_Element;									\
 	if(private_get_##sth(sth.key) == Success && p_origin->key != sth.key)\
@@ -194,7 +192,7 @@ int main(void)
 					printf("얻기 실패\n");
 				break;
 			case 4:
-				printf("원래 key 바꿀 key :");
+				printf("원래 key 바꿀 key : ");
 				scanf("%d %d",&key,&j);
 				Client f = {j,0};
 				if (get_client(key, &t) == Success)
@@ -208,8 +206,8 @@ int main(void)
 					printf("얻기 실패\n");
 				break;
 			case 5:
-				list_client->current = list_client->head;
 				printf("리스트 출력\n");
+				list_client->current = list_client->head;
 				while(1)
 				{
 					printf("%d\n",list_client->current->sch_num);
