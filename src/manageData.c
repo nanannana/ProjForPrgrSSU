@@ -49,7 +49,7 @@ int append_##sth(Sth sth)										\
 	}															\
 	else														\
 	{/* 중간 원소일 때 */										\
-		Sth* last = list_##sth->current->last, current = list_##sth->current;\
+		Sth *last = list_##sth->current->last, *current = list_##sth->current;\
 		/* 요소 연결 */											\
 		last->next = element;									\
 		element->last = last;									\
@@ -86,7 +86,7 @@ int remove_##sth(int key)										\
 	}															\
 	else														\
 	{/* 중간 원소 */											\
-		Sth* last = list_##sth->current->last, next = list_##sth->current->next;\
+		Sth *last = list_##sth->current->last, *next = list_##sth->current->next;\
 																\
 		last->next = next;										\
 		next->last = last;										\
@@ -114,7 +114,7 @@ int get_##sth(int key, const Sth** result)						\
 																\
 int replace_##sth(const Sth* p_origin, Sth sth)					\
 {																\
-	Sth* element = (Sth*)malloc(sizeof(Sth));					\
+	Sth *element = (Sth*)malloc(sizeof(Sth));					\
 	*element = sth;												\
 																\
 	/* 예외 검사 */												\
@@ -124,7 +124,7 @@ int replace_##sth(const Sth* p_origin, Sth sth)					\
 		return Fail_No_Element;									\
 																\
 	/* 원소를 바꿔치기 합니다. */								\
-	Sth* last = p_origin->last, next = p_origin->next;			\
+	Sth *last = p_origin->last, *next = p_origin->next;			\
 																\
 	last->next = element;										\
 	next->last = element;										\
@@ -132,7 +132,7 @@ int replace_##sth(const Sth* p_origin, Sth sth)					\
 	element->last = last;										\
 	element->next = next;										\
 																\
-	free(p_origin);												\
+	free((void *)p_origin);												\
 																\
 	file_write_##sth();											\
 																\
@@ -146,6 +146,11 @@ CODE(Borrow, borrow, book_num)
 #ifdef DEBUG
 int main(void)
 {
+	while(1)
+	{
+		printf("디버깅 모드입니다.\n");
+	}
+
 	return 0;
 }
 #endif

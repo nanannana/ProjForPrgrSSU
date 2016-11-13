@@ -71,3 +71,6 @@ extern List_Client *list_client;
 extern List_Book *list_book;
 extern List_Borrow *list_borrow;
 
+void file_write_client(void);
+void file_write_book(void);
+void file_write_borrow(void);
