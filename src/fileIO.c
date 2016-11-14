@@ -9,71 +9,84 @@ List_Client *list_client = NULL;
 List_Book *list_book = NULL;
 List_Borrow *list_borrow = NULL;
 
-char temp[500] = {0};
 
-/**********************************************************************
-	make_XXX_node();
+/*****************************************************************
+	파일 입력함수
+  *************************************************************/
 
-	중간중간에 노드를 만들일이 생기거나 파일입력받을때는 엄청 쓰일 노드
-	를 만들어주는 함수입니다.!
- **********************************************************************/
-void make_client_node();
-void make_borrow_node();
-void make_book_node();
+void file_write()
+{
+	file_write_client();
+	file_write_book();
+	file_write_borrow();
+}
+
+void file_write_client()
+{
+	FILE *fp = fopen("data/client_s.txt", "w");
+
+	list_client -> current = list_client -> head;
+	while(list_client -> current)
+	{
+		fprintf(fp, "|%d",list_client ->current -> sch_num);	
+		fprintf(fp, "|%s",list_client -> current -> name);	
+		fprintf(fp, "|%s",list_client -> current -> password);	
+		fprintf(fp, "|%s",list_client -> current -> address);	
+		fprintf(fp, "|%s|\n",list_client -> current -> phone_num);	
+
+		list_client -> current = list_client -> current ->next;
+	}
+
+	fclose(fp);
+}
+
+void file_write_book()
+{
+	FILE *fp =fopen("data/book_s.txt", "w");
+
+	list_book -> current = list_book -> head;
+
+	while(list_book -> current)
+	{
+		fprintf(fp, "|%d", list_book -> current -> book_num);
+		
+		fprintf(fp, "|%ld", list_book -> current -> ISBN);
+		
+		fprintf(fp, "|%s", list_book -> current -> name);
+		
+		fprintf(fp, "|%s", list_book -> current -> publisher);
+		
+		fprintf(fp, "|%s", list_book -> current -> author);
+		
+		fprintf(fp, "|%s", list_book -> current -> owner);
+		
+		fprintf(fp, "|%s|\n", list_book -> current -> borrow_Y_N);
+	
+		list_book ->current = list_book -> current -> next;
+	}
+	fclose(fp);
+}
+
+void file_write_borrow()
+{
+	FILE *fp = fopen("data/borrow_s.txt", "w");
+
+	list_borrow ->current = list_borrow -> head;
+	
+	while(list_borrow -> current)
+	{
+		fprintf(fp, "|%d", list_borrow -> current -> sch_num);
+		fprintf(fp, "|%d", list_borrow -> current -> book_num);
+		fprintf(fp, "|%ld", list_borrow -> current -> borrow_day);
+		fprintf(fp, "|%ld|\n", list_borrow -> current -> return_day);
+		
+		list_borrow -> current = list_borrow -> current ->next;
+	}
+	fclose(fp);
+}
 
 
 
-/*********************************************************************
-	init_all_list();
-
-  	처음 혹은 맨 마지맥에 우리는 모든 포인터들을 NULL로 바꿔줄 필요가
-	있습니다. 그걸위해 여러분들은 init_all_list();호출만 해주시면
-	3개의 리스트 구조체에 있는 head, current, tail은 NULL이 될 것입니다
-	또한 맨 처음에는 리스트 구조체가 만들어지지 않았음으로 만들어 져 있
-	지가 않다면 만들어 줄 것 입니다.
- *********************************************************************/
-void init_all_list();
-void init_client_list();
-void init_borrow_list();
-void init_book_list();
-
-/*******************************************
-  free_all_node();
-
-  동적할당된 모든 노드들을 풀어 줄 것 입니다.
-
-   ******************************************/
-
-void free_all_node();
-void free_client_node();
-void free_book_node();
-void free_borrow_node();
-void free_list_node();
-
-/***********************************************************************
-	print_XXXX_data( XXXX* current);
-
-	분명히 자료를 출력하는 상황은 탐색을 하는 상황즁에 옵니다. 그래서 		현재 리스트 포인터를 매개변수로 받아줍니다.
-	즉 여러분은 탐색하다가 걸린곳에서 포인터를 던져주면 될것 입니다.
-	또한 맨 마지막(tail) 혹은 NULL은 자료가 없다고 출력할 것입니다.
-  *********************************************************************/
-//void print_client_data(Client *current);
-//void print_book_data(Book *book);
-//void print_borrow_data(Borrow *borrow);
-
-
-/***********************************************************************
-	get_all_file_data();
-
-	이함수는 프로그램이 처음 실행 되었을 때 모든 .txt파일로 부터 데이터
-  	들을 읽어 들여 구조체에다가 저장해 주는 함수로 메인을 짜는 분깨서는 
-	초기화 후에 이 명령어를 한번 써 주시길 바랍니다.
-  *********************************************************************/
- void get_all_file_data();
- int get_client_file_data(FILE * fp);
- int get_book_file_data(FILE *fp);
- int get_borrow_file_data(FILE *fp);
- char * get_oneWord(FILE **fp);
 
 /**********************
   리스트 초기화 함수들
@@ -153,7 +166,7 @@ void get_all_file_data()
 		make_borrow_node();
 	}
 	
-	
+
 	fclose(client_fp);
 	fclose(book_fp);
 	fclose(borrow_fp);
@@ -182,57 +195,123 @@ int get_client_file_data(FILE *fp)
 	client -> phone_num = (char *)malloc(sizeof(strlen(temp) +1));
 	strcpy(client -> phone_num, temp);
 	fseek(fp,1,SEEK_CUR);	
+	char a = fgetc(fp);
 	
-	if(fgetc(fp) == EOF)
+	if(a == EOF)
 	{	
 		return 0;
+	}
+	else if(a == '\n')
+	{
+		while(a == '\n')
+		{
+			a=fgetc(fp);
+		}
+		fseek(fp,-1,SEEK_CUR);
+	
+		if(a == '|')
+			return 1;
+		else if(a == EOF)
+			return 0;
 	}
 	else
 	{
 		return 1;
 	}
+	printf("get client Error!!\n");
+	return 0;
 }
 
-void get_book_file_data(FILE *fp)
+int get_book_file_data(FILE *fp)
 {
 	Book *book;
 	book = list_book -> current;
 	
 	book -> book_num = atoi(get_oneWord(&fp));
-	book -> ISBN = atio(get_onwWord(&fp));
+	book -> ISBN = atol(get_oneWord(&fp));
 	
 	get_oneWord(&fp);
 	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
 	strcpy(book -> name,temp);
 
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> name,temp);
+	book -> publisher = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> publisher,temp);
 
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> name,temp);
+	book -> author = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> author,temp);
 
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> name,temp);
+	book -> owner = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> owner,temp);
 
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> name,temp);
+	book -> borrow_Y_N = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> borrow_Y_N ,temp);
 	fseek(fp,1,SEEK_CUR);	
+	char a = fgetc(fp);
 	
-	if(fgetc(fp) == EOF)
+	if(a == EOF)
 	{	
 		return 0;
+	}
+	else if(a == '\n')
+	{
+		while(a == '\n')
+		{
+			a=fgetc(fp);
+		}
+		fseek(fp,-1,SEEK_CUR);
+	
+		if(a == '|')
+			return 1;
+		else if(a == EOF)
+			return 0;
 	}
 	else
 	{
 		return 1;
 	}
+	printf("get book Error!!\n");
+	return 0;
 }
 	
-//void get_borrow_file_data(FILE *fp)
+int get_borrow_file_data(FILE *fp)
+{
+	Borrow *borrow;
+	borrow = list_borrow -> current;
+	borrow -> sch_num = atoi(get_oneWord(&fp));
+	borrow -> book_num = atoi(get_oneWord(&fp));
+	borrow -> borrow_day = atol(get_oneWord(&fp));
+	borrow -> return_day = atol(get_oneWord(&fp));
+	fseek(fp,1,SEEK_CUR);	
+	char a = fgetc(fp);
+
+	if(fgetc(fp) == EOF)
+	{	
+		return 0;
+	}
+	else if(a == '\n')
+	{
+		while(a == '\n')
+		{
+			a=fgetc(fp);
+		}
+		fseek(fp,-1,SEEK_CUR);
+	
+		if(a == '|')
+			return 1;
+		else if(a == EOF)
+			return 0;
+	}
+	else
+	{
+		return 1;
+	}
+	printf("get borrow Error!!\n");
+	return 0;
+}
 
 /*********************************************************
 	node free 소스코드	
@@ -244,7 +323,6 @@ void free_all_node()
 	free_client_node();
 	free_book_node();
 	free_borrow_node();
-	free_list_node();
 }
 
 void free_client_node()
@@ -275,6 +353,7 @@ void free_book_node()
 		list_book -> current = list_book -> current -> next;
 	}
 }
+
 void free_borrow_node()
 {
 	list_borrow -> current = list_borrow -> head;
@@ -284,12 +363,7 @@ void free_borrow_node()
 		list_borrow -> current = list_borrow -> current ->next;
 	}
 }
-void free_list_node()
-{
-	free(list_client);
-	free(list_book);
-	free(list_borrow);
-}
+
 
 
 
@@ -315,6 +389,7 @@ void make_client_node()
 		list_client -> tail -> next = NULL;
 	}
 }
+
 void make_borrow_node()
 {
 	if(list_borrow -> head == NULL)
@@ -334,6 +409,7 @@ void make_borrow_node()
 		list_borrow -> tail -> next = NULL;
 	}
 }
+
 void make_book_node()
 {
 	if(list_book -> head == NULL)
@@ -354,11 +430,12 @@ void make_book_node()
 	}
 }
 
-int main()
+int main(void)
 {
 	init_all_list();
 	get_all_file_data();
+	file_write();
 	free_all_node();
-	return 0;
-} 
+}
+
 
