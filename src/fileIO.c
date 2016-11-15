@@ -231,12 +231,13 @@ int get_book_file_data(FILE *fp)
 	book -> ISBN = atol(get_oneWord(&fp));
 	
 	get_oneWord(&fp);
+	book -> publisher = (char *)malloc(sizeof(strlen(temp) + 1));
+	strcpy(book -> publisher,temp);
+	
+	get_oneWord(&fp);
 	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
 	strcpy(book -> name,temp);
 
-	get_oneWord(&fp);
-	book -> publisher = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> publisher,temp);
 
 	get_oneWord(&fp);
 	book -> author = (char *)malloc(sizeof(strlen(temp) + 1));
@@ -328,14 +329,23 @@ void free_all_node()
 void free_client_node()
 {
 	list_client -> current = list_client -> head;
+	
 	while(list_client -> current)
 	{
 		free(list_client -> current -> name);
 		free(list_client -> current -> password);
 		free(list_client -> current -> address);
 		free(list_client -> current -> phone_num);
-		free(list_client -> current);
-		list_client -> current = list_client -> current -> next;
+		if(list_client -> current -> next)
+		{
+			list_client -> current = list_client -> current -> next;
+			free(list_client -> current -> last);
+		}
+		else
+		{
+			free(list_client -> current);
+			list_client -> current = NULL;
+		}
 	}
 }
 
@@ -349,8 +359,17 @@ void free_book_node()
 		free(list_book -> current -> author);
 		free(list_book -> current -> owner);
 		free(list_book -> current -> borrow_Y_N);
-		free(list_book -> current);
-		list_book -> current = list_book -> current -> next;
+	
+		if(list_book -> current -> next)
+		{
+			list_book -> current = list_book -> current -> next;
+			free(list_book -> current -> last);
+		}
+		else
+		{
+			free(list_book -> current);
+			list_book -> current = NULL;
+		}
 	}
 }
 
@@ -359,8 +378,16 @@ void free_borrow_node()
 	list_borrow -> current = list_borrow -> head;
 	while(list_borrow -> current)
 	{
-		free(list_borrow -> current);
-		list_borrow -> current = list_borrow -> current ->next;
+		if(list_borrow -> current -> next)
+		{
+			list_borrow -> current = list_borrow -> current -> next;
+			free(list_borrow -> current -> last);
+		}
+		else
+		{
+			free(list_borrow -> current);
+			list_borrow -> current = NULL;
+		}
 	}
 }
 
