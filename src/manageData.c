@@ -12,6 +12,9 @@ void file_write_book(void){return;}
 void file_write_borrow(void){return;}
 #endif 
 
+/// 유지보수의 편의성을 위해서 매크로를 이용합니다.
+/// 제너릭 인터페이스가 쓰고싶었던 자의 몸부림입니다.
+/// set tapstop=4 에 최적화 된 코드입니다.
 #define CODE(Sth, sth, key) 									\
 /* 이 c 파일에서만 사용되는 get함수입니다. 성공을 확인한 후 리스트의 current*/\
 /* 가져다 이용하시면 됩니다.												*/\
@@ -141,9 +144,33 @@ int replace_##sth(const Sth* p_origin, Sth sth)					\
 	return Success;												\
 }																
 
+/// 구조체의 특정 값을 검색하여 해당하는 값의 개수를 반환합니다.
+/// 
+#define GET_KEY_FROM_THING(Sth, sth, key, T, thg, compare)		\
+int key##_from_##thg(int ** keys, T thg)
+{
+	/* 반환할 값, key값의 개수 */
+	int cnt = 0;
+	/* 순차 탐색을 위한 current 초기화 */
+	list_##sth->current = list_##sth->head;
+
+	do
+	{
+		if (compare(list_##sth->current->thg, thg))
+		{
+			cnt++;
+			key
+		}
+	}
+	while(list_##sth->current->next != NULL);
+	
+}
+
+/// 순서대로 Client, Book, Borrow 구조체를 대상으로 하는 코드입니다.
 CODE(Client, client, sch_num)
 CODE(Book, book, book_num)
 CODE(Borrow, borrow, book_num)
+
 
 #ifdef DEBUG
 int main(void)
