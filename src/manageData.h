@@ -126,3 +126,35 @@ int replace_borrow(const Borrow* p_origin, Borrow borrow);
 
 /// void free_all_lists(void);
 /// 대호가 구현
+
+/**********************************************************************
+  int thing2keys_on_something(int ** keys, T thing)
+  특정 구조체의 멤버와 일치하는 리스트 원소를 찾고 싶을 때,
+  사용하는 함수입니다.
+  예를 들어, Book 구조체의 name 중에 원하는 원소를 찾고싶다면
+  name2keys_on_book를 호출함으로서 key값(book_num)의
+  배열을 얻을 수 있습니다. 이 배열을 사용해, get_book으로 원하는
+  리스트 내 원소를 찾읍시다.
+
+  return 값은 찾은 key값의 개수 입니다. 없을경우 0을 반환합니다.
+  keys는 key 배열을 가리킬 포인터입니다.
+  T는 찾고 싶은 구조체 멤버의 자료형입니다.
+  thing 찾고 싶은 값을 의미합니다.
+  일반적인 사용 방법은 다음과 같습니다.
+  
+  int keys[20];
+  int cnt, i;
+  if ((cnt = name2keys_on_book(&keys, "채기름")) != 0)
+  {
+  	for (i = 0; i < cnt; i++)
+	{
+		//keys[cnt]를 이용
+	}
+  }
+  else
+  // 실패
+**********************************************************************/
+
+int ISBN2keys_on_book(int ** keys, long ISBN);
+int name2keys_on_book(int ** keys, char* name);
+// 필요한 함수 추가 바람, c에 추가하겠음
