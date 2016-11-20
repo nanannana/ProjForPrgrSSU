@@ -83,6 +83,12 @@ int get_book(int book_num, const Book ** result);
 
 int get_borrow(int book_num, const Borrow ** result);
 
+int get_book(int long ISBN, const Book ** result);// ISBN검색 인자 틀렸을 수 있음
+int get_book(char author, const Book ** result);//저자명검색
+int get_book(char publisher, const Book ** result);//출판사검색
+int get_book(char name, const Book ** result);//책이름검색
+int get_client(char name, const Client **result)//회원 이름 검색
+
 /***********************************************************************
   int replace_something(const struct something* p_origin, struct something sth)
   이 함수는 존재하는 구조체(p_origin)를 변경하고자 하는 구조체로 바꿉니다.
