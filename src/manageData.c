@@ -147,7 +147,7 @@ int replace_##sth(const Sth* p_origin, Sth sth)					\
 /// 구조체의 특정 값을 검색하여 해당하는 값의 개수를 반환합니다.
 /// 
 #define GET_KEY_FROM_THING(Sth, sth, key, T, thg, compare)		\
-int key##_from_##thg(int ** keys, T thg)
+int thg##2##keys_on_##sth(int ** keys, T thg)
 {
 	/* 반환할 값, key값의 개수 */
 	int cnt = 0;
@@ -156,14 +156,15 @@ int key##_from_##thg(int ** keys, T thg)
 
 	do
 	{
-		if (compare(list_##sth->current->thg, thg))
+		if (compare(list_##sth->current->thg, thg) == 0)
 		{
+			*keys[cnt] = 
 			cnt++;
-			key
 		}
 	}
 	while(list_##sth->current->next != NULL);
 	
+	return cnt;
 }
 
 /// 순서대로 Client, Book, Borrow 구조체를 대상으로 하는 코드입니다.
