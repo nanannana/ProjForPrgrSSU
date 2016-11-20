@@ -8,7 +8,7 @@ extern List_Client *list_client;
 extern List_Book * list_book;
 extern List_Borrow *list_borrow;
 
-char my_ID[20];
+int my_sch_num;
 char my_password[50];
 
 char s_temp_c[100];
@@ -165,7 +165,7 @@ void S_total_Search()
 }
 
 
-void My_BB_list()
+void My_BB_list()//need to modify.
 {
 	int check = 0;
 	printf(">>내 대여 목록 <<\n");
@@ -176,7 +176,7 @@ void My_BB_list()
 		list_book -> current = book_client 
 			while(list_book -> current)
 			{
-				if((my_ID == list_borrow -> current -> sch_num) && (list_borrow -> current -> book_num == list_book -> current -> name))
+				if(my_sch_num == (list_borrow -> current -> sch_num) && (strcmp((list_borrow -> current -> book_num, list_book -> current -> name))))
 				{
 					bt = list_borrow -> current -> borrow_day;
 					rt = list_borrow -> current -> return_day;
@@ -188,7 +188,7 @@ void My_BB_list()
 				list_book -> current = list_book -> current -> next;
 			}
 	}
-	if(check == 1)
+	if(check != 1)
 	{
 		printf("대여 목록이 존재하지 않습니다.\n");
 	}
@@ -197,7 +197,29 @@ void My_BB_list()
 
 void Modi_my_info()////
 {
-	printf(">> 개인정보 수정\n");
+	printf(">> 개인정보 수정 <<\n");
+	
+	list_client -> current = list_client -> head;
+	while(list_client -> current)
+	{
+		if((list_client -> current -> sch_num) == my_sch_num)
+		{
+			printf("수정할 정보를 입력하세요\n");
+			printf("이름: ");
+			scanf("%s", list_client -> current -> name);
+			printf("비밀번호: ");
+			scanf("%s", list_client -> current -> password);
+			printf("주소: ");
+			scanf("%[^\n]s", list_client -> current -> address);
+			printf("연락처: ");
+			scanf("%s", list_client -> current -> phone_num);
+			printf("개인정보가 수정되었습니다.\n");
+			file_write_client();
+			break;
+		}
+	
+		list_client -> current = list_client -> current -> next;
+	}
 }
 
 
@@ -205,8 +227,10 @@ void Modi_my_info()////
 
 void Withdraw()
 {
-
+	
 }
+
+
 void Admin_menu()
 {
 	int o;
