@@ -1,11 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "fileIO.h"
 #include "manageData.h"
+#include "menu.h"
 
+extern List_Client *list_client;
+extern List_Book * list_book;
+extern List_Borrow *list_borrow;
+
+char my_ID[20];
+char my_password[50];
 
 char s_temp_c[100];
 int s_temp_i = 0;
+int s_temp_l = 0;
 int r_temp_i= 0;
+char d_temp_c[100];
+int d_temp_l = 0;
+
+List_Book *list_book = NULL;
+
+struct tm *bt;
+struct tm *rt;
 
 void Library_service()
 {
@@ -24,7 +40,7 @@ void Library_service()
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
-		if(i == 3)
+		if(i == 3,)
 		{
 			break;
 		}
@@ -62,7 +78,7 @@ void Member_menu()
 			case 3 : Modi_my_info(); break;
 			case 4 : Withdraw(); break;
 			case 5 : break;
-			case 6 : break;
+			case 6 : exit(0);
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
@@ -70,10 +86,7 @@ void Member_menu()
 		{
 			break;
 		}
-		else if(i == 6)
-		{
-			return -1;
-		}
+
 	}
 }
 
@@ -94,11 +107,11 @@ void Search_books()
 
 		switch(o)
 		{
-			case 1 : By_Title(); break;
-			case 2 : By_publisher(); break;
-			case 3 : By_ISBN(); break;
-			case 4 : By_Author(); break;
-			case 5 : Total_Search(); break;
+			case 1 : S_by_Title(); break;
+			case 2 : S_by_publisher(); break;
+			case 3 : S_by_ISBN(); break;
+			case 4 : S_by_Author(); break;
+			case 5 : S_total_Search(); break;
 			case 6 : break;
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
@@ -110,47 +123,85 @@ void Search_books()
 	}
 }
 
-void By_title()
+void S_by_title()
 {
 	printf("도서명을 입력하세요 : ");
 	gets(s_temp_c);
 
 }
 
-void By_publisher()
+void S_by_publisher()
 {
 	printf("출판사명을 입력하세요 : ");
+	gets(s_temp_c);
 
 }
 
-void By_ISBN()
+void S_by_ISBN()
 {
 	printf("ISBN을 입력하세요 : ");
-	scanf("%d", &s_temp_i);
+	scanf("%d", &s_temp_l);
+	get_book(s_temp_l, );
+
 }
 
-void By_author()
+void S_by_author()
 {
 	printf("저자명을  입력하세요 : ");
 	gets(s_temp_c);
 }
 
-void Total_Search()
+void S_total_Search()
 {
-	printf("책번호\tISBN\t책이름\t저자\t소장처\t대여가능여부");
+	printf("책번호\tISBN\t책이름\t출판사\t저자\t소장처\t대여가능여부");
+	list_book -> current = list_book -> head;
+	while(list_book -> current)
+	{
+		printf("%d %ld %s %s %s %s %c\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
+		list_book -> current = list_book -> current -> next;
+
+	}
 
 }
 
-	
+
 void My_BB_list()
 {
+	int check = 0;
+	printf(">>내 대여 목록 <<\n");
 
+	list_borrow -> current = list_borrow -> head;
+	while(list_borrow -> current)
+	{
+		list_book -> current = book_client 
+			while(list_book -> current)
+			{
+				if((my_ID == list_borrow -> current -> sch_num) && (list_borrow -> current -> book_num == list_book -> current -> name))
+				{
+					bt = list_borrow -> current -> borrow_day;
+					rt = list_borrow -> current -> return_day;
+
+					printf("도서번호\t도서명\t대여일자\t반납일자\n");	
+					printf("%d %s %d/%d %d/%d\n" list_book -> current -> book_num, list_book -> current -> name, (bt -> mon) + 1, bt -> mday, (rt -> mon) + 1, rt -> mday);
+					check = 1;
+				}
+				list_book -> current = list_book -> current -> next;
+			}
+	}
+	if(check == 1)
+	{
+		printf("대여 목록이 존재하지 않습니다.\n");
+	}
 }
 
-void Modi_my_info()
+
+void Modi_my_info()////
 {
-
+	printf(">> 개인정보 수정\n");
 }
+
+
+
 
 void Withdraw()
 {
@@ -167,14 +218,14 @@ void Admin_menu()
 
 		switch(o)
 		{
-			case 1 : Register_book();
-			case 2 : Delete_book();
-			case 3 : Lend_book();
-			case 4 : Return_book();
-			case 5 : Search_books();
-			case 6 : Member_list();
+			case 1 : Register_book(); break;
+			case 2 : Delete_book(); break;
+			case 3 : Lend_book(); break;
+			case 4 : Return_book(); break;
+			case 5 : Search_books(); break;
+			case 6 : Member_list(); break;
 			case 7 : break;
-			case 8 : break;
+			case 8 : exit(0);
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
@@ -182,37 +233,61 @@ void Admin_menu()
 		{
 			break;
 		}
-		else if(o == 8)
-		{
-			return -1;
-		}
 	}
 }
 
-void Register_book()
+void Register_book()////
 {
+	Client add;
+	printf("도서명: ");
+	scanf("%[^\n]s", add.name);
+	printf("출판사: ");
+	scanf("%[^\n]s", add.publisher);
+	printf("저자명: ");
+	scanf("%[^\n]s", add.author);
+	printf("ISBN: ");
+	scanf("%ld", &add.ISBN);
+	printf("소장처: ");
+	scanf("%[^/n]s", add.owner);
+
+	append_book(
+	
 
 }
 
-void Delete_book()
+void Delete_book()////
 {
 	int p;
 	printf(">> 도서 삭제 <<");
 	printf("1. 도서명 검색\t\t2. ISBN 검색\n");
 	printf("번호를 선택하세요 : ");
 	scanf("%d", &p);
-	
+
 	switch(p)
 	{
-		case 1 : By_title(); break;
-		case 2 : By_ISBN(); break;
+		case 1 : D_by_title(); break;
+		case 2 : D_by_ISBN(); break;
 
 		default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 	}
 
 }
 
-void Lend_book();
+void D_by_title()////
+{		
+	printf("도서명을 입력하세요 : ");
+	scanf("%s", d_temp_c);
+}	
+
+void D_by_ISBN()////
+{
+	printf("ISBN 값을 입력하세요 : ");
+	scanf("%ld", &d_temp_l);
+}
+
+
+
+void Lend_book();////
 {
 	int p;
 	printf(">> 도서 대여 <<\n");
@@ -228,10 +303,21 @@ void Lend_book();
 	}
 }
 
-void Return_book()
+void Return_book()////
 {
+	printf(">> 도서 반납 <<\n");
 	printf("학번을 입력하세요 : ");
 	scanf("%d", &r_temp_i);
+	const struct borrow * ib = NULL;
+	const struct book * ik = NULL;
+	if (get_borrow(r_temp_i, &ib) == success)
+	{
+		printf("도서번호\t도서명\t대여일자\t반납일자\n");
+		
+		printf("%d %s %d/%d %d/%d\n", ret -> 
+
+printf("%d %s %d/%d %d/%d\n" list_book -> current -> book_num, list_book -> current -> name, (bt -> mon) + 1, bt -> mday, (rt -> mon) + 1, rt -> mday);
+					c
 
 }
 
@@ -255,6 +341,50 @@ void Member_list()
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
 	}
+}
+
+void Search_name();////
+{
+	printf("이름을 입력하세요 : ");
+	scanf("%s", s_temp_c);
+}
+
+void Search_ID()
+{
+	printf("학번을 입력하세요 : ");
+	scanf("%d", &s_temp_i);
+	const struct Client * picker = NULL;
+	if(get_client(s_temp_i, &picker) == success)
+	{
+		printf("학번\t이름\t주소\t전화번호\n");
+		printf("%d\t%s\t%s\t%s\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
+	}
+	else
+	{
+		printf("회원이 존재하지 않습니다.\n");
+	}
+}
+
+
+void M_total_search()
+{
+	list_client -> current = list_client -> head;
+	printf("학번\t이름\t주소\t전화번호\n");
+	while(list_client->current)
+	{
+		printf("%d\t%s\t%s\t%s\n", list_clinet -> current -> sch_num, list_client -> current -> name, list_client -> current -> address, list_client -> current -> phone_num);
+		list_client -> current = list_client -> current -> next;
+	}
+}
 
 
 
+
+int main()
+{
+	init_all_list();
+	get_all_file_data();
+	Library_service();
+	free_all_node();
+	return 0;
+}	
