@@ -99,7 +99,6 @@ typedef struct
 	Borrow *tail;
 }List_Borrow;
 
-char temp[500] = {0};
 
 
 
