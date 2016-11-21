@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include"manageData.h"
 
-#ifdef DEBUG
+#ifdef DEBUG_ALONE
 extern List_Client *list_client;
 extern List_Book * list_book;
 extern List_Borrow * list_borrow;
@@ -12,6 +13,9 @@ void file_write_book(void){return;}
 void file_write_borrow(void){return;}
 #endif 
 
+/// 유지보수의 편의성을 위해서 매크로를 이용합니다.
+/// 제너릭 인터페이스가 쓰고싶었던 자의 몸부림입니다.
+/// set tapstop=4 에 최적화 된 코드입니다.
 #define CODE(Sth, sth, key) 									\
 /* 이 c 파일에서만 사용되는 get함수입니다. 성공을 확인한 후 리스트의 current*/\
 /* 가져다 이용하시면 됩니다.												*/\
@@ -141,9 +145,54 @@ int replace_##sth(const Sth* p_origin, Sth sth)					\
 	return Success;												\
 }																
 
+/// 구조체의 특정 값을 검색하여 해당하는 값의 개수를 반환합니다.
+/// sth, key는 CODE 매크로와 같이 넣어주면 됩니다.
+/// T는 thg의 자료형을 의미합니다. thg는 비교할 값
+/// same는 T 자료형 변수 둘이 일치하는지 확인하는 함수이름이 필요합니다.
+/// 둘이 일치하면 1을 반환해야 합니다.
+#define GET_KEY_FROM_THING(sth, key, T, thg, compare)			\
+int thg##2##keys_on_##sth(int ** keys, T thg)					\
+{																\
+	/* 반환할 값, key값의 개수 */								\
+	int cnt = 0;												\
+	/* 순차 탐색을 위한 current 초기화 */						\
+	list_##sth->current = list_##sth->head;						\
+																\
+	do															\
+	{															\
+		if (compare(list_##sth->current->thg, thg) == 1)		\
+		{														\
+			*keys[cnt] = list_##sth->current->key;				\
+			cnt++;												\
+		}														\
+	}															\
+	while((list_##sth->current = list_##sth->current->next) != NULL);\
+																\
+	return cnt;													\
+}
+
+int strcomp(char* a, char* b){
+	return (strcmp(a,b) == 0)?1:0;
+}
+
+int longcomp(long a, long b){
+	return a == b;
+}
+
+int intcomp(int a, int b){
+	return a == b;
+}
+
+/// 순서대로 Client, Book, Borrow 구조체를 대상으로 하는 코드입니다.
 CODE(Client, client, sch_num)
 CODE(Book, book, book_num)
 CODE(Borrow, borrow, book_num)
+
+GET_KEY_FROM_THING(book, book_num, long, ISBN, longcomp)
+GET_KEY_FROM_THING(book, book_num, char*, name, strcomp)
+GET_KEY_FROM_THING(book, book_num, char*, author, strcomp)
+GET_KEY_FROM_THING(book, book_num, char*, publisher, strcomp)
+GET_KEY_FROM_THING(borrow, book_num, int, sch_num, intcomp)
 
 #ifdef DEBUG
 int main(void)
@@ -152,7 +201,10 @@ int main(void)
 	int j = 0;
 	int key = 0;
 	const Client* t = NULL;
-	list_client = (List_Client*)calloc(1,sizeof(List_Client));
+
+	init_all_list();
+	get_all_file_data();
+
 	while(1)
 	{
 		printf("\n디버깅 모드입니다.\n");
