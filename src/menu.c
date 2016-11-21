@@ -39,7 +39,7 @@ void Library_service()
 		{
 			case 1 : Sign_up(); break;
 			case 2 : Log_in(); break;
-			case 3 : break;
+			case 3 : exite;
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
@@ -57,6 +57,10 @@ void Sign_up()
 
 void Log_in()
 {
+	if(Member_menu() == 0);
+	{
+		break;
+	}
 
 }
 
@@ -65,7 +69,7 @@ void Log_in()
 
 
 
-void Member_menu()
+int Member_menu()
 {
 	int m;
 	while(1)
@@ -79,8 +83,15 @@ void Member_menu()
 			case 1 : Search_books(); break;
 			case 2 : My_BB_list(); break;//My borrowed books list
 			case 3 : Modi_my_info(); break;
-			case 4 : Withdraw(); break;
-			case 5 : break;
+			case 4 : if(Withdraw() == 0)
+					 {
+						 return 0;
+					 }
+					 else
+					 {
+						 break;
+					 }
+			case 5 : return 0;
 			case 6 : exit(0);
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
@@ -206,14 +217,14 @@ void My_BB_list()//need to modify.(at if)
 void Modi_my_info()//replace 함수?.. 
 {
 	printf(">> 개인정보 수정 <<\n");
-	
+
 	list_client -> current = list_client -> head;
 	while(list_client -> current)
 	{
 		if((list_client -> current -> sch_num) == my_sch_num)
 		{
 			printf("수정할 정보를 입력하세요\n");
-			
+
 			printf("이름: ");
 			scanf("%s", m_temp_c);
 			list_clinet -> current -> name = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
@@ -223,7 +234,7 @@ void Modi_my_info()//replace 함수?..
 			scanf("%s", m_temp_c);
 			list_clinet -> current -> password = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
 			strcpy(list_client -> current -> password, m_temp_c);
-			
+
 			printf("주소: ");
 			scanf("%[^\n]s", list_client -> current -> address);
 			list_clinet -> current -> address = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
@@ -240,7 +251,7 @@ void Modi_my_info()//replace 함수?..
 
 			break;
 		}
-	
+
 		list_client -> current = list_client -> current -> next;
 	}
 }
@@ -248,7 +259,7 @@ void Modi_my_info()//replace 함수?..
 
 
 
-void Withdraw()//// 특정부분으로 가고싶은데 
+int Withdraw() 
 {
 	printf(">> 회원 탈퇴 <<\n");
 	list_client -> current = list_client -> head;
@@ -262,7 +273,7 @@ void Withdraw()//// 특정부분으로 가고싶은데
 				if((list_borrow -> current -> sch_num) == my_sch_num)
 				{
 					printf("대여된 도서가 존재하여 탈퇴가 불가능합니다.\n");
-					break;
+					return 1;
 				}
 				else
 				{
@@ -272,18 +283,22 @@ void Withdraw()//// 특정부분으로 가고싶은데
 					{
 						remove_clinet(my_sch_num);
 						printf("탈퇴가 완료되었습니다.\n");
-						break;
+						return 0;
 					}
 					else
 					{
-						break;
+						return 1;
 					}
 
 				}
-				
-				list_borrow -> current = list_borrow -> current -> next;
-		}	
 
+				list_borrow -> current = list_borrow -> current -> next;
+			}
+		}
+		list_client -> current = list_clinet -> current -> next;
+
+
+	}
 }
 
 
@@ -331,27 +346,27 @@ void Register_book()////
 	scanf("%[^/n]s", add.owner);
 
 	append_book(
-	
 
-}
 
-void Delete_book()////
-{
-	int p;
-	printf(">> 도서 삭제 <<");
-	printf("1. 도서명 검색\t\t2. ISBN 검색\n");
-	printf("번호를 선택하세요 : ");
-	scanf("%d", &p);
+			}
 
-	switch(p)
-	{
-		case 1 : D_by_title(); break;
-		case 2 : D_by_ISBN(); break;
+			void Delete_book()////
+			{
+			int p;
+			printf(">> 도서 삭제 <<");
+			printf("1. 도서명 검색\t\t2. ISBN 검색\n");
+			printf("번호를 선택하세요 : ");
+			scanf("%d", &p);
 
-		default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
-	}
+			switch(p)
+			{
+			case 1 : D_by_title(); break;
+			case 2 : D_by_ISBN(); break;
 
-}
+			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
+			}
+
+			}
 
 void D_by_title()////
 {		
@@ -393,78 +408,78 @@ void Return_book()////
 	if (get_borrow(r_temp_i, &ib) == success)
 	{
 		printf("도서번호\t도서명\t대여일자\t반납일자\n");
-		
+
 		printf("%d %s %d/%d %d/%d\n", ret -> 
 
-printf("%d %s %d/%d %d/%d\n" list_book -> current -> book_num, list_book -> current -> name, (bt -> mon) + 1, bt -> mday, (rt -> mon) + 1, rt -> mday);
-					c
+				printf("%d %s %d/%d %d/%d\n" list_book -> current -> book_num, list_book -> current -> name, (bt -> mon) + 1, bt -> mday, (rt -> mon) + 1, rt -> mday);
+				c
 
-}
+				}
 
-void Member_list()
-{
-	while(1)
-	{
-		int  p;
-		printf(">> 회원 목록<<\n");
-		printf("1. 이름 검색\t2. 학번 검색\n3. 전체 검색\t4. 이전 메뉴\n");
-		printf("번호를 선택하세요: ");
-		scanf("%d", &p);
+				void Member_list()
+				{
+				while(1)
+				{
+				int  p;
+				printf(">> 회원 목록<<\n");
+				printf("1. 이름 검색\t2. 학번 검색\n3. 전체 검색\t4. 이전 메뉴\n");
+				printf("번호를 선택하세요: ");
+				scanf("%d", &p);
 
-		switch (p)
+				switch (p)
+				{
+				case 1 : Search_name();
+				case 2 : Search_ID();
+				case 3 : M_total_search();
+				case 4 : break; 
+
+				default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
+				}
+				}
+				}
+
+		void Search_name();////
 		{
-			case 1 : Search_name();
-			case 2 : Search_ID();
-			case 3 : M_total_search();
-			case 4 : break; 
-
-			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
+			printf("이름을 입력하세요 : ");
+			scanf("%s", s_temp_c);
 		}
-	}
-}
 
-void Search_name();////
-{
-	printf("이름을 입력하세요 : ");
-	scanf("%s", s_temp_c);
-}
-
-void Search_ID()
-{
-	printf("학번을 입력하세요 : ");
-	scanf("%d", &s_temp_i);
-	const struct Client * picker = NULL;
-	if(get_client(s_temp_i, &picker) == Success)
-	{
-		printf("학번\t이름\t주소\t전화번호\n");
-		printf("%d\t%s\t%s\t%s\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
-	}
-	else
-	{
-		printf("회원이 존재하지 않습니다.\n");
-	}
-}
+		void Search_ID()
+		{
+			printf("학번을 입력하세요 : ");
+			scanf("%d", &s_temp_i);
+			const struct Client * picker = NULL;
+			if(get_client(s_temp_i, &picker) == Success)
+			{
+				printf("학번\t이름\t주소\t전화번호\n");
+				printf("%d\t%s\t%s\t%s\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
+			}
+			else
+			{
+				printf("회원이 존재하지 않습니다.\n");
+			}
+		}
 
 
-void M_total_search()
-{
-	list_client -> current = list_client -> head;
-	printf("학번\t이름\t주소\t전화번호\n");
-	while(list_client->current)
-	{
-		printf("%d\t%s\t%s\t%s\n", list_clinet -> current -> sch_num, list_client -> current -> name, list_client -> current -> address, list_client -> current -> phone_num);
-		list_client -> current = list_client -> current -> next;
-	}
-}
+		void M_total_search()
+		{
+			list_client -> current = list_client -> head;
+			printf("학번\t이름\t주소\t전화번호\n");
+			while(list_client->current)
+			{
+				printf("%d\t%s\t%s\t%s\n", list_clinet -> current -> sch_num, list_client -> current -> name, list_client -> current -> address, list_client -> current -> phone_num);
+				list_client -> current = list_client -> current -> next;
+			}
+		}
 
 
 
 
-int main()
-{
-	init_all_list();
-	get_all_file_data();
-	Library_service();
-	free_all_node();
-	return 0;
-}	
+		int main()
+		{
+			init_all_list();
+			get_all_file_data();
+			Library_service();
+			free_all_node();
+			return 0;
+		}	
