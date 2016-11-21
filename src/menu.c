@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "fileIO.h"
 #include "manageData.h"
 #include "menu.h"
@@ -17,6 +18,8 @@ int s_temp_l = 0;
 int r_temp_i= 0;
 char d_temp_c[100];
 int d_temp_l = 0;
+char m_temp_c[500];
+char w_temp_c;
 
 List_Book *list_book = NULL;
 
@@ -107,10 +110,10 @@ void Search_books()
 
 		switch(o)
 		{
-			case 1 : S_by_Title(); break;
+			case 1 : S_by_title(); break;
 			case 2 : S_by_publisher(); break;
 			case 3 : S_by_ISBN(); break;
-			case 4 : S_by_Author(); break;
+			case 4 : S_by_author(); break;
 			case 5 : S_total_Search(); break;
 			case 6 : break;
 
@@ -125,6 +128,7 @@ void Search_books()
 
 void S_by_title()
 {
+	printf(">> 도서명 검색 <<\n");
 	printf("도서명을 입력하세요 : ");
 	gets(s_temp_c);
 
@@ -132,6 +136,7 @@ void S_by_title()
 
 void S_by_publisher()
 {
+	printf(">> 출판사 검색 <<\n");
 	printf("출판사명을 입력하세요 : ");
 	gets(s_temp_c);
 
@@ -139,6 +144,7 @@ void S_by_publisher()
 
 void S_by_ISBN()
 {
+	printf(">> ISBN 검색 <<\n");
 	printf("ISBN을 입력하세요 : ");
 	scanf("%d", &s_temp_l);
 	get_book(s_temp_l, );
@@ -147,12 +153,14 @@ void S_by_ISBN()
 
 void S_by_author()
 {
+	printf(">> 저자명 검색\n");
 	printf("저자명을  입력하세요 : ");
 	gets(s_temp_c);
 }
 
 void S_total_Search()
 {
+	printf(">> 전체 검색 <<\n");
 	printf("책번호\tISBN\t책이름\t출판사\t저자\t소장처\t대여가능여부");
 	list_book -> current = list_book -> head;
 	while(list_book -> current)
@@ -165,7 +173,7 @@ void S_total_Search()
 }
 
 
-void My_BB_list()//need to modify.
+void My_BB_list()//need to modify.(at if)
 {
 	int check = 0;
 	printf(">>내 대여 목록 <<\n");
@@ -195,7 +203,7 @@ void My_BB_list()//need to modify.
 }
 
 
-void Modi_my_info()////
+void Modi_my_info()//replace 함수?.. 
 {
 	printf(">> 개인정보 수정 <<\n");
 	
@@ -205,16 +213,31 @@ void Modi_my_info()////
 		if((list_client -> current -> sch_num) == my_sch_num)
 		{
 			printf("수정할 정보를 입력하세요\n");
+			
 			printf("이름: ");
-			scanf("%s", list_client -> current -> name);
+			scanf("%s", m_temp_c);
+			list_clinet -> current -> name = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
+			strcpy(list_client -> current -> name, m_temp_c);
+
 			printf("비밀번호: ");
-			scanf("%s", list_client -> current -> password);
+			scanf("%s", m_temp_c);
+			list_clinet -> current -> password = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
+			strcpy(list_client -> current -> password, m_temp_c);
+			
 			printf("주소: ");
 			scanf("%[^\n]s", list_client -> current -> address);
+			list_clinet -> current -> address = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
+			strcpy(list_client -> current -> address, m_temp_c);
+
 			printf("연락처: ");
 			scanf("%s", list_client -> current -> phone_num);
-			printf("개인정보가 수정되었습니다.\n");
+			list_clinet -> current -> phone_num = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
+			strcpy(list_client -> current -> phone_num, m_temp_c);
+
 			file_write_client();
+
+			printf("개인정보가 수정되었습니다.\n");
+
 			break;
 		}
 	
@@ -225,9 +248,42 @@ void Modi_my_info()////
 
 
 
-void Withdraw()
+void Withdraw()//// 특정부분으로 가고싶은데 
 {
-	
+	printf(">> 회원 탈퇴 <<\n");
+	list_client -> current = list_client -> head;
+	while(list_client -> current)
+	{
+		if((list_clinet -> current -> sch_num) == my_sch_num)
+		{
+			list_borrow -> current = list_borrow -> head;
+			while(list_borrow -> current)
+			{
+				if((list_borrow -> current -> sch_num) == my_sch_num)
+				{
+					printf("대여된 도서가 존재하여 탈퇴가 불가능합니다.\n");
+					break;
+				}
+				else
+				{
+					printf("회원 탈퇴를 합니까? (탈퇴하시려면 Y입력) : ");
+					scanf(" %c", &w_temp_c);
+					if(w_temp_c == 'Y')
+					{
+						remove_clinet(my_sch_num);
+						printf("탈퇴가 완료되었습니다.\n");
+						break;
+					}
+					else
+					{
+						break;
+					}
+
+				}
+				
+				list_borrow -> current = list_borrow -> current -> next;
+		}	
+
 }
 
 
@@ -378,7 +434,7 @@ void Search_ID()
 	printf("학번을 입력하세요 : ");
 	scanf("%d", &s_temp_i);
 	const struct Client * picker = NULL;
-	if(get_client(s_temp_i, &picker) == success)
+	if(get_client(s_temp_i, &picker) == Success)
 	{
 		printf("학번\t이름\t주소\t전화번호\n");
 		printf("%d\t%s\t%s\t%s\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
