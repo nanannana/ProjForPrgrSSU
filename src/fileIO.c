@@ -34,7 +34,7 @@ int say_Borrow_list_num()
 	while(list_borrow -> current)
 	{
 		count ++;
-		list_client -> current = list_client -> current -> next;
+		list_borrow -> current = list_borrow -> current -> next;
 	}
 	list_borrow -> current = list_borrow -> head;
 	return count;
@@ -91,10 +91,10 @@ void file_write_book()
 
 	while(list_book -> current)
 	{
-		fprintf(fp, "|%d", list_book -> current -> book_num);
-		
 		fprintf(fp, "|%ld", list_book -> current -> ISBN);
 		
+		fprintf(fp, "|%d", list_book -> current -> book_num);
+			
 		fprintf(fp, "|%s", list_book -> current -> name);
 		
 		fprintf(fp, "|%s", list_book -> current -> publisher);
@@ -272,7 +272,9 @@ int get_book_file_data(FILE *fp)
 	
 	book -> book_num = atoi(get_oneWord(&fp));
 	book -> ISBN = atol(get_oneWord(&fp));
-	
+	if(list_book -> last_book_num < book -> book_num)
+		list_book -> last_book_num = book -> book_num;
+
 	get_oneWord(&fp);
 	book -> publisher = (char *)malloc(sizeof(strlen(temp) + 1));
 	strcpy(book -> publisher,temp);
@@ -504,6 +506,7 @@ int main(void)
 {
 	init_all_list();
 	get_all_file_data();
+	printf("Max :: %d\n", list_book -> last_book_num);
 	file_write();
 	free_all_node();
 }

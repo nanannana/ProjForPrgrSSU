@@ -53,8 +53,8 @@ typedef struct client
 
 typedef struct book
 {
-	int book_num; // 7자리 책 번호
 	long int ISBN;	// 13자리 ISBN 번호 
+	int book_num; // 7자리 책 번호
 	char *name; // 책 이름 
 	char *publisher; // 출판사 
 	char *author; // 저자
@@ -83,6 +83,7 @@ typedef struct
 	Client *head;
 	Client *current;
 	Client *tail;
+	int num_elements;
 }List_Client;
 
 typedef struct
@@ -90,6 +91,8 @@ typedef struct
 	Book *head;
 	Book *current;
 	Book *tail;
+	int last_book_num;
+	int num_elements;
 }List_Book;
 
 typedef struct
@@ -97,6 +100,7 @@ typedef struct
 	Borrow *head;
 	Borrow *current;
 	Borrow *tail;
+	int num_elements;
 }List_Borrow;
 
 
