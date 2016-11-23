@@ -152,6 +152,6 @@ int replace_borrow(const Borrow* p_origin, Borrow borrow);
   // 실패
 **********************************************************************/
 
-int ISBN2keys_on_book(int ** keys, long ISBN);
-int name2keys_on_book(int ** keys, char* name);
+int ISBN2keys_on_book(int * keys, long ISBN);
+int name2keys_on_book(int * keys, char* name);
 // 필요한 함수 추가 바람, c에 추가하겠음
