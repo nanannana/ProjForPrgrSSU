@@ -83,6 +83,9 @@ int get_book(int book_num, const Book ** result);
 
 int get_borrow(int book_num, const Borrow ** result);
 
+
+
+
 /***********************************************************************
   int replace_something(const struct something* p_origin, struct something sth)
   이 함수는 존재하는 구조체(p_origin)를 변경하고자 하는 구조체로 바꿉니다.
@@ -154,4 +157,11 @@ int replace_borrow(const Borrow* p_origin, Borrow borrow);
 
 int ISBN2keys_on_book(int * keys, long ISBN);
 int name2keys_on_book(int * keys, char* name);
+int sch_num2keys_on_borrow(int * keys, int sch_num);//관리자_도서반납
+int book_num2keys_on_book(int *keys, int book_num);//대여 목록 출력 위해
+
+int publisher2keys_on_book(int *keys, char publisher);//검색_출판사 검색
+int author2keys_on_book(int *keys, char author);//검색_저자명 검색
+int name2keys_on_client(int *keys, char name);//회원목록_이름검색
+
 // 필요한 함수 추가 바람, c에 추가하겠음
