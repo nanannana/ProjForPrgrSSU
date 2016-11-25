@@ -4,11 +4,54 @@
 #include"fileIO.h"
 #include<string.h>
 
-
+char temp[500] = {0};
 List_Client *list_client = NULL;
 List_Book *list_book = NULL;
 List_Borrow *list_borrow = NULL;
 
+/*********************
+  이거슨 제가 오류 잡기위해 만든함수
+  쓰고싶으시다면 써도 상관은 없습니다만.
+  암튼 리스트 개수를 알려주는 함수이랍니다.
+   ********************/
+int say_Client_list_num()
+{
+	int count = 0;
+	list_client -> current = list_client -> head;
+	while(list_client -> current)
+	{
+		count ++;
+		list_client -> current = list_client -> current -> next;
+	}
+	list_client -> current = list_client -> head;
+	return count;
+}
+
+int say_Borrow_list_num()
+{
+	int count = 0;
+	list_borrow -> current = list_borrow -> head;
+	while(list_borrow -> current)
+	{
+		count ++;
+		list_client -> current = list_client -> current -> next;
+	}
+	list_borrow -> current = list_borrow -> head;
+	return count;
+}
+
+int say_Book_list_num()
+{
+	int count= 0;
+	list_book -> current = list_book -> head;
+	while(list_book -> current)
+	{
+		count ++;
+		list_book -> current = list_book -> current -> next;
+	}
+	list_book -> current = list_book -> head;
+	return count;
+}
 
 /*****************************************************************
 	파일 입력함수

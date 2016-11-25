@@ -16,20 +16,41 @@ void file_write_borrow(void){return;}
 /// 유지보수의 편의성을 위해서 매크로를 이용합니다.
 /// 제너릭 인터페이스가 쓰고싶었던 자의 몸부림입니다.
 /// set tapstop=4 에 최적화 된 코드입니다.
-#define CODE(Sth, sth, key) 									\
+#define CODE(Sth, sth, key, sortT, sortKey) 					\
 /* 이 c 파일에서만 사용되는 get함수입니다. 성공을 확인한 후 리스트의 current*/\
-/* 가져다 이용하시면 됩니다.												*/\
+/* 가져다 이용하시면 됩니다.*/									\
 int private_get_##sth(int key)									\
 {																\
 	/* 리스트의 current 초기화 */								\
 	list_##sth->current = list_##sth->head;						\
-	/* 리스트가 오름차순으로 정렬 되어 있으므로 자신보다 작은 값을 가진 원소까지 */\
-	/* 검사하면 충분합니다. key값이 같거나 클 경우 반복문에서 빠져나옵니다. */\
-	while(list_##sth->current->key < key && list_##sth->current->next != NULL)\
-		list_##sth->current = list_##sth->current->next;		\
-																\
+	if (strcmp(#key, #sortKey))/* 정렬키와 키가 다르다면*/		\
+	{															\
+		while(list_##sth->current->key != key && list_##sth->current->next != NULL)\
+			list_##sth->current = list_##sth->current->next;	\
+	}															\
+	else														\
+	{															\
+		/* 리스트가 오름차순으로 정렬 되어 있으므로 자신보다 작은 값을 가진 원소까지 */\
+		/* 검사하면 충분합니다. key값이 같거나 클 경우 반복문에서 빠져나옵니다. */\
+		while(list_##sth->current->key < key && list_##sth->current->next != NULL)\
+			list_##sth->current = list_##sth->current->next;	\
+	}															\
 	/* 열심히 찾았는데 없을경우 실패를 반환합니다. */			\
 	if (list_##sth->current->key != key)						\
+		return Fail_No_Element;									\
+																\
+	return Success;												\
+}																\
+																\
+/* key와 sortkey가 다를경우 사용하는 함수입니다. */				\
+/* private_get_##sth의 #key = #sortKey와 작동 과정이 같습니다.*/\
+int private_sort_get_##sth(sortT sortKey)						\
+{																\
+	list_##sth->current = list_##sth->head;						\
+	while(list_##sth->current->sortKey < sortKey && list_##sth->current->next != NULL)\
+		list_##sth->current = list_##sth->current->next;		\
+																\
+	if (list_##sth->current->sortKey != sortKey)				\
 		return Fail_No_Element;									\
 																\
 	return Success;												\
@@ -51,7 +72,10 @@ int append_##sth(Sth sth)										\
 	if (private_get_##sth(element->key) == Success)				\
 	{/* 중복이라면 오류 반환 */									\
 		return Fail_Two_Same_Value;								\
-	}/* 현재 리스트의 current 는 삽입하기 적당한 위치 */		\
+	}															\
+	if (strcmp(#key, #sortKey))									\
+		private_sort_get_##sth(element->sortKey);				\
+	/* 현재 리스트의 current 는 삽입하기 적당한 위치 */			\
 																\
 	if (list_##sth->current->next == NULL && list_##sth->current->key < element->key)\
 	{/* 마지막 원소일 때 */										\
@@ -109,7 +133,7 @@ int remove_##sth(int key)										\
 		last->next = next;										\
 		next->last = last;										\
 	}															\
-	free(list_##sth->current);									\
+	free_all_##sth(list_##sth->current);						\
 																\
 	file_write_##sth();											\
 																\
@@ -118,7 +142,7 @@ int remove_##sth(int key)										\
 																\
 int get_##sth(int key, const Sth** result)						\
 {																\
-	/* 접근성을 제한하기 위해 const에 할당 후 그 주소를 이용합니다 */\
+	/* 접근성을 제한하기 위해 const를 이용합니다 */				\
 	if (private_get_##sth(key) == Success)						\
 	{															\
 		*result = list_##sth->current;							\
@@ -145,13 +169,40 @@ int replace_##sth(const Sth* p_origin, Sth sth)					\
 	return Success;												\
 }																
 
+void free_all_client(Client *obj)
+{
+	free(obj->name);
+	free(obj->password);
+	free(obj->address);
+	free(obj->phone_num);
+	free(obj);
+	return;
+}
+
+void free_all_book(Book *obj)
+{
+	free(obj->name);
+	free(obj->publisher);
+	free(obj->author);
+	free(obj->owner);
+	free(obj->borrow_Y_N);
+	free(obj);
+	return;
+}
+
+void free_all_borrow(Borrow *obj)
+{
+	free(obj);
+	return;
+}
+
 /// 구조체의 특정 값을 검색하여 해당하는 값의 개수를 반환합니다.
 /// sth, key는 CODE 매크로와 같이 넣어주면 됩니다.
 /// T는 thg의 자료형을 의미합니다. thg는 비교할 값
 /// same는 T 자료형 변수 둘이 일치하는지 확인하는 함수이름이 필요합니다.
 /// 둘이 일치하면 1을 반환해야 합니다.
 #define GET_KEY_FROM_THING(sth, key, T, thg, compare)			\
-int thg##2##keys_on_##sth(int ** keys, T thg)					\
+int thg##2keys_on_##sth(int * keys, T thg)						\
 {																\
 	/* 반환할 값, key값의 개수 */								\
 	int cnt = 0;												\
@@ -162,7 +213,7 @@ int thg##2##keys_on_##sth(int ** keys, T thg)					\
 	{															\
 		if (compare(list_##sth->current->thg, thg) == 1)		\
 		{														\
-			*keys[cnt] = list_##sth->current->key;				\
+			keys[cnt] = list_##sth->current->key;				\
 			cnt++;												\
 		}														\
 	}															\
@@ -184,9 +235,9 @@ int intcomp(int a, int b){
 }
 
 /// 순서대로 Client, Book, Borrow 구조체를 대상으로 하는 코드입니다.
-CODE(Client, client, sch_num)
-CODE(Book, book, book_num)
-CODE(Borrow, borrow, book_num)
+CODE(Client, client, sch_num, int, sch_num)
+CODE(Book, book, book_num, long, ISBN)
+CODE(Borrow, borrow, book_num, int, book_num)
 
 GET_KEY_FROM_THING(book, book_num, long, ISBN, longcomp)
 GET_KEY_FROM_THING(book, book_num, char*, name, strcomp)
@@ -200,7 +251,8 @@ int main(void)
 	int i = 0;
 	int j = 0;
 	int key = 0;
-	const Client* t = NULL;
+	long sortKey = 0;
+	const Book* t = NULL;
 
 	init_all_list();
 	get_all_file_data();
@@ -214,10 +266,10 @@ int main(void)
 		switch(i)
 		{
 			case 1:
-				printf("추가할 key 입력 : ");
-				scanf("%d", &key);
-				Client c = {key,0};
-				if (append_client(c) == Success)
+				printf("추가할 key sortKey 입력 : ");
+				scanf("%d %ld", &key, &sortKey);
+				Book c = {key,sortKey, "Test"," ","Test"};
+				if (append_book(c) == Success)
 					printf("%d 추가 완료\n",key);
 				else
 					printf("추가 실패\n");
@@ -225,7 +277,7 @@ int main(void)
 			case 2:
 				printf("제거할 key 입력 : ");
 				scanf("%d", &key);
-				if (remove_client(key) == Success)
+				if (remove_book(key) == Success)
 					printf("%d 제거 완료\n", key);
 				else
 					printf("제거 실패\n");
@@ -233,9 +285,9 @@ int main(void)
 			case 3:
 				printf("얻을 key 입력 : ");
 				scanf("%d", &key);
-				if (get_client(key,&t) == Success)
+				if (get_book(key,&t) == Success)
 				{
-					printf("%d\n",t->sch_num);
+					printf("%d\n",t->book_num);
 				}
 				else
 					printf("얻기 실패\n");
@@ -243,10 +295,10 @@ int main(void)
 			case 4:
 				printf("원래 key 바꿀 key : ");
 				scanf("%d %d",&key,&j);
-				Client f = {j,0};
-				if (get_client(key, &t) == Success)
+				Book f = {j,0};
+				if (get_book(key, &t) == Success)
 				{
-					if(replace_client(t,f) == Success)
+					if(replace_book(t,f) == Success)
 						printf("바꾸기 성공\n");
 					else
 						printf("바꾸기 실패\n");
@@ -256,14 +308,26 @@ int main(void)
 				break;
 			case 5:
 				printf("리스트 출력\n");
-				list_client->current = list_client->head;
+				list_book->current = list_book->head;
 				while(1)
 				{
-					printf("%d\n",list_client->current->sch_num);
-					if (list_client->current->next == NULL)
+					printf("%d %ld %s %s\n",list_book->current->book_num,list_book->current->ISBN,list_book->current->name, list_book->current->author);
+					if (list_book->current->next == NULL)
 						break;
-					list_client->current = list_client->current->next;
+					list_book->current = list_book->current->next;
 				}
+				break;
+			case 6:
+				printf("책이름 입력\n");
+				char tee[50];
+				int tem[50] = {0};
+				getchar();
+				scanf("%[^\n]",tee);
+				printf("%s 검색\n", tee);
+				int d = name2keys_on_book(tem, tee);
+				int e;
+				for (e = 0; e < d; e++)
+					printf("%d\n",tem[e]);
 				break;
 		}
 	}
