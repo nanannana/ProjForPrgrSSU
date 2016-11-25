@@ -55,8 +55,8 @@ typedef struct book
 {
 	long int ISBN;	// 13자리 ISBN 번호 
 	int book_num; // 7자리 책 번호
-	char *name; // 책 이름 
 	char *publisher; // 출판사 
+	char *name; // 책 이름 
 	char *author; // 저자
 	char *owner; // 소장처
 	char *borrow_Y_N; // 대여 가능여부
