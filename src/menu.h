@@ -26,7 +26,7 @@ void Register_book();
 void Delete_book();
 void D_by_title();
 void D_by_ISBN();
-void delete_book(int *keys, int cnt, int i);
+void delete_book(int *keys, int cnt);
 void Lend_book();
 void L_by_title();
 void L_by_ISBN();
