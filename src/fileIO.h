@@ -59,7 +59,7 @@ typedef struct book
 	char *name; // 책 이름 
 	char *author; // 저자
 	char *owner; // 소장처
-	char *borrow_Y_N; // 대여 가능여부
+	char borrow_Y_N; // 대여 가능여부
 	struct book *next; // 다음 노드
 	struct book *last; // 이전 노드
 }Book;

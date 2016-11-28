@@ -103,7 +103,7 @@ void file_write_book()
 		
 		fprintf(fp, "|%s", list_book -> current -> owner);
 		
-		fprintf(fp, "|%s|\n", list_book -> current -> borrow_Y_N);
+		fprintf(fp, "|%c|\n", list_book -> current -> borrow_Y_N);
 	
 		list_book ->current = list_book -> current -> next;
 	}
@@ -293,8 +293,8 @@ int get_book_file_data(FILE *fp)
 	strcpy(book -> owner,temp);
 
 	get_oneWord(&fp);
-	book -> borrow_Y_N = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	strcpy(book -> borrow_Y_N ,temp);
+	book -> borrow_Y_N = temp[0];
+	printf("Y_N : %c\n", book -> borrow_Y_N);
 	fseek(fp,1,SEEK_CUR);	
 	
 	char a = fgetc(fp);
@@ -404,7 +404,6 @@ void free_book_node()
 		free(list_book -> current -> publisher);
 		free(list_book -> current -> author);
 		free(list_book -> current -> owner);
-		free(list_book -> current -> borrow_Y_N);
 	
 		if(list_book -> current -> next)
 		{
@@ -502,14 +501,10 @@ void make_book_node()
 		list_book -> tail -> next = NULL;
 	}
 }
-
 int main(void)
 {
 	init_all_list();
 	get_all_file_data();
-	file_write();
 	free_all_node();
 	return 0;
 }
-
-
