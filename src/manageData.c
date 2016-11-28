@@ -13,6 +13,8 @@ void file_write_book(void){return;}
 void file_write_borrow(void){return;}
 #endif 
 
+#define MAXBUFF 50
+
 /// 유지보수의 편의성을 위해서 매크로를 이용합니다.
 /// 제너릭 인터페이스가 쓰고싶었던 자의 몸부림입니다.
 /// set tapstop=4 에 최적화 된 코드입니다.
@@ -213,7 +215,8 @@ int thg##2keys_on_##sth(int * keys, T thg)						\
 	{															\
 		if (compare(list_##sth->current->thg, thg) == 1)		\
 		{														\
-			keys[cnt] = list_##sth->current->key;				\
+			if (keys != NULL)									\
+				keys[cnt] = list_##sth->current->key;			\
 			cnt++;												\
 		}														\
 	}															\
@@ -221,6 +224,7 @@ int thg##2keys_on_##sth(int * keys, T thg)						\
 																\
 	return cnt;													\
 }
+
 
 int strcomp(char* a, char* b){
 	return (strcmp(a,b) == 0)?1:0;
@@ -234,6 +238,42 @@ int intcomp(int a, int b){
 	return a == b;
 }
 
+#define GET_RATIO_BOOKS_FROM_THG(T, thg) 								\
+int get_ratio_books_from_##thg(int ***ratio, T thg)						\
+{																		\
+	int keys_book[MAXBUFF], keys_ISBN[MAXBUFF];							\
+	int cnt_book, i, j;													\
+	long last_ISBN = 0;													\
+	int ratio_cnt = 0;													\
+	if ((cnt_book = thg##2keys_on_book(keys_book, thg)) != 0)			\
+	{																	\
+		const Book* temp = NULL;										\
+																		\
+		for (i = 0; i < cnt_book; i ++)									\
+		{																\
+			if (get_book(keys_book[i], &temp) == Success)				\
+			{															\
+				if (last_ISBN == temp->ISBN)							\
+				   continue;											\
+				ratio[radio_cnt][1] = ISBN2keys_on_book(keys_ISBN, temp->ISBN);\
+																		\
+				for (j = 0; j < ratio[radio_cnt]; j++)					\
+				{														\
+					if (get_book(keys_book[j], &temp) == Success)		\
+					{													\
+						if (temp->borrow_Y_N == 'Y')					\
+							ratio[radio_cnt][0]++;						\
+					}													\
+				}														\
+																		\
+				radio_cnt++;											\
+				last_ISBN = temp->ISBN;									\
+			}															\
+		}																\
+	}																	\
+	return ration_cnt;													\
+}
+
 /// 순서대로 Client, Book, Borrow 구조체를 대상으로 하는 코드입니다.
 CODE(Client, client, sch_num, int, sch_num)
 CODE(Book, book, book_num, long, ISBN)
@@ -244,6 +284,11 @@ GET_KEY_FROM_THING(book, book_num, char*, name, strcomp)
 GET_KEY_FROM_THING(book, book_num, char*, author, strcomp)
 GET_KEY_FROM_THING(book, book_num, char*, publisher, strcomp)
 GET_KEY_FROM_THING(borrow, book_num, int, sch_num, intcomp)
+
+GET_RATIO_BOOKS_FROM_THG(char*, author)
+GET_RATIO_BOOKS_FROM_THG(char*, publisher)
+
+
 
 #ifdef DEBUG
 int main(void)
