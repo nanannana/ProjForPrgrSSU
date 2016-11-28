@@ -992,7 +992,7 @@ void M_total_search()
 
 
 
-int main()
+int start_proc()
 {
 	init_all_list();
 	get_all_file_data();
