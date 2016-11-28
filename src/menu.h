@@ -8,23 +8,28 @@ int start_proc(void);
 //함수원형
 void Library_service();
 
-void Member_menu();
+int Member_menu();
 
 void Search_books();
-void By_title();
-void By_publisher();
-void By_ISBN();
-void By_author();
-void Total_Search();
+void S_by_title();
+void S_by_publisher();
+void S_by_ISBN();
+void S_by_author();
+void S_total_Search();
 
 void My_BB_list();
 void Modi_my_info();
-void Withdraw();
+int Withdraw();
 
-void Admin_nemu();
+int Admin_nemu();
 void Register_book();
 void Delete_book();
+void D_by_title();
+void D_by_ISBN();
+void delete_book(int *keys, int cnt, int i);
 void Lend_book();
+void L_by_title();
+void L_by_ISBN();
 void Return_book();
 
 void Member_list();

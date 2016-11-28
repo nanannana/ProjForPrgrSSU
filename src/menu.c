@@ -153,7 +153,7 @@ void S_by_title()
 	int keys[20];
 	int cnt, i, cy=0;
 	char yn = 'Y';
-	if((cnt = name2keys_on_book(&keys, s_temp_c)) != 0)
+	if((cnt = name2keys_on_book(keys, s_temp_c)) != 0)
 	{
 		const Book * result = NULL;
 		if(get_book(keys[0], &result) == Success)
@@ -198,7 +198,7 @@ void S_by_publisher()//출판사 책 다 출력 (보류)
 	int keys[20];
 	int cnt, i, cy=0;
 	char yn = 'Y';
-	if((cnt = publisher2keys_on_book(&keys, s_temp_c)) != 0)
+	if((cnt = publisher2keys_on_book(keys, s_temp_c)) != 0)
 	{
 		const Book * result = NULL;
 		if(get_book(keys[0], &result) == Success)
@@ -255,7 +255,7 @@ void S_by_publisher()//출판사 책 다 출력 (보류)
 				{
 					if(get_book(keys[i], &result) == Success)
 					{
-						if(*(result -> borrow_Y_N) == 'Y')
+						if((result -> borrow_Y_N) == 'Y')
 						{
 							cy++;
 						}
@@ -601,7 +601,7 @@ void D_by_ISBN()
 
 void delete_book(int *keys, int cnt, int i)
 {
-	const struct Book * result = NULL;
+	const Book * result = NULL;
 	int innum;
 	if(get_book(keys[0], &result) == Success)
 	{
@@ -624,12 +624,12 @@ void delete_book(int *keys, int cnt, int i)
 	scanf("%d", &innum);
 	if(get_book(innum, &result) == Success)
 	{
-		if((result -> current -> borrow_Y_N) == 'Y')
+		if((result -> borrow_Y_N) == 'Y')
 		{
 			remove_book(innum);
 			printf("도서가 삭제되었습니다.\n");
 		}
-		else if((result -> current -> borrow_Y_N) == 'N')
+		else if((result -> borrow_Y_N) == 'N')
 		{
 			printf("이 도서는 삭제할 수 없습니다.\n");
 		}
@@ -661,7 +661,7 @@ void L_by_title()
 	scanf("%s", l_temp_c);
 	int keys[20];
 	int cnt, i;
-	if((cnt = name2keys_on_book(&keys, l_temp_c)) != 0)
+	if((cnt = name2keys_on_book(keys, l_temp_c)) != 0)
 	{
 		const Book * result = NULL;
 		Borrow btemp;
@@ -753,7 +753,7 @@ void L_by_ISBN()
 		printf(">> 검색 결과 <<\n");
 		for(i = 0; i < cnt; i++)
 		{
-			if(get_book(keys[i], result) == Success)
+			if(get_book(keys[i], &result) == Success)
 			{
 				printf("도서번호: %d(대여가능 여부 : %c)\n도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n\n", \
 						result -> book_num, result -> borrow_Y_N, result -> name, \
@@ -829,8 +829,8 @@ void Return_book()////
 	int keys[20];
 	int cnt, i;
 	char day[7][15] = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
-	const struct Borrow *result = NULL;
-	const struct Book * Binfo = NULL;
+	const Borrow *result = NULL;
+	const Book * Binfo = NULL;
 	struct tm *bt;
 	struct tm *rt;
 	int book_n;
