@@ -34,7 +34,7 @@ int say_Borrow_list_num()
 	while(list_borrow -> current)
 	{
 		count ++;
-		list_client -> current = list_client -> current -> next;
+		list_borrow -> current = list_borrow -> current -> next;
 	}
 	list_borrow -> current = list_borrow -> head;
 	return count;
@@ -91,10 +91,10 @@ void file_write_book()
 
 	while(list_book -> current)
 	{
-		fprintf(fp, "|%d", list_book -> current -> book_num);
-		
 		fprintf(fp, "|%ld", list_book -> current -> ISBN);
 		
+		fprintf(fp, "|%d", list_book -> current -> book_num);
+			
 		fprintf(fp, "|%s", list_book -> current -> name);
 		
 		fprintf(fp, "|%s", list_book -> current -> publisher);
@@ -103,7 +103,7 @@ void file_write_book()
 		
 		fprintf(fp, "|%s", list_book -> current -> owner);
 		
-		fprintf(fp, "|%s|\n", list_book -> current -> borrow_Y_N);
+		fprintf(fp, "|%c|\n", list_book -> current -> borrow_Y_N);
 	
 		list_book ->current = list_book -> current -> next;
 	}
@@ -223,23 +223,24 @@ int get_client_file_data(FILE *fp)
 	client -> sch_num = atoi(get_oneWord(&fp));
 
 	get_oneWord(&fp);
-	client -> name = (char *)malloc(sizeof(strlen(temp) +1));
+	client -> name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client -> name, temp);
-
+	
 	get_oneWord(&fp);
-	client -> password = (char *)malloc(sizeof(strlen(temp) +1));
+	client -> password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client -> password, temp);
 
 	get_oneWord(&fp);
-	client -> address = (char *)malloc(sizeof(strlen(temp) +1));
+	client -> address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client -> address, temp);
 
 	get_oneWord(&fp);
-	client -> phone_num = (char *)malloc(sizeof(strlen(temp) +1));
+	client -> phone_num = (char *)malloc(sizeof(char) *(strlen(temp) + 1));
 	strcpy(client -> phone_num, temp);
 	fseek(fp,1,SEEK_CUR);	
 	char a = fgetc(fp);
 	
+
 	if(a == EOF)
 	{	
 		return 0;
@@ -272,28 +273,30 @@ int get_book_file_data(FILE *fp)
 	
 	book -> book_num = atoi(get_oneWord(&fp));
 	book -> ISBN = atol(get_oneWord(&fp));
-	
+	if(list_book -> last_book_num < book -> book_num)
+		list_book -> last_book_num = book -> book_num;
+
 	get_oneWord(&fp);
-	book -> publisher = (char *)malloc(sizeof(strlen(temp) + 1));
+	book -> publisher = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(book -> publisher,temp);
 	
 	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(strlen(temp) + 1));
+	book -> name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(book -> name,temp);
-
-
+	
 	get_oneWord(&fp);
-	book -> author = (char *)malloc(sizeof(strlen(temp) + 1));
+	book -> author = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(book -> author,temp);
 
 	get_oneWord(&fp);
-	book -> owner = (char *)malloc(sizeof(strlen(temp) + 1));
+	book -> owner = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(book -> owner,temp);
 
 	get_oneWord(&fp);
-	book -> borrow_Y_N = (char *)malloc(sizeof(strlen(temp) + 1));
-	strcpy(book -> borrow_Y_N ,temp);
+	book -> borrow_Y_N = temp[0];
+	printf("Y_N : %c\n", book -> borrow_Y_N);
 	fseek(fp,1,SEEK_CUR);	
+	
 	char a = fgetc(fp);
 	
 	if(a == EOF)
@@ -401,7 +404,6 @@ void free_book_node()
 		free(list_book -> current -> publisher);
 		free(list_book -> current -> author);
 		free(list_book -> current -> owner);
-		free(list_book -> current -> borrow_Y_N);
 	
 		if(list_book -> current -> next)
 		{
@@ -499,13 +501,10 @@ void make_book_node()
 		list_book -> tail -> next = NULL;
 	}
 }
-
 int main(void)
 {
 	init_all_list();
 	get_all_file_data();
-	file_write();
 	free_all_node();
+	return 0;
 }
-
-
