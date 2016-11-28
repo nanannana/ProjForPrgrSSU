@@ -14,10 +14,10 @@ clean :
 	@rm -f $(addprefix $(OUTDIR)/,$(BUILD)) $(addprefix $(OUTDIR)/,$(OBJS)) $(addprefix $(DATOUTDIR)/,$(DATAS))
 
 $(BUILD) : $(OBJS) 
-	ld -o $(addprefix $(OUTDIR)/,$@) $(addprefix $(OUTDIR)/,$^)
+	gcc -Wall -o $(addprefix $(OUTDIR)/,$@) $(addprefix $(OUTDIR)/,$^)
 
 main.o : $(subst .o,.c,$(notdir $@)) $(subst .o,.c,$(filter-out main.o,$(OBJS)))
 %.o : $(subst .o,.c,$(notdir $@)) $(subst .o,.c,$(notdir $@))
 
 .c.o :
-	gcc -c -o $(addprefix $(OUTDIR)/,$@) $<
+	gcc -Wall -c -o $(addprefix $(OUTDIR)/,$@) $<

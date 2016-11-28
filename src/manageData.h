@@ -65,7 +65,7 @@ int remove_borrow(int book_num);
   문제를 해결하기 위함입니다.
 
   const struct something * sth = NULL;
-  if (get_something(4, &sth) == success)
+  if (get_something(4, &sth) == Success)
   {
   	printf("출력: %d \n", sth->first_one);
   }
@@ -94,7 +94,7 @@ int get_borrow(int book_num, const Borrow ** result);
   일반적인 사용 방법은 다음과 같습니다.
 
   const struct something * sth = NULL;
-  if (get_something(2, &sth) == success)
+  if (get_something(2, &sth) == Success)
   { // 찾는데 성공했다면
   	struct something temp = *sth;
   	temp.first_one = 2; //내용 변경
