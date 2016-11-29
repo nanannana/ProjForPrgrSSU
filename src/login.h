@@ -41,15 +41,7 @@ void Sign_up(void);
  * 학번을 입력받아 대여중인 도서가 없으면 회원탈퇴시킵니다 
  *****************************************************************************************************/
 
-void Sign_down(int sch_num);
-/******************************************************************************
-* Sign_down 그냥 sign_up의 반대라 down이라 적었습니다 말그대로 회원탈퇴
-* book과 borrow구조체를 읽어들여 대여중인 도서가 없으면 회원탈퇴시킨다 
-******************************************************************************/
-
-void Sign_down(int k, int k);
-
-
+int Sign_down(int sch_num);
 
 
 
@@ -57,7 +49,7 @@ void Sign_down(int k, int k);
  * Revise client 구조체를 받아서 학번 이름을 제외한 정보를 수정합니다
 *********************************************************************/
 
-int Revise(const Client *p_origin,int sch_num);
+int Revise(int sch_num);
 
 
 
@@ -68,7 +60,7 @@ int Revise(const Client *p_origin,int sch_num);
  * 일치하면 1을 아니면 -1을 출력합니다
  ***********************************************************************/
 
-int Log_in(int sch_num,const Client ** result);
+int Log_in(int sch_num,int book_num);
 
 
 

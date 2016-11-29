@@ -2,15 +2,16 @@
 #include<stdlib.h>
 #include"managedata.h"
 #include"login.h"
-void Sign_down(int sch_num){
-	int* book_nums = (int*)malloc(sizeof(int) * List_Borrow->num_element);
+int Sign_down(int sch_num){
+	int *book_nums = (int*)malloc(sizeof(int) * 40);
 	int cnt;
-	Client *element = NULL;
 
-	if ((cnt = book_num2keys(&book_nums,sch_num)) != 0){
-
-
-}	
+	if ((cnt = sch_num2keys_on_book(book_nums,sch_num)) == 0)
+	{
+		return 1;
+	}
+	else return 0;
+}
 
 
 int main(void){
@@ -41,10 +42,6 @@ void Sign_up(void)
 
 	return ;
 }
-
-void Sign_out(void){
-}
-
 
 
 int Revise(int sch_num)
