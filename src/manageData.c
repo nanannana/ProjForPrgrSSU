@@ -256,7 +256,7 @@ int get_ratio_books_from_##thg(int ratio[][2], T thg)					\
 				   continue;											\
 				ratio[ratio_cnt][1] = ISBN2keys_on_book(keys_ISBN, temp->ISBN);\
 																		\
-				for (j = 0, ratio[ratio_cnt][0] = 0; j < ratio[ratio_cnt][1]; j++)					\
+				for (j = 0, ratio[ratio_cnt][0] = 0; j < ratio[ratio_cnt][1]; j++)\
 				{														\
 					if (get_book(keys_book[j], &temp) == Success)		\
 					{													\
