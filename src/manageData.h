@@ -1,3 +1,7 @@
+#ifndef _MANAGEDATA_H_
+#define _MANAGEDATA_H_
+/// 중복 경우 배제
+
 #include"fileIO.h"
 
 /// 아래 나오는 int를 반환하는 모든 함수는 성공 여부에 따라 아래 열거형을 반환할 것입니다. 
@@ -168,6 +172,29 @@ int name2keys_on_client(int *keys, char *name);//회원목록_이름검색
 
 // 필요한 함수 추가 바람, c에 추가하겠음
 
+/*********************************************************************
+  int get_ratio_books_from_thg(int ratio[n][2], T thg)
+  빌릴수 없는 책/전체 책 비율을 구하는 것은 매우 번거로운 일이므로
+  해당하는 함수를 이용하여 구할 수 있습니다.
+  return 해당하는 thg를 만족하는 ISBN 개수, 즉 ratio 배열의 n을 의미
+  합니다. 
+  int ratio[n][2] (ratio[n][0] / ratio[n][1]) 빌릴수 없는 수/ 전체 수
+  ratio 배열에 접근하여 사용하면 됩니다. 순서는 현재 정렬되어 있는 
+  순입니다.
+  T thg 검색하고 싶은 값
+
+  int ratio[50][2];
+  int cnt;
+
+  if ((cnt = get_ratio_books_From_publisher(ratio, "망할번역출판사") != 0)
+  {
+  	//cnt 이용하여 ratio에 접근해 사용
+  }
+  else
+  // 그런 출판사 없다.
+  *******************************************************************/
 
 int get_ratio_books_from_author(int ratio[][2], char* author);
 int get_ratio_books_from_publisher(int ratio[][2], char* publisher);
+
+#endif
