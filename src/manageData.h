@@ -141,6 +141,8 @@ int replace_borrow(const Borrow* p_origin, Borrow borrow);
   T는 찾고 싶은 구조체 멤버의 자료형입니다.
   thing 찾고 싶은 값을 의미합니다.
   일반적인 사용 방법은 다음과 같습니다.
+
+  keys 에 NULL을 대입하면 간단하게 카운트만 구할 수도 있습니다.
   
   int keys[20];
   int cnt, i;
@@ -165,3 +167,8 @@ int author2keys_on_book(int *keys, char author);//검색_저자명 검색
 int name2keys_on_client(int *keys, char name);//회원목록_이름검색
 
 // 필요한 함수 추가 바람, c에 추가하겠음
+
+
+int get_ratio_books_from_author(int ***ratio, char* author);
+int get_Ratio_books_from_publisher(int ***ratio, char* publisher);
+
