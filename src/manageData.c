@@ -187,7 +187,6 @@ void free_all_book(Book *obj)
 	free(obj->publisher);
 	free(obj->author);
 	free(obj->owner);
-	free(obj->borrow_Y_N);
 	free(obj);
 	return;
 }
@@ -239,7 +238,7 @@ int intcomp(int a, int b){
 }
 
 #define GET_RATIO_BOOKS_FROM_THG(T, thg) 								\
-int get_ratio_books_from_##thg(int ***ratio, T thg)						\
+int get_ratio_books_from_##thg(int ratio[][2], T thg)					\
 {																		\
 	int keys_book[MAXBUFF], keys_ISBN[MAXBUFF];							\
 	int cnt_book, i, j;													\
@@ -255,23 +254,23 @@ int get_ratio_books_from_##thg(int ***ratio, T thg)						\
 			{															\
 				if (last_ISBN == temp->ISBN)							\
 				   continue;											\
-				ratio[radio_cnt][1] = ISBN2keys_on_book(keys_ISBN, temp->ISBN);\
+				ratio[ratio_cnt][1] = ISBN2keys_on_book(keys_ISBN, temp->ISBN);\
 																		\
-				for (j = 0; j < ratio[radio_cnt]; j++)					\
+				for (j = 0, ratio[ratio_cnt][0] = 0; j < ratio[ratio_cnt][1]; j++)					\
 				{														\
 					if (get_book(keys_book[j], &temp) == Success)		\
 					{													\
 						if (temp->borrow_Y_N == 'Y')					\
-							ratio[radio_cnt][0]++;						\
+							ratio[ratio_cnt][0]++;						\
 					}													\
 				}														\
 																		\
-				radio_cnt++;											\
+				ratio_cnt++;											\
 				last_ISBN = temp->ISBN;									\
 			}															\
 		}																\
 	}																	\
-	return ration_cnt;													\
+	return ratio_cnt;													\
 }
 
 /// 순서대로 Client, Book, Borrow 구조체를 대상으로 하는 코드입니다.
@@ -373,6 +372,26 @@ int main(void)
 				int e;
 				for (e = 0; e < d; e++)
 					printf("%d\n",tem[e]);
+				break;
+			case 7:
+				printf("출판사 이름 입력 \n");
+				char teq[50];
+				int tempdd[50][2];
+				getchar();
+				scanf("%[^\n]", teq);
+				
+				int u;
+				int cnt;
+
+				if((cnt = get_ratio_books_from_publisher(tempdd, teq)) != 0)
+				{
+					for (u = 0; u < cnt; u++)
+					{
+						printf("(%d/%d)\n",tempdd[u][0],tempdd[u][1]);
+					}
+				}
+				else
+					printf("그런 출판사 없는데..\n");
 				break;
 		}
 	}
