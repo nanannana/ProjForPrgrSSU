@@ -1,12 +1,15 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"managedata.h"
+#include"login.h"
 void Sign_down(int sch_num){
 	int* book_nums = (int*)malloc(sizeof(int) * List_Borrow->num_element);
 	int cnt;
 	Client *element = NULL;
 
-	if ((cnt = sch_num2keys(&
+	if ((cnt = book_num2keys(&book_nums,sch_num)) != 0){
+
+
 }	
 
 
@@ -18,8 +21,6 @@ int main(void){
 	free_all_node(); 
 	return 0;
 }
-
-#include"login.h"
 
 void Sign_up(void)
 {
