@@ -238,6 +238,7 @@ int intcomp(int a, int b){
 }
 
 #define GET_RATIO_BOOKS_FROM_THG(T, thg) 								\
+int get_ratio_books_from_##thg(int **ratio, T thg)						\
 int get_ratio_books_from_##thg(int ratio[][2], T thg)					\
 {																		\
 	int keys_book[MAXBUFF], keys_ISBN[MAXBUFF];							\

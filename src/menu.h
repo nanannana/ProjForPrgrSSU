@@ -1,3 +1,5 @@
+#ifndef _MENU_H_//헤드파일 중복 선언 방지
+#define _MENU_H_
 #include <stdio.h>
 
 /// 프로그램의 본격적인 시작점입니다.
@@ -23,10 +25,12 @@ int Withdraw();
 
 int Admin_nemu();
 void Register_book();
+
 void Delete_book();
 void D_by_title();
 void D_by_ISBN();
 void delete_book(int *keys, int cnt);
+
 void Lend_book();
 void L_by_title();
 void L_by_ISBN();
@@ -36,4 +40,4 @@ void Member_list();
 void Search_name();
 void Search_ID();
 void M_total_search();
-
+#endif

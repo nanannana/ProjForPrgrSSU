@@ -142,7 +142,7 @@ void S_by_title()
 	char s_temp_c[100];
 	printf(">> 도서명 검색 <<\n");
 	printf("도서명을 입력하세요 : ");
-	gets(s_temp_c);
+	scanf("%s", s_temp_c);
 	int keys[20];
 	int cnt, i, cy=0;
 	char yn = 'Y';
@@ -183,53 +183,46 @@ void S_by_title()
 
 }
 
-void S_by_publisher()//출판사 책 다 출력 (보류)
+void S_by_publisher()
 {
 	char s_temp_c[100];
 	printf(">> 출판사 검색 <<\n");
 	printf("출판사명을 입력하세요 : ");
-	gets(s_temp_c);
-	int keys[20];
-	int cnt, i, cy=0;
-	char yn = 'Y';
-	if((cnt = publisher2keys_on_book(keys, s_temp_c)) != 0)
+	scanf("%s", s_temp_c);
+	int keys[100];
+	int cnt_r,cnt_g, i;
+
+	int ratio[50][2];
+	if(cnt_r = get_ratio_books_from_publisher(ratio, s_temp_c) != 0)
 	{
-		const Book * result = NULL;
-		if(get_book(keys[0], &result) == Success)
+		if(cnt_g = publisher2keys_on_book(keys, s_temp_c) != 0)
 		{
-			for(i = 0; i < cnt; i++)
+			printf(">> 검색 결과 <<\n");
+			const Book * result = NULL;
+			for(i=0; i<cnt_g; i++)
 			{
 				if(get_book(keys[i], &result) == Success)
 				{
-					if(result -> borrow_Y_N == 'Y')
-					{
-						cy++;
-					}
-					else
-					{
-						printf("Failed to get book\n");
-					}
+					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
 				}
-
-
-				if(cy == 0)
+				else
 				{
-					yn = 'N';
+					printf("Failed to get book info\n");
 				}
-
-
-				printf(">> 검색 결과 <<\n");
-				printf("도서명: %s\n출판사: %s\n저자명:%s\nISBN: %ld\n소장처: %s\n",\
-						s_temp_c, result -> publisher, result -> author, result -> ISBN, result -> owner);
-				printf("대여가능 여부 : %c(%d/%d)\n", yn, cy,cnt);
 			}
 		}
 		else
 		{
-			printf("해당 출판사의 도서는 존재하지 않습니다.");
+			printf("Failed to get book list\n");
 		}
 	}
+	else
+	{
+		printf("해당 출판사의 도서는 존재하지 않습니다.\n");
+	}
+
 }
+
 
 void S_by_ISBN()
 {
@@ -279,14 +272,46 @@ void S_by_ISBN()
 
 }
 
-void S_by_author()//이것도 출판사와 같이
+void S_by_author()
 {
-	char s_temp_c[30];
-	printf(">> 저자명 검색\n");
-	printf("저자명을  입력하세요 : ");
-	gets(s_temp_c);
+	char s_temp_c[100];
+	printf(">> 저자명 검색 <<\n");
+	printf("저자명을 입력하세요 : ");
+	scanf("%s", s_temp_c);
+	int keys[100];
+	int cnt_r,cnt_g, i;
+
+	int ratio[50][2];
+	if(cnt_r = get_ratio_books_from_author(ratio, s_temp_c) != 0)
+	{
+		if(cnt_g = author2keys_on_book(keys, s_temp_c) != 0)
+		{
+			printf(">> 검색 결과 <<\n");
+			const Book * result = NULL;
+			for(i=0; i<cnt_g; i++)
+			{
+				if(get_book(keys[i], &result) == Success)
+				{
+					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
+				}
+				else
+				{
+					printf("Failed to get book info\n");
+				}
+			}
+		}
+		else
+		{
+			printf("Failed to get book list\n");
+		}
+	}
+	else
+	{
+		printf("해당 출판사의 도서는 존재하지 않습니다.\n");
+	}
 
 }
+
 
 void S_total_Search()
 {
@@ -930,7 +955,7 @@ void Member_list()
 	}
 }
 
-void Search_name()/////////////////
+void Search_name()
 {
 	char s_temp_c[30];
 	printf(">> 이름 검색 <<\n");
@@ -942,23 +967,24 @@ void Search_name()/////////////////
 	{
 		const Client * result = NULL;
 		printf(">> 회원 목록 <<\n");
-		if(get_client(result -> sch_num, &result) == Success)
-			printf("학번: %d\n이름: %s\n주소: %s\n전화번호: %s\n", result -> sch_num, result -> name, result -> address, result -> phone_num);
 		for(i = 0; i < cnt; i++)
-		{
-			if(get_client(result -> sch_num, &result) == Success)
+			if(get_client(keys[i], &result) == Success)
 			{
-				printf("------------------------------------------\n");
 				printf("학번: %d\n이름: %s\n주소: %s\n전화번호: %s\n", result -> sch_num, result -> name, result -> address, result -> phone_num);
 			}
-		}
-
+			else
+			{
+				printf("Failed to get client info\n");
+			}
 	}
 	else
 	{
-		printf("존재하지 않는 이름입니다.\n");
+	printf("존재하지 않는 이름입니다.\n");
 	}
+
 }
+
+
 
 void Search_ID()
 {
