@@ -2,16 +2,28 @@
 #include<stdlib.h>
 <<<<<<< HEAD
 =======
-#include"manageData.h"
 >>>>>>> upstream/master
 #include"login.h"
+#ifndef main
+int main void(){
+	int j, k=20162497;
+	j = Sign_down(k);
+	printf("%d",j);
+	Sign_up();
+	Revise(k);
+	Sign_down(k);
+	printf("%d",j);
+
+	return 0;
+	}
+#endif
 int Sign_down(int sch_num){
 	int *book_nums = (int*)malloc(sizeof(int) * 40);
 	int cnt;
 
-	if ((cnt = sch_num2keys_on_book(book_nums,sch_num)) == 0)
+	if ((cnt = sch_num2keys_on_borrow(book_nums,sch_num)) == 0)
 	{
-		return 1;
+		remove_client(sch_num);
 	}
 	else return 0;
 }
@@ -19,11 +31,18 @@ int Sign_down(int sch_num){
 
 void Sign_up(void)
 {
+	int cnt;
+	const Client *compare;
 	Client client1;
 	printf(">>회원 가입<<\n");
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
 	printf("학번: \n");
 	scanf("%d",&client1.sch_num);
+	if (get_client(client1.sch_num,&compare) != Success)
+	{
+		printf("중복된 학번입니다");
+		exit();
+	}
 	printf("비밀번호: \n");
 	scanf("%s",client1.password);
 	printf("이름: \n");
@@ -56,7 +75,7 @@ int Revise(int sch_num)
 				scanf("%s",(*result).password);
 				temp.password = (*result).password;
 				Return_Flags flag;
-				if((flag = replace_something(result,temp)) == Success)
+				if((flag = replace_client(result,temp)) == Success)
 					return Success;
 				else if (flag == Fail_Two_Same_Value)
 					return Fail_Two_Same_Value;
@@ -71,7 +90,7 @@ int Revise(int sch_num)
 				scanf("%s",(*result).address);
 				strcpy(temp.address,(*result).address);
 				Return_Flags flag;
-				if((flag = replace_something(result,temp)) == Success)
+				if((flag = replace_client(result,temp)) == Success)
 					return Success;
 				else if (flag == Fail_Two_Same_Value)
 					return Fail_Two_Same_Value;
@@ -86,7 +105,7 @@ int Revise(int sch_num)
 				scanf("%s",(*result).phone_num);
 				strcpy(temp.phone_num, (*result).phone_num);
 				Return_Flags flag;
-				if((flag = replace_something(result,temp)) ==Success)
+				if((flag = replace_client(result,temp)) ==Success)
 					return Success;
 				else if (flag == Fail_Two_Same_Value)
 					return Fail_Two_Same_Value;
@@ -107,19 +126,24 @@ int Revise(int sch_num)
 	return 0;
 }
 
-int Log_in(int sch_num, int book_num)
+int Log_in(int sch_num,char *password)
 {
-	int cnt,i=0;
+	const Client *client;
+	int cnt = 0;
 	int keys[20];
-	while(i<20){
-		//keys[i] = 
-	};
-			
-	if((cnt = sch_num2keys_on_borrow(keys,sch_num))==0)
+	if (get_client(sch_num,&client)==Success)
 	{
-	return in;
+		cnt++;
+	};
+	if (strcmp(client -> password,password)==0) 
+	{
+		cnt++;
 	}
-	else return out;
+	if(cnt == 2){
+	return Success;
+	}
+	else return 0;
+	
 }
 
 
@@ -127,6 +151,7 @@ int Log_out(void)
 {
 	return out;
 }
+
 
 
 
