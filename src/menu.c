@@ -195,7 +195,7 @@ void S_by_publisher()//출판사 책 다 출력 (보류)
 	{
 		for(i = 0; i < cnt; i++)
 		{
-		}`
+		}
 	}
 	else
 	{
