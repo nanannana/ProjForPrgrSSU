@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"login.h"
-#ifndef main
+#ifndef main 
 int main (void){
 	int j, k=20162497;
 	char password[20];
@@ -17,15 +17,16 @@ int main (void){
 	return 0;
 	}
 #endif
-int Sign_down(int sch_num){
+void Sign_down(int sch_num){
 	int *book_nums = (int*)malloc(sizeof(int) * 40);
 	int cnt;
 
 	if ((cnt = sch_num2keys_on_borrow(book_nums,sch_num)) == 0)
 	{
 		remove_client(sch_num);
+		return;
 	}
-	else return 0;
+	else return ;
 }
 
 
