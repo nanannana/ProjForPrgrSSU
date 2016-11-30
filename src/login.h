@@ -10,6 +10,8 @@
   menu 프로그래머와 상의하세요.
 *******************************************************/
 
+#ifndef _LOGIN_H_
+	# define _LOGIN_H_
 #include "manageData.h"
 #include <string.h>
 
@@ -70,6 +72,7 @@ int Log_in(int sch_num,int book_num);
  * Log_out 도서관 서비스 초기화면으로 이동합니다.
  ****************************************************************/
 int Log_out(void);
+#endif // _LOGIN_H_	
 
 
 
