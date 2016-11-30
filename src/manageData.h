@@ -196,12 +196,7 @@ int name2keys_on_client(int *keys, char *name);//회원목록_이름검색
   // 그런 출판사 없다.
   *******************************************************************/
 
-<<<<<<< HEAD
-int get_Ratio_books_from_author(int **ratio, char* author);
-int get_Ratio_books_from_publisher(int **ratio, char* publisher);
-=======
 int get_ratio_books_from_author(int ratio[][2], char* author);
 int get_ratio_books_from_publisher(int ratio[][2], char* publisher);
->>>>>>> upstream/master
 
 #endif
