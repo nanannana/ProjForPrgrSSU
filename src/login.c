@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
+<<<<<<< HEAD
+=======
 #include"manageData.h"
+>>>>>>> upstream/master
 #include"login.h"
 int Sign_down(int sch_num){
 	int *book_nums = (int*)malloc(sizeof(int) * 40);
