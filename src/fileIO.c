@@ -501,6 +501,7 @@ void make_book_node()
 		list_book -> tail -> next = NULL;
 	}
 }
+#ifdef DEGBUG
 int main(void)
 {
 	init_all_list();
@@ -508,3 +509,4 @@ int main(void)
 	free_all_node();
 	return 0;
 }
+#endif
