@@ -1,18 +1,18 @@
 #include<stdio.h>
 #include<stdlib.h>
-<<<<<<< HEAD
-=======
->>>>>>> upstream/master
 #include"login.h"
 #ifndef main
-int main void(){
+int main (void){
 	int j, k=20162497;
+	char password[20];
 	j = Sign_down(k);
-	printf("%d",j);
+	printf("%d\n",j);
 	Sign_up();
 	Revise(k);
 	Sign_down(k);
-	printf("%d",j);
+	printf("%d\n",j);
+	scanf("%s",password);
+	Log_in(k,password);
 
 	return 0;
 	}
@@ -31,7 +31,6 @@ int Sign_down(int sch_num){
 
 void Sign_up(void)
 {
-	int cnt;
 	const Client *compare;
 	Client client1;
 	printf(">>회원 가입<<\n");
@@ -41,7 +40,7 @@ void Sign_up(void)
 	if (get_client(client1.sch_num,&compare) != Success)
 	{
 		printf("중복된 학번입니다");
-		exit();
+		exit(-1);
 	}
 	printf("비밀번호: \n");
 	scanf("%s",client1.password);
@@ -130,11 +129,10 @@ int Log_in(int sch_num,char *password)
 {
 	const Client *client;
 	int cnt = 0;
-	int keys[20];
 	if (get_client(sch_num,&client)==Success)
 	{
 		cnt++;
-	};
+	}
 	if (strcmp(client -> password,password)==0) 
 	{
 		cnt++;
