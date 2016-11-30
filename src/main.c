@@ -20,7 +20,7 @@ int main(void)
 	file_write();
     
 	// 리스트의 모든 값을 메모리에서 해제시킵니다.
-    free_all_lists();
+    free_all_node();
 
     return 0;
 }
