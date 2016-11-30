@@ -142,7 +142,7 @@ void S_by_title()
 	char s_temp_c[100];
 	printf(">> 도서명 검색 <<\n");
 	printf("도서명을 입력하세요 : ");
-	gets(s_temp_c);
+	scanf("%s", s_temp_c);
 	int keys[20];
 	int cnt, i, cy=0;
 	char yn = 'Y';
@@ -185,6 +185,25 @@ void S_by_title()
 
 void S_by_publisher()//출판사 책 다 출력 (보류)
 {
+	char s_temp_c[100];
+	printf(">> 출판사 검색 <<\n");
+	printf("출판사명을 입력하세요 : ");
+	gets(s_temp_c);
+	int keys[100];
+	int cnt, i;
+	if((cnt = publisher2keys_on_book(keys, s_temp_c)) != 0)
+	{
+		for(i = 0; i < cnt; i++)
+		{
+		}`
+	}
+	else
+	{
+		printf("Failed to find publisher \n");
+	}
+}
+
+
 	char s_temp_c[100];
 	printf(">> 출판사 검색 <<\n");
 	printf("출판사명을 입력하세요 : ");
