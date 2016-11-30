@@ -62,7 +62,7 @@ int Revise(int sch_num);
  * 일치하면 1을 아니면 -1을 출력합니다
  ***********************************************************************/
 
-int Log_in(int sch_num,int book_num);
+int Log_in(int sch_num,char *password);
 
 
 
