@@ -14,8 +14,8 @@ char my_password[50];
 
 List_Book *list_book = NULL;
 
-struct tm *bt;
-struct tm *rt;
+/*struct tm *bt;
+struct tm *rt;*/
 
 void Library_service()
 {
@@ -23,19 +23,18 @@ void Library_service()
 	while(1)
 	{
 		int n;
-		printf(">>도서관 서비스<<\n");
-		printf("1. 회원 가입\t2. 로그인\t3. 프로그램 종료\n");
+		printf("***TEST***\n");
+		printf("1. 회원 메뉴\t2. 관리자 메뉴\t3. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
 		scanf("%d", &n);
 		switch (n)
 		{
-			/*case 1 : Sign_up(); break;
-			  case 2 : Log_in(); break;*/
+			case 1 : Member_menu(); break;
+			case 2 : Admin_menu(); break;
 			case 3 : break;
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
-
 	}
 }
 

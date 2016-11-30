@@ -184,7 +184,6 @@ char *get_oneWord(FILE **fp)
 void get_all_file_data()
 {
 	FILE *client_fp, *book_fp, *borrow_fp;
-	int i =0;
 	client_fp = fopen("data/client.txt","r");
 	book_fp = fopen("data/book.txt","r");
 	borrow_fp = fopen("data/borrow.txt","r");
