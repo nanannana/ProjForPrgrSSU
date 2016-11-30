@@ -501,10 +501,3 @@ void make_book_node()
 		list_book -> tail -> next = NULL;
 	}
 }
-int main(void)
-{
-	init_all_list();
-	get_all_file_data();
-	free_all_node();
-	return 0;
-}

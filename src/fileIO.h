@@ -1,3 +1,5 @@
+#ifndef _fileIO_h_
+#define _fileIO_h_
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
@@ -19,7 +21,7 @@
 	처음 : 	init_all_list();
 			get_all_file_data();
 	
-	마지막:	frea_all_node();
+	마지막:	free_all_node();
 
 	를 입력해주시면 아무런 문제가 없을것 입니다.
 
@@ -192,4 +194,4 @@ char * get_oneWord(FILE **fp);
 extern List_Client *list_client;
 extern List_Book *list_book;
 extern List_Borrow *list_borrow;
-
+#endif
