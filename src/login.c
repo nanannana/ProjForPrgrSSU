@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include"managedata.h"
+#include"manageData.h"
 #include"login.h"
 int Sign_down(int sch_num){
 	int *book_nums = (int*)malloc(sizeof(int) * 40);
@@ -13,15 +13,6 @@ int Sign_down(int sch_num){
 	else return 0;
 }
 
-
-int main(void){
- 	init_all_list(); 
-
- 	get_all_file_data();
-
-	free_all_node(); 
-	return 0;
-}
 
 void Sign_up(void)
 {

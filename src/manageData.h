@@ -161,6 +161,8 @@ int replace_borrow(const Borrow* p_origin, Borrow borrow);
   // 실패
 **********************************************************************/
 
+int name2keys_on_client(int * keys, char* name);
+
 int ISBN2keys_on_book(int * keys, long ISBN);
 int name2keys_on_book(int * keys, char* name);
 int sch_num2keys_on_borrow(int * keys, int sch_num);//관리자_도서반납
