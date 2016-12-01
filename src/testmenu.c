@@ -12,10 +12,7 @@ int my_sch_num;
 char my_password[50];
 
 
-List_Book *list_book = NULL;
 
-/*struct tm *bt;
-struct tm *rt;*/
 
 void Library_service()
 {
@@ -37,7 +34,7 @@ void Library_service()
 		}
 	}
 }
-
+/*
 void Sign_up()
 {
 
@@ -45,7 +42,6 @@ void Sign_up()
 
 void Log_in()
 {
-	/*
 	   if(mem)
 	   {
 	   if(Member_menu() == 0)
@@ -61,11 +57,11 @@ void Log_in()
 	   }
 
 
-	   }*/
+	   }
 }
 
 
-
+*/
 
 int Member_menu()
 {
