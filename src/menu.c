@@ -12,10 +12,6 @@ int my_sch_num;
 char my_password[50];
 
 
-List_Book *list_book = NULL;
-
-struct tm *bt;
-struct tm *rt;
 
 void Library_service()
 {
