@@ -34,7 +34,7 @@ void Library_service()
 		}
 	}
 }
-
+/*
 void Sign_up()
 {
 
@@ -42,7 +42,6 @@ void Sign_up()
 
 void Log_in()
 {
-	/*
 	   if(mem)
 	   {
 	   if(Member_menu() == 0)
@@ -58,11 +57,11 @@ void Log_in()
 	   }
 
 
-	   }*/
+	   }
 }
 
 
-
+*/
 
 int Member_menu()
 {
