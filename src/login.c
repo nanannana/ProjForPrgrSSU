@@ -2,22 +2,6 @@
 #include<stdlib.h>
 #include<string.h>
 #include"login.h"
-#ifndef main 
-int main (void){
-	int j, k=20162497;
-	char password[20];
-	j = Sign_down(k);
-	printf("%d\n",j);
-	Sign_up();
-	Revise(k);
-	Sign_down(k);
-	printf("%d\n",j);
-	scanf("%s",password);
-	Log_in(k,password);
-
-	return 0;
-	}
-#endif
 void Sign_down(int sch_num){
 	int *book_nums = (int*)malloc(sizeof(int) * 40);
 	int cnt;
