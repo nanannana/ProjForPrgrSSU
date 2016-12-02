@@ -12,10 +12,6 @@ int my_sch_num;
 char my_password[50];
 
 
-List_Book *list_book = NULL;
-
-struct tm *bt;
-struct tm *rt;
 
 void Library_service()
 {
@@ -38,7 +34,7 @@ void Library_service()
 
 	}
 }
-
+/*
 void Sign_up()
 {
 
@@ -46,7 +42,7 @@ void Sign_up()
 
 void Log_in()
 {
-	/*
+	
 	   if(mem)
 	   {
 	   if(Member_menu() == 0)
@@ -62,10 +58,10 @@ void Log_in()
 	   }
 
 
-	   }*/
+	   }
 }
 
-
+*/
 
 
 int Member_menu()
@@ -193,9 +189,9 @@ void S_by_publisher()
 	int cnt_r,cnt_g, i;
 
 	int ratio[50][2];
-	if(cnt_r = get_ratio_books_from_publisher(ratio, s_temp_c) != 0)
+	if((cnt_r = get_ratio_books_from_publisher(ratio, s_temp_c)) != 0)
 	{
-		if(cnt_g = publisher2keys_on_book(keys, s_temp_c) != 0)
+		if((cnt_g = publisher2keys_on_book(keys, s_temp_c)) != 0)
 		{
 			printf(">> 검색 결과 <<\n");
 			const Book * result = NULL;
@@ -203,7 +199,7 @@ void S_by_publisher()
 			{
 				if(get_book(keys[i], &result) == Success)
 				{
-					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
+					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
 				}
 				else
 				{
@@ -282,9 +278,9 @@ void S_by_author()
 	int cnt_r,cnt_g, i;
 
 	int ratio[50][2];
-	if(cnt_r = get_ratio_books_from_author(ratio, s_temp_c) != 0)
+	if((cnt_r = get_ratio_books_from_author(ratio, s_temp_c)) != 0)
 	{
-		if(cnt_g = author2keys_on_book(keys, s_temp_c) != 0)
+		if((cnt_g = author2keys_on_book(keys, s_temp_c)) != 0)
 		{
 			printf(">> 검색 결과 <<\n");
 			const Book * result = NULL;
@@ -292,7 +288,7 @@ void S_by_author()
 			{
 				if(get_book(keys[i], &result) == Success)
 				{
-					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
+					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
 				}
 				else
 				{
@@ -1020,9 +1016,6 @@ void M_total_search()
 
 int start_proc()
 {
-	init_all_list();
-	get_all_file_data();
 	Library_service();
-	free_all_node();
 	return 0;
 }
