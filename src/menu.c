@@ -3,19 +3,19 @@
 #include <string.h>
 #include "manageData.h"
 #include "menu.h"
+#include "login.h"
 
 extern List_Client *list_client;
 extern List_Book * list_book;
 extern List_Borrow *list_borrow;
 
-int my_sch_num;
+char my_ID[30];
 char my_password[50];
 
 
 
 void Library_service()
 {
-	//int i;
 	while(1)
 	{
 		int n;
@@ -25,24 +25,42 @@ void Library_service()
 		scanf("%d", &n);
 		switch (n)
 		{
-			/*case 1 : Sign_up(); break;
-			  case 2 : Log_in(); break;*/
-			case 3 : break;
+			case 1 : Sign_up(); break;
+			case 2 : Log_in(); break;
+			case 3 : return;
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
 
 	}
 }
+
+//void Sign_up()
+//{
+
+//}
+
 /*
-void Sign_up()
+void LOG_IN()
 {
-
-}
-
-void Log_in()
-{
-	
+	int check;
+	printf(">> 로그인 <<\n");
+	printf("학번: ");
+	scanf("%d", &my_sch_num);
+	printf("비밀번호: ");
+	scanf("%d", my_password);
+	check = log_in(my_sch_num, my_password);
+	if(check == in)
+	{
+		if(!strcyp(my_sch
+		Membermenu();
+	}
+	else if(check == out)
+	{
+		return;
+	}
+}*/
+	/*
 	   if(mem)
 	   {
 	   if(Member_menu() == 0)
@@ -59,9 +77,10 @@ void Log_in()
 
 
 	   }
-}
+	   
+}*/
 
-*/
+
 
 
 int Member_menu()
@@ -76,7 +95,7 @@ int Member_menu()
 		switch (m)
 		{
 			case 1 : Search_books(); break;
-			case 2 : My_BB_list(); break;//My borrowed books list
+			case 2 : My_BB_list(); break;
 			case 3 : Modi_my_info(); break;
 			case 4 : if(Withdraw() == 0)
 					 {
@@ -87,7 +106,11 @@ int Member_menu()
 						 break;
 					 }
 			case 5 : return 0;
-			case 6 : free_all_node(); exit(0);
+			case 6 : {
+						 file_write();
+						 free_all_node();
+						 exit(0);
+					 }
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
@@ -326,6 +349,7 @@ void S_total_Search()
 
 void My_BB_list()//need to modify.(at if)
 {
+	int my_sch_num = atoi(my_ID);
 	int keys[20];
 	int cnt, i;
 	const Book *  Binfo = NULL;
@@ -403,6 +427,7 @@ void My_BB_list()//need to modify.(at if)
 
 void Modi_my_info()//replace 함수?.. 
 {
+	int my_sch_num = atoi(my_ID);
 	char m_temp_c[100];
 	printf(">> 개인정보 수정 <<\n");
 
@@ -449,6 +474,7 @@ void Modi_my_info()//replace 함수?..
 
 int Withdraw() 
 {
+	int my_sch_num = atoi(my_ID);
 	int w_temp_i;
 	printf(">> 회원 탈퇴 <<\n");
 	list_client -> current = list_client -> head;
@@ -508,7 +534,11 @@ int Admin_menu()
 			case 5 : Search_books(); break;
 			case 6 : Member_list(); break;
 			case 7 : return 0;
-			case 8 : free_all_node(); exit(0);
+			case 8 : {
+						file_write();
+					   	free_all_node();
+					   	exit(0);
+					 }
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
