@@ -17,40 +17,29 @@ void Sign_down(int sch_num){
 
 void Sign_up(void)
 {
-	Client *compare;
-	Client *client;
-	int i;
+	Client client, *compare;
+	&client = list_client -> current;
 	printf(">>회원 가입<<\n");
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
-	printf("학번: \n");
-	&(client -> sch_num) = (int*)malloc(sizeof(int));
-	scanf("%d",&(client -> sch_num))
-	if (get_client(client -> sch_num,&compare) != Success)
+	int i;
+	&(client.sch_num) = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	scanf("%d",&(client.sch_num));
+
+	if (get_client(i=atoi(client.sch_num),compare) != Success)
 	{
 		printf("중복된 학번입니다");
 		return;
 	}
-	printf("이름을 입력하세요\n");
-	scanf("%s",compare -> name);
-	i = strlen(compare -> name);
-	client -> name = (char*)malloc((i+1)*sizeof(char))
-	strcpy(client -> name, compare -> name);
-	printf("비밀번호를 입력하세요\n");
-	scanf("%s",compare -> password);
-	i = strlen(compare -> password);
-	client -> password = (char*)malloc((i+1)*sizeof(char))
-	strcpy(client -> password, compare -> password);
-	printf("주소를 입력하세요\n");
-	scanf("%s",compare -> address);
-	i = strlen(compare -> address);
-	client -> address = (char*)malloc((i+1)*sizeof(char))
-	strcpy(client -> address, compare -> address);
-	printf("전화번호를 입력하세요\n");
-	scanf("%s",compare -> phone_num);
-	i = strlen(compare -> phone_num);
-	client -> phone_num = (char*)malloc((i+1)*sizeof(char))
-	strcpy(client -> phone_num, compare -> phone_num);
-	append_client(client);
+	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	scanf("%s",&(client.name));
+	
+	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	scanf("%s",&(client.password));
+
+	client.address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	scanf("%s",&(client.address));
+
+	append_client(client)
 
 
 	return ;
@@ -129,13 +118,11 @@ int Revise(int sch_num)
 void Log_in()
 {
 	int ID,check;
-	char *my_ID;
 	const Client *client;
-	char *my_password;
-	scanf("%s",&my_ID);
+	scanf("%s",&my_sch_num);
 	scanf("%s",my_password);
-	if(strcmp(my_ID,admin)==0){
-		if (get_client(my_ID,&client)==Success)
+	if(strcmp(my_sch_num,admin)==0){
+		if (get_client(my_sch_num,&client)==Success)
 		{
 			if (strcmp(client -> password,my_password)==0) 
 			check = Admin_menu();
