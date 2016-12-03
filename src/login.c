@@ -17,29 +17,34 @@ void Sign_down(int sch_num){
 
 void Sign_up(void)
 {
-	Client client, *compare;
-	&client = list_client -> current;
+	char temp[500];
+	const Client *client, *compare;
+	client = list_client -> current;
 	printf(">>회원 가입<<\n");
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
-	int i;
-	&(client.sch_num) = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	scanf("%d",&(client.sch_num));
+	int i,j;
+	char k[20];
+	printf("학번: \n");
+	scanf("%s",k);
+	i = atoi(k);
+	j = get_client(i,&compare);
 
-	if (get_client(i=atoi(client.sch_num),compare) != Success)
+	if (j != Success)
 	{
 		printf("중복된 학번입니다");
 		return;
 	}
-	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	scanf("%s",&(client.name));
+	client->sch_num = atoi(k);
+	client->name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	scanf("%s",&(client->name));
 	
-	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	scanf("%s",&(client.password));
+	client->password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	scanf("%s",&(client->password));
 
-	client.address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	scanf("%s",&(client.address));
+	client->address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	scanf("%s",&(client->address));
 
-	append_client(client)
+	append_client(*client);
 
 
 	return ;
@@ -118,18 +123,23 @@ int Revise(int sch_num)
 void Log_in()
 {
 	int ID,check;
+	extern char *my_sch_num;
+	extern char *my_password;
 	const Client *client;
-	scanf("%s",&my_sch_num);
+	printf("학번 입력");
+	scanf("%s",my_sch_num);
+	printf("패쓰 워드입력");
 	scanf("%s",my_password);
+	char admin[6] = {"admin"};
+	ID = atoi(my_sch_num);
 	if(strcmp(my_sch_num,admin)==0){
-		if (get_client(my_sch_num,&client)==Success)
+		if (get_client(ID,&client)==Success)
 		{
 			if (strcmp(client -> password,my_password)==0) 
 			check = Admin_menu();
 		}
 	}
 	else {
-		ID = atoi(my_ID);
 		if (get_client(ID,&client)==Success)
 		{
 			if (strcmp(client -> password,my_password)==0) 
