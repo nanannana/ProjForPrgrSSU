@@ -94,15 +94,16 @@ int Member_menu()
 			case 1 : Search_books(); break;
 			case 2 : My_BB_list(); break;
 			case 3 : Modi_my_info(); break;
-			case 4 : if(Withdraw() == 0)
+			case 4 : if(
+					 /*if(Withdraw() == 0)
 					 {
 						 return 0;
 					 }
 					 else
 					 {
 						 break;
-					 }
-			case 5 : return 0;
+					 }*/
+			case 5 : return -2;
 			case 6 : {
 						 file_write();
 						 free_all_node();
@@ -484,7 +485,7 @@ int Admin_menu()
 			case 4 : Return_book(); break;
 			case 5 : Search_books(); break;
 			case 6 : Member_list(); break;
-			case 7 : return 0;
+			case 7 : return -2;
 			case 8 : {
 						file_write();
 					   	free_all_node();
