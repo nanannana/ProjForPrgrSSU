@@ -27,33 +27,33 @@ int Sign_down(void){
 
 void Sign_up(void)
 {
-	const Client *compare;
-	Client *client, *temp;
+	const Client compare;
+	Client client, temp;
 	printf(">>회원 가입<<\n");
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
 	int i;
 	printf("학번: \n");
-	scanf("%d",&(client ->sch_num));
-	i = get_client(temp ->sch_num,&compare);
+	scanf("%d",&(client.sch_num));
+	i = get_client(temp.sch_num,&(&compare));
 
 	if (i == Success)
 	{
 		printf("중복된 학번입니다");
 		return;
 	}
-	scanf("%s",temp->name);
-	client->name = (char *)malloc(sizeof(char) * (strlen(temp->name) + 1));
-	strcpy(client->name,temp->name);
+	scanf("%s",temp.name);
+	client.name = (char *)malloc(sizeof(char) * (strlen(temp.name) + 1));
+	strcpy(client.name,temp.name);
 	
-	scanf("%s",temp->password);
-	client->password = (char *)malloc(sizeof(char) * (strlen(temp->password) + 1));
-	strcpy(client->password,temp->password);
+	scanf("%s",temp.password);
+	client.password = (char *)malloc(sizeof(char) * (strlen(temp.password) + 1));
+	strcpy(client.password,temp.password);
 
-	scanf("%s",temp->address);
-	client->address = (char *)malloc(sizeof(char) * (strlen(temp->address) + 1));
-	strcpy(client->address,temp->address);
+	scanf("%s",temp.address);
+	client.address = (char *)malloc(sizeof(char) * (strlen(temp.address) + 1));
+	strcpy(client.address,temp.address);
 
-	append_client(*client);
+	append_client(client);
 
 
 	return ;
