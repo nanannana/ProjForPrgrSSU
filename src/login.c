@@ -82,8 +82,10 @@ int Revise(int sch_num)
 				if((flag = replace_client(result,temp)) == Success)
 					return Success;
 				else if (flag == Fail_No_Element)
+				{
 					printf("비밀번호는 한글자 이상입니다");
 					return Fail_No_Element;
+				}
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
@@ -96,8 +98,10 @@ int Revise(int sch_num)
 				if((flag = replace_client(result,temp)) == Success)
 					return Success;
 				else if (flag == Fail_No_Element)
+				{
 					printf("잘못된 주소입니다" );
 					return Fail_No_Element;
+				}
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
@@ -110,11 +114,15 @@ int Revise(int sch_num)
 				if((flag = replace_client(result,temp)) ==Success)
 					return Success;
 				else if (flag == Fail_Two_Same_Value)
+				{
 					printf("같은 번호입니다");
 					return Fail_Two_Same_Value;
+				}
 				else if (flag == Fail_No_Element)
+				{
 					printf("번호를 입력하세요");
 					return Fail_No_Element;
+				}
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
