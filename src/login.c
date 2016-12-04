@@ -3,36 +3,25 @@
 #include<string.h>
 #include"menu.h"
 #include"login.h"
-int main(void)
-{
-	// 리스트를 사용할 수 있게 초기화합니다.
-	init_all_list();
 
-	// 파일을 읽어들여 전역변수 list를 할당합니다.
-    get_all_file_data();
+static const char* admin_id = "admin";
+static const char* admin_pwd = "lib_admin7";
 
-	// 본격적인 프로시저를 시작합니다.
-    start_proc();
+extern int my_ID;
+extern char my_password[50];
 
-	// 끝날 때에는 리스트의 값을 파일로 저장시킵니다.
-	file_write();
-    
-	// 리스트의 모든 값을 메모리에서 해제시킵니다.
-    free_all_node();
-
-    return 0;
-}
-void Sign_down(int sch_num){
-	int keys[20];
-	int cnt;
-	
-
-	if ((cnt = sch_num2keys_on_borrow(keys,sch_num)) == 0)
+int Sign_down(void){
+	if (sch_num2keys_on_borrow(NULL, my_ID) == 0)
 	{
 		remove_client(sch_num);
+		printf("회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
+		return -2;
 	}
-	
-	return ;
+	else
+	{
+		printf("\n대여한 도서가 있어, 탈퇴가 불가능합니다.\n");
+		return 0;
+	}
 }
 
 
@@ -140,40 +129,48 @@ int Revise(int sch_num)
 	return 0;
 }
 
-void Log_in()
+int Log_in()
 {
-	int ID,check,i;
-	const Client *client;
-	extern char my_ID[30];
-	extern char my_password[50];
-	char admin[6] = {"admin"};
-	ID = atoi(my_ID);
-	while(1){
-		printf("학번 입력");
-		scanf("%s",my_ID);
-		printf("패스워드 입력");
-		scanf("%s",my_password);
+	const Client client;
+	char buff[50];
+	int rtnvalue = 0;
+
+	
+	printf(">> 로그인 <<\n");
+
+
+	printf("학번: ");
+	scanf("%s", buff);
+	
+	if (!strcmp(buff, ADMIN_ID))
+		my_ID = -1;
+	else
+		my_ID = atoi(buff);
+
+
+	printf("비밀번호: ");
+	scanf("%s", my_password);
+
+	if (my_ID == -1 && !strcmp(my_password, ADMIN_PWD))
+	{
+		return Admin_menu();
+	}
+	else
+	{
+		printf("로그인에 실패하였습니다.\n");
+		return 0;
+	}
+	
+	if (get_client(ID, &client) == Success && password2keys_on_client(NULL,my_password) != 0)
+	{
+		return Membermenu();
+	}
+	else 
+	{
+		printf("로그인에 실패하였습니다.\n");
+		return 0;
+	}
 		
-		if(strcmp(my_ID,admin)==0){
-			i = get_client(ID,&client);
-			
-			if (strcmp(client -> password,my_password)==0) 
-				check = Admin_menu();
-			else printf("잘못된 비번입니다");
-			
-		}
-		else {
-			if ((i = get_client(ID,&client))==Success)
-			{
-				if (strcmp(client -> password,my_password)==0) 
-					check = Member_menu();
-				else printf("잘못된 비번입니다");
-			}
-			else printf("잘못된 학번입니다");
-			}
-		if (check == 0)
-			return;
-		}
 }
 
 
@@ -181,10 +178,3 @@ int Log_out(void)
 {
 	return out;
 }
-
-
-
-
-
-
-

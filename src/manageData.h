@@ -162,6 +162,7 @@ int replace_borrow(const Borrow* p_origin, Borrow borrow);
 **********************************************************************/
 
 int name2keys_on_client(int *keys, char *name);//회원목록_이름검색
+int password2keys_on_client(int *keys, char *password);
 
 int ISBN2keys_on_book(int * keys, long ISBN);
 int name2keys_on_book(int * keys, char* name);
