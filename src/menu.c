@@ -9,8 +9,8 @@ extern List_Client *list_client;
 extern List_Book * list_book;
 extern List_Borrow *list_borrow;
 
-char my_ID[30];
-char my_password[50];
+extern char my_ID[30];
+extern char my_password[50];
 
 
 
