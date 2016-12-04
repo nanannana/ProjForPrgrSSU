@@ -27,33 +27,35 @@ int Sign_down(void){
 
 void Sign_up(void)
 {
-	const Client compare;
-	Client client, temp;
+	Client client, temp,copy_client;
+	const Client *compare = &temp;
 	printf(">>회원 가입<<\n");
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
-	int i;
-	printf("학번: \n");
+	printf("학번: ");
 	scanf("%d",&(client.sch_num));
-	i = get_client(temp.sch_num,&(&compare));
 
-	if (i == Success)
+	if (get_client(client.sch_num,&compare) == Success)
 	{
 		printf("중복된 학번입니다");
 		return;
 	}
-	scanf("%s",temp.name);
-	client.name = (char *)malloc(sizeof(char) * (strlen(temp.name) + 1));
-	strcpy(client.name,temp.name);
+	printf("이름: ");
+	scanf("%s",copy_client.name);
+	client.name = (char *)malloc(sizeof(char) * (strlen(copy_client.name) + 1));
+	strcpy(client.name,copy_client.name);
 	
-	scanf("%s",temp.password);
-	client.password = (char *)malloc(sizeof(char) * (strlen(temp.password) + 1));
-	strcpy(client.password,temp.password);
+	printf("전화번호: ");
+	scanf("%s",copy_client.password);
+	client.password = (char *)malloc(sizeof(char) * (strlen(copy_client.password) + 1));
+	strcpy(client.password,copy_client.password);
 
-	scanf("%s",temp.address);
-	client.address = (char *)malloc(sizeof(char) * (strlen(temp.address) + 1));
-	strcpy(client.address,temp.address);
+	printf("주소: ");
+	scanf("%s",copy_client.address);
+	client.address = (char *)malloc(sizeof(char) * (strlen(copy_client.address) + 1));
+	strcpy(client.address,copy_client.address);
 
 	append_client(client);
+	printf("회원가입 되셨습니다.");
 
 
 	return ;
@@ -79,10 +81,11 @@ int Revise(int sch_num)
 				scanf("%s",temp.password);
 				if((flag = replace_client(result,temp)) == Success)
 					return Success;
-				else if (flag == Fail_Two_Same_Value)
-					return Fail_Two_Same_Value;
 				else if (flag == Fail_No_Element)
+				{
+					printf("비밀번호는 한글자 이상입니다");
 					return Fail_No_Element;
+				}
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
@@ -94,11 +97,13 @@ int Revise(int sch_num)
 				scanf("%s",temp.address);
 				if((flag = replace_client(result,temp)) == Success)
 					return Success;
-				else if (flag == Fail_Two_Same_Value)
-					return Fail_Two_Same_Value;
 				else if (flag == Fail_No_Element)
+				{
+					printf("잘못된 주소입니다" );
 					return Fail_No_Element;
+				}
 			}
+			else printf("잘못된 학번입니다.\n");
 			break;
 		case '3' :
 			if(get_client(sch_num,&result) == Success)
@@ -109,10 +114,17 @@ int Revise(int sch_num)
 				if((flag = replace_client(result,temp)) ==Success)
 					return Success;
 				else if (flag == Fail_Two_Same_Value)
+				{
+					printf("같은 번호입니다");
 					return Fail_Two_Same_Value;
+				}
 				else if (flag == Fail_No_Element)
+				{
+					printf("번호를 입력하세요");
 					return Fail_No_Element;
+				}
 			}
+			else printf("잘못된 학번입니다.\n");
 			break;
 		default :
 			printf("1,2,3 만 입력하세요 !!");
