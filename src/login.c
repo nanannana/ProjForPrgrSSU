@@ -4,8 +4,8 @@
 #include"menu.h"
 #include"login.h"
 
-static const char* admin_id = "admin";
-static const char* admin_pwd = "lib_admin7";
+static const char* ADMIN_ID = "admin";
+static const char* ADMIN_PWD = "lib_admin7";
 
 extern int my_ID;
 extern char my_password[50];
@@ -13,7 +13,7 @@ extern char my_password[50];
 int Sign_down(void){
 	if (sch_num2keys_on_borrow(NULL, my_ID) == 0)
 	{
-		remove_client(sch_num);
+		remove_client(my_ID);
 		printf("\n회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
 		return -2;
 	}
@@ -162,7 +162,7 @@ int Log_in()
 		return 0;
 	}
 	
-	if (get_client(ID, &client) == Success && password2keys_on_client(NULL,my_password) != 0)
+	if (get_client(my_ID, &client) == Success && password2keys_on_client(NULL,my_password) != 0)
 	{
 		return Membermenu();
 	}
