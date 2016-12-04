@@ -2,16 +2,25 @@
 #include<stdlib.h>
 #include<string.h>
 #include"login.h"
-void Sign_down(int sch_num){
-	int *book_nums = (int*)malloc(sizeof(int) * 40);
-	int cnt;
 
-	if ((cnt = sch_num2keys_on_borrow(book_nums,sch_num)) == 0)
+static const char* admin_id = "admin";
+static const char* admin_pwd = "lib_admin7";
+
+extern int my_ID;
+extern char my_password[50];
+
+int Sign_down(void){
+	if (sch_num2keys_on_borrow(NULL, my_ID) == 0)
 	{
 		remove_client(sch_num);
-		return;
+		printf("회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
+		return -2;
 	}
-	else return ;
+	else
+	{
+		printf("\n대여한 도서가 있어, 탈퇴가 불가능합니다.\n");
+		return 0;
+	}
 }
 
 
@@ -120,34 +129,48 @@ int Revise(int sch_num)
 	return 0;
 }
 
-void Log_in()
+int Log_in()
 {
-	int ID,check;
-	extern char *my_sch_num;
-	extern char *my_password;
-	const Client *client;
-	printf("학번 입력");
-	scanf("%s",my_sch_num);
-	printf("패쓰 워드입력");
-	scanf("%s",my_password);
-	char admin[6] = {"admin"};
-	ID = atoi(my_sch_num);
-	if(strcmp(my_sch_num,admin)==0){
-		if (get_client(ID,&client)==Success)
-		{
-			if (strcmp(client -> password,my_password)==0) 
-			check = Admin_menu();
-		}
-	}
-	else {
-		if (get_client(ID,&client)==Success)
-		{
-			if (strcmp(client -> password,my_password)==0) 
-				check = member_menu();
-		}
-	}
-	return ;
+	const Client client;
+	char buff[50];
+	int rtnvalue = 0;
+
 	
+	printf(">> 로그인 <<\n");
+
+
+	printf("학번: ");
+	scanf("%s", buff);
+	
+	if (!strcmp(buff, ADMIN_ID))
+		my_ID = -1;
+	else
+		my_ID = atoi(buff);
+
+
+	printf("비밀번호: ");
+	scanf("%s", my_password);
+
+	if (my_ID == -1 && !strcmp(my_password, ADMIN_PWD))
+	{
+		return Admin_menu();
+	}
+	else
+	{
+		printf("로그인에 실패하였습니다.\n");
+		return 0;
+	}
+	
+	if (get_client(ID, &client) == Success && password2keys_on_client(NULL,my_password) != 0)
+	{
+		return Membermenu();
+	}
+	else 
+	{
+		printf("로그인에 실패하였습니다.\n");
+		return 0;
+	}
+		
 }
 
 
@@ -155,10 +178,3 @@ int Log_out(void)
 {
 	return out;
 }
-
-
-
-
-
-
-
