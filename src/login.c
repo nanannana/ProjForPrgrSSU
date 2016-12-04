@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include"menu.h"
 #include"login.h"
 
 static const char* admin_id = "admin";
@@ -26,32 +27,31 @@ int Sign_down(void){
 
 void Sign_up(void)
 {
-	char temp[500];
-	const Client *client, *compare;
-	client = list_client -> current;
+	const Client *compare;
+	Client *client, *temp;
 	printf(">>회원 가입<<\n");
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
-	int i,j;
-	char k[20];
+	int i;
 	printf("학번: \n");
-	scanf("%s",k);
-	i = atoi(k);
-	j = get_client(i,&compare);
+	scanf("%d",&(client ->sch_num));
+	i = get_client(temp ->sch_num,&compare);
 
-	if (j != Success)
+	if (i == Success)
 	{
 		printf("중복된 학번입니다");
 		return;
 	}
-	client->sch_num = atoi(k);
-	client->name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	scanf("%s",&(client->name));
+	scanf("%s",temp->name);
+	client->name = (char *)malloc(sizeof(char) * (strlen(temp->name) + 1));
+	strcpy(client->name,temp->name);
 	
-	client->password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	scanf("%s",&(client->password));
+	scanf("%s",temp->password);
+	client->password = (char *)malloc(sizeof(char) * (strlen(temp->password) + 1));
+	strcpy(client->password,temp->password);
 
-	client->address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	scanf("%s",&(client->address));
+	scanf("%s",temp->address);
+	client->address = (char *)malloc(sizeof(char) * (strlen(temp->address) + 1));
+	strcpy(client->address,temp->address);
 
 	append_client(*client);
 
