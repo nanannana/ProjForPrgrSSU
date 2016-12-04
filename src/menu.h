@@ -23,7 +23,7 @@ void My_BB_list();
 void Modi_my_info();
 int Withdraw();
 
-int Admin_nemu();
+int Admin_menu();
 void Register_book();
 
 void Delete_book();

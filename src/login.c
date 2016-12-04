@@ -142,7 +142,6 @@ int Log_in()
 {
 	const Client * client = NULL;
 	char buff[50];
-	int rtnvalue = 0;
 
 	
 	printf(">> 로그인 <<\n");
@@ -172,7 +171,7 @@ int Log_in()
 	
 	if (get_client(my_ID, &client) == Success && password2keys_on_client(NULL,my_password) != 0)
 	{
-		return Membermenu();
+		return Member_menu();
 	}
 	else 
 	{

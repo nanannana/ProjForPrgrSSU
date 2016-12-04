@@ -31,7 +31,7 @@ void Library_service()
 		}
 
 		if (rtnvalue < 0)
-			return rtnvalue+1;
+			return;
 
 	}
 }
@@ -476,8 +476,8 @@ int Admin_menu()
 			case 5 : Search_books(); break;
 			case 6 : Member_list(); break;
 			case 7 : return -1;
-			case 8 : return -2
-			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
+			case 8 : return -2;
+			default : printf("잘못 입력했습니다. 다시 입력해 주세요.\n");
 		}
 
 		if (rtnvalue < 0)
