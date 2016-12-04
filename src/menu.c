@@ -5,11 +5,8 @@
 #include "menu.h"
 #include "login.h"
 
-extern List_Client *list_client;
-extern List_Book * list_book;
-extern List_Borrow *list_borrow;
 
-char my_ID[30];
+int my_ID;
 char my_password[50];
 
 
@@ -349,7 +346,7 @@ void S_total_Search()
 
 void My_BB_list()//need to modify.(at if)
 {
-	int my_sch_num = atoi(my_ID);
+	int my_sch_num = my_ID;
 	int keys[20];
 	int cnt, i;
 	const Book *  Binfo = NULL;
@@ -424,10 +421,10 @@ void My_BB_list()//need to modify.(at if)
   }
   */
 
-
+/*
 void Modi_my_info()//replace 함수?.. 
 {
-	int my_sch_num = atoi(my_ID);
+	int my_sch_num = my_ID;
 	char m_temp_c[100];
 	printf(">> 개인정보 수정 <<\n");
 
@@ -468,53 +465,7 @@ void Modi_my_info()//replace 함수?..
 		list_client -> current = list_client -> current -> next;
 	}
 }
-
-
-
-
-int Withdraw() 
-{
-	int my_sch_num = atoi(my_ID);
-	int w_temp_i;
-	printf(">> 회원 탈퇴 <<\n");
-	list_client -> current = list_client -> head;
-	while(list_client -> current)
-	{
-		if((list_client -> current -> sch_num) == my_sch_num)
-		{
-			list_borrow -> current = list_borrow -> head;
-			while(list_borrow -> current)
-			{
-				if((list_borrow -> current -> sch_num) == my_sch_num)
-				{
-					printf("대여된 도서가 존재하여 탈퇴가 불가능합니다.\n");
-					return 1;
-				}
-				else
-				{
-					printf("회원 탈퇴를 합니까? (탈퇴하시려면 Y입력) : ");
-					w_temp_i = getchar();
-					if(w_temp_i == 'Y')
-					{
-						remove_client(my_sch_num);
-						printf("탈퇴가 완료되었습니다.\n");
-						return 0;
-					}
-					else
-					{
-						return 1;
-					}
-
-				}
-
-				list_borrow -> current = list_borrow -> current -> next;
-			}
-		}
-		list_client -> current = list_client -> current -> next;
-	}
-	return -1;
-}
-
+*/
 
 int Admin_menu()
 {
