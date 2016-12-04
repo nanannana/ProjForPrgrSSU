@@ -13,9 +13,10 @@ char my_password[50];
 
 void Library_service()
 {
+	int n;
+	int rtnvalue = 0;
 	while(1)
 	{
-		int n;
 		printf(">>도서관 서비스<<\n");
 		printf("1. 회원 가입\t2. 로그인\t3. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
@@ -23,11 +24,14 @@ void Library_service()
 		switch (n)
 		{
 			case 1 : Sign_up(); break;
-			case 2 : Log_in(); break;
+			case 2 : rtnvalue = Log_in(); break;
 			case 3 : return;
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
+
+		if (rtnvalue < 0)
+			return rtnvalue+1;
 
 	}
 }
@@ -83,6 +87,7 @@ void LOG_IN()
 int Member_menu()
 {
 	int m;
+	int rtnvalue = 0;
 	while(1)
 	{
 		printf(">> 회원 메뉴 <<\n");
@@ -94,31 +99,15 @@ int Member_menu()
 			case 1 : Search_books(); break;
 			case 2 : My_BB_list(); break;
 			case 3 : Modi_my_info(); break;
-			case 4 : if(
-					 /*if(Withdraw() == 0)
-					 {
-						 return 0;
-					 }
-					 else
-					 {
-						 break;
-					 }*/
-			case 5 : return -2;
-			case 6 : {
-						 file_write();
-						 free_all_node();
-						 exit(0);
-					 }
-
+			case 4 : rtnvalue = Sign_down();
+			case 5 : return -1;
+			case 6 : return -2;
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
-		if(m == 5)
-		{
-			break;
-		}
 
+		if (rtnvalue < 0)
+			return rtnvalue + 1;
 	}
-	return 1;
 }
 
 
@@ -471,6 +460,7 @@ void Modi_my_info()//replace 함수?..
 int Admin_menu()
 {
 	int o;
+	int rtnvalue = 0;
 	while(1)
 	{
 		printf(">> 관리자  메뉴 <<\n");
@@ -485,15 +475,13 @@ int Admin_menu()
 			case 4 : Return_book(); break;
 			case 5 : Search_books(); break;
 			case 6 : Member_list(); break;
-			case 7 : return -2;
-			case 8 : {
-						file_write();
-					   	free_all_node();
-					   	exit(0);
-					 }
-
+			case 7 : return -1;
+			case 8 : return -2
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
+
+		if (rtnvalue < 0)
+			return rtnvalue + 1;
 	}
 }
 
