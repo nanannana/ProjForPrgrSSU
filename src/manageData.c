@@ -279,6 +279,7 @@ CODE(Book, book, book_num, long, ISBN)
 CODE(Borrow, borrow, book_num, int, book_num)
 
 GET_KEY_FROM_THING(client, sch_num, char*, name, strcomp)
+GET_KEY_FROM_THING(client, sch_num, char*, password, strcomp)
 
 GET_KEY_FROM_THING(book, book_num, long, ISBN, longcomp)
 GET_KEY_FROM_THING(book, book_num, char*, name, strcomp)
