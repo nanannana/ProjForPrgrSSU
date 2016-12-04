@@ -14,7 +14,7 @@ int Sign_down(void){
 	if (sch_num2keys_on_borrow(NULL, my_ID) == 0)
 	{
 		remove_client(sch_num);
-		printf("회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
+		printf("\n회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
 		return -2;
 	}
 	else
@@ -131,7 +131,7 @@ int Revise(int sch_num)
 
 int Log_in()
 {
-	const Client client;
+	const Client * client = NULL;
 	char buff[50];
 	int rtnvalue = 0;
 
