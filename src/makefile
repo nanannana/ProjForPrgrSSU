@@ -8,7 +8,7 @@ DATAS = book.txt borrow.txt client.txt
 .PHONY: all clean
 
 all : $(BUILD) 
-	@cp --update $(addprefix $(DATDIR)/,$(DATAS)) $(DATOUTDIR)/
+	@cp -f $(addprefix $(DATDIR)/,$(DATAS)) $(DATOUTDIR)/
 
 clean :
 	@rm -f $(addprefix $(OUTDIR)/,$(BUILD)) $(addprefix $(OUTDIR)/,$(OBJS)) $(addprefix $(DATOUTDIR)/,$(DATAS))
