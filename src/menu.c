@@ -901,6 +901,7 @@ void Return_book()////
 
 void Member_list()
 {
+	int escape = 0;
 	while(1)
 	{
 		int  p;
@@ -911,12 +912,16 @@ void Member_list()
 
 		switch (p)
 		{
-			case 1 : Search_name();
-			case 2 : Search_ID();
-			case 3 : M_total_search();
-			case 4 : break; 
+			case 1 : Search_name(); break;
+			case 2 : Search_ID(); break;
+			case 3 : M_total_search(); break;
+			case 4 : escape = 1; break; 
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
+		}
+		if(escape == 1)
+		{
+			break;
 		}
 	}
 }
