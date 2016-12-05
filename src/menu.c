@@ -203,13 +203,13 @@ void S_by_publisher()
 	{
 		if((cnt_g = publisher2keys_on_book(keys, s_temp_c)) != 0)
 		{
-			printf(">> 검색 결과 <<\n");
+			printf("\n>> 검색 결과 <<\n");
 			const Book * result = NULL;
 			for(i=0; i<cnt_g; i++)
 			{
 				if(get_book(keys[i], &result) == Success)
 				{
-					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
+					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)\n\n", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
 				}
 				else
 				{
@@ -490,33 +490,39 @@ void Register_book()
 	Book *Btemp = NULL;
 	Book add;
 	Btemp = &add;
-	int Y_N;
+	int Y_N = '0';
 
 	char input[30];
+	getchar();
 	printf("도서명: ");
 	scanf("%[^\n]s", input);
 	Btemp -> name = (char *)malloc(sizeof(char) * (strlen(input) + 1));
 	strcpy(Btemp -> name, input);
+	getchar();
 
 	printf("출판사: ");
 	scanf("%[^\n]s", input);
 	Btemp -> publisher = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> publisher, input);
+	getchar();
 
 	printf("저자명: ");
 	scanf("%[^\n]s", input);
 	Btemp -> author = (char *)malloc(sizeof(char) * (strlen(input)+1));
 	strcpy(Btemp -> author, input);
+	getchar();
 
 	printf("ISBN: ");
 	scanf("%ld", &add.ISBN);
+	getchar();
 
 	printf("소장처: ");
-	scanf("%[^/n]s", input);
+	scanf("%[^\n]s", input);
 	Btemp -> owner = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> owner, input);
+	getchar();
 
-	add.book_num = ++(list_book -> last_book_num);
+	//add.book_num = ++(list_book -> last_book_num);
 	add.borrow_Y_N = 'Y';
 
 
@@ -528,7 +534,9 @@ void Register_book()
 		add.borrow_Y_N = 'Y';
 		if(append_book(add) == Success)
 		{
+			file_write_book();
 			printf("도서등록이 완료되었습니다.\n");
+			
 		}
 		else
 		{
