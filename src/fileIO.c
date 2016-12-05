@@ -293,7 +293,6 @@ int get_book_file_data(FILE *fp)
 
 	get_oneWord(&fp);
 	book -> borrow_Y_N = temp[0];
-	printf("Y_N : %c\n", book -> borrow_Y_N);
 	fseek(fp,1,SEEK_CUR);	
 	
 	char a = fgetc(fp);
