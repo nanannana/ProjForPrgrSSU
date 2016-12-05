@@ -27,15 +27,16 @@ int Sign_down(void){
 
 void Sign_up(void)
 {
-	Client client, temp;
-	const Client *compare = &temp;
+	Client client,client_temp;
+	const Client *compare = &client_temp;
 	char temp[500];
+	int sch_num;
 
 	printf(">>회원 가입<<\n");
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
 	printf("학번: ");
 	scanf("%s",temp);
-	if (get_client(atoi(temp),&compare) == Success)
+	if (get_client(sch_num = atoi(temp),&compare) == Success)
 	{
 		printf("중복된 학번입니다");
 		return;
