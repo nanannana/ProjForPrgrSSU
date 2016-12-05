@@ -688,7 +688,7 @@ void L_by_title()
 
 			printf("이 도서를 대여합니까? ");
 			YorN = getchar();
-			if(YorN == 'Y');
+			if(YorN == 'Y')
 			{
 				struct tm *t;
 				time_t now;
@@ -775,7 +775,7 @@ void L_by_ISBN()
 
 		printf("이 도서를 대여합니까? ");
 		YorN = getchar();
-		if(YorN == 'Y');
+		if(YorN == 'Y')
 		{
 			struct tm *t;
 			time_t now;
@@ -864,7 +864,7 @@ void Return_book()////
 					printf("도서 반납처리를 할까요? ");
 					scanf("%c", &YorN);
 
-					if(YorN == 'Y');
+					if(YorN == 'Y')
 					{
 						if(remove_borrow(book_n) == Success)
 						{
