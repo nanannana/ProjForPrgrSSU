@@ -146,7 +146,7 @@ void Search_books()
 void S_by_title()
 {
 	char s_temp_c[100];
-	printf(">> 도서명 검색 <<\n");
+	printf("\n>> 도서명 검색 <<\n");
 	printf("도서명을 입력하세요 : ");
 	scanf("%s", s_temp_c);
 	int keys[20];
@@ -233,7 +233,7 @@ void S_by_publisher()
 void S_by_ISBN()
 {
 	int long s_temp_l;
-	printf(">> ISBN 검색 <<\n");
+	printf("\n>> ISBN 검색 <<\n");
 	printf("ISBN을 입력하세요 : ");
 	scanf("%ld", &s_temp_l);
 	int keys[20];
@@ -281,7 +281,7 @@ void S_by_ISBN()
 void S_by_author()
 {
 	char s_temp_c[100];
-	printf(">> 저자명 검색 <<\n");
+	printf("\n>> 저자명 검색 <<\n");
 	printf("저자명을 입력하세요 : ");
 	scanf("%s", s_temp_c);
 	int keys[100];
@@ -292,13 +292,13 @@ void S_by_author()
 	{
 		if((cnt_g = author2keys_on_book(keys, s_temp_c)) != 0)
 		{
-			printf(">> 검색 결과 <<\n");
+			printf("\n>> 검색 결과 <<\n");
 			const Book * result = NULL;
 			for(i=0; i<cnt_g; i++)
 			{
 				if(get_book(keys[i], &result) == Success)
 				{
-					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
+					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)\n\n", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
 				}
 				else
 				{
@@ -313,7 +313,7 @@ void S_by_author()
 	}
 	else
 	{
-		printf("해당 출판사의 도서는 존재하지 않습니다.\n");
+		printf("해당 출판사의 도서는 존재하지 않습니다.\n\n");
 	}
 
 }
@@ -321,8 +321,8 @@ void S_by_author()
 
 void S_total_Search()
 {
-	printf(">> 전체 검색 <<\n");
-	printf("책번호\tISBN\t책이름\t출판사\t저자\t소장처\t대여가능여부");
+	printf("\n>> 전체 검색 <<\n");
+	printf("책번호\tISBN\t책이름\t출판사\t저자\t소장처\t대여가능여부\n");
 	list_book -> current = list_book -> head;
 	while(list_book -> current)
 	{
@@ -465,6 +465,7 @@ int Admin_menu()
 	{
 		printf(">> 관리자  메뉴 <<\n");
 		printf("1. 도서 등록\t2. 도서 삭제\n3. 도서 대여\t4. 도서 반납\n5. 도서 검색\t6. 회원 목록\n7. 로그아웃\t8. 프로그램 종료\n");
+		printf("번호를 선택하세요: ");
 		scanf("%d", &o);
 
 		switch(o)
@@ -552,7 +553,7 @@ void Register_book()
 void Delete_book()
 {
 	int p;
-	printf(">> 도서 삭제 <<");
+	printf("\n>> 도서 삭제 <<\n");
 	printf("1. 도서명 검색\t\t2. ISBN 검색\n");
 	printf("검색 번호를 입력하세요: ");
 	scanf("%d", &p);
@@ -577,6 +578,7 @@ void D_by_title()
 	if((cnt = name2keys_on_book(keys, d_temp_c)) != 0)
 	{
 		delete_book(keys, cnt);
+		file_write_book();
 	}
 	else
 	{
@@ -596,6 +598,7 @@ void D_by_ISBN()
 	if((cnt = ISBN2keys_on_book(keys, d_temp_l)) != 0)
 	{
 		delete_book(keys, cnt);
+		file_write_book();
 	}
 	else
 	{
