@@ -1,0 +1,9 @@
+|1424524121231|1113312|이기적 유전자|망할번역출판사|리처드 도킨스|김포공항|Y|
+|1424524121231|1113313|이기적 유전자|망할번역출판사|리처드 도킨스|미오시티 도서관|Y|
+|1666644444321|1113315|The Selfish Gene|Harvard Books|Richard Dockins|Harvard University|Y|
+|5645666323423|1114222|機械、そして生き物|Overwatch|島田源氏|National Overwatch Library|Y|
+|1234567890123|1234567|기계전쟁|비젼아이원|조민석|중봉도서관|N|
+|2345678901234|3333333|과학북스|미래와현재|장대호|숭실대 본 도서관|Y|
+|1425625666555|1345678|With Regard To DEATH|Overwatch|Gabriel Reyes|National Overwatch Library|Y|
+|1444325556222|1345679|The possibility of time reverse and control method of that|Overwatch|Winston|National Overwatch Library|Y|
+|2345678901234|3333333|과학북스|미래와현재|장대호|숭실대 본 도서관|Y|
