@@ -98,7 +98,7 @@ int Member_menu()
 		{
 			case 1 : Search_books(); break;
 			case 2 : My_BB_list(); break;
-			case 3 : Modi_my_info(); break;
+			case 3 : Revise(); break;
 			case 4 : rtnvalue = Sign_down();
 			case 5 : return -1;
 			case 6 : return -2;

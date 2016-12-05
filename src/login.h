@@ -51,7 +51,7 @@ int Sign_down();
  * Revise client 구조체를 받아서 학번 이름을 제외한 정보를 수정합니다
 *********************************************************************/
 
-int Revise(int sch_num);
+void Revise(void);
 
 
 

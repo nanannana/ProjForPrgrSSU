@@ -62,7 +62,7 @@ void Sign_up(void)
 }
 
 
-int Revise(int sch_num)
+void Revise(void)
 {
 	int flag;
 	printf("비밀번호, 주소, 전화번호 중 어떤것을 바꾸고 싶으십니까?\n");
@@ -74,54 +74,54 @@ int Revise(int sch_num)
 	while(1){
 	switch(flag){
 		case '1' :
-			if(get_client(sch_num,&result) == Success)
+			if(get_client(my_ID,&result) == Success)
 			{
 				Client temp = *result; 
 				printf("바꿀 패스워드?");
 				scanf("%s",temp.password);
 				if((flag = replace_client(result,temp)) == Success)
-					return Success;
+					return ;
 				else if (flag == Fail_No_Element)
 				{
 					printf("비밀번호는 한글자 이상입니다");
-					return Fail_No_Element;
+					return ;
 				}
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
 		case '2' :
-			if(get_client(sch_num,&result) == Success)
+			if(get_client(my_ID,&result) == Success)
 			{
 				Client temp = *result; 
 				printf("바꿀 주소?");
 				scanf("%s",temp.address);
 				if((flag = replace_client(result,temp)) == Success)
-					return Success;
+					return ;
 				else if (flag == Fail_No_Element)
 				{
 					printf("잘못된 주소입니다" );
-					return Fail_No_Element;
+					return ;
 				}
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
 		case '3' :
-			if(get_client(sch_num,&result) == Success)
+			if(get_client(my_ID,&result) == Success)
 			{
 				Client temp = *result; 
 				printf("바꿀 전화번호?");
 				scanf("%s",temp.phone_num);
 				if((flag = replace_client(result,temp)) ==Success)
-					return Success;
+					return ;
 				else if (flag == Fail_Two_Same_Value)
 				{
 					printf("같은 번호입니다");
-					return Fail_Two_Same_Value;
+					return ;
 				}
 				else if (flag == Fail_No_Element)
 				{
 					printf("번호를 입력하세요");
-					return Fail_No_Element;
+					return ;
 				}
 			}
 			else printf("잘못된 학번입니다.\n");
@@ -134,7 +134,7 @@ int Revise(int sch_num)
 			
 			
 
-
+return; 
 
 }
 
