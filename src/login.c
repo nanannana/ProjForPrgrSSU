@@ -43,16 +43,16 @@ void Sign_up(void)
 		return;
 	}
 	memset(temp,0,sizeof(temp));
-
+	
 	printf("이름: ");
 	scanf("%[^\n]",temp);
 	getchar();
 	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.name,temp);
 	memset(temp,0,sizeof(temp));
-
+	
 	printf("비밀번호: ");
-	scanf("%s",temp);
+	scanf("%[^\n]",temp);
 	getchar();
 	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.password,temp);
@@ -66,7 +66,7 @@ void Sign_up(void)
 	memset(temp,0,sizeof(temp));
 
 	printf("전화번호: ");
-	scanf("%s",temp);
+	scanf("%[^\n]",temp);
 	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.password,temp);
 
