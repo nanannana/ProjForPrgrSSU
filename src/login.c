@@ -166,21 +166,15 @@ int Log_in()
 		return Admin_menu();
 	}
 	else
-	{
-		printf("로그인에 실패하였습니다.\n");
-		return 0;
-	}
-	
-	if (get_client(my_ID, &client) == Success && password2keys_on_client(NULL,my_password) != 0)
-	{
-		return Member_menu();
-	}
-	else 
-	{
-		printf("로그인에 실패하였습니다.\n");
-		return 0;
-	}
-		
+		if (get_client(my_ID, &client) == Success && password2keys_on_client(NULL,my_password) != 0)
+		{
+			return Member_menu();
+		}
+		else	 
+		{
+			printf("로그인에 실패하였습니다.\n");
+			return 0;
+		}
 }
 
 
