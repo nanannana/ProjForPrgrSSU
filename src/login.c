@@ -42,6 +42,10 @@ void Sign_up(void)
 		printf("중복된 학번입니다");
 		return;
 	}
+	else
+	{
+		client.sch_num = atoi(temp);
+	}
 	memset(temp,0,sizeof(temp));
 	
 	printf("이름: ");
@@ -67,8 +71,8 @@ void Sign_up(void)
 
 	printf("전화번호: ");
 	scanf("%[^\n]",temp);
-	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	strcpy(client.password,temp);
+	client.phone_num = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	strcpy(client.phone_num,temp);
 
 	append_client(client);
 	printf("회원가입 되셨습니다.\n");
