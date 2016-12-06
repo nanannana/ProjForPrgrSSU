@@ -52,7 +52,7 @@ void Sign_up(void)
 	memset(temp,0,sizeof(temp));
 
 	printf("비밀번호: ");
-	scanf("%s",temp);
+	scanf("%[^\n]",temp);
 	getchar();
 	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.password,temp);
@@ -129,13 +129,9 @@ void Revise(void)
 			{
 				Client temp = *result; 
 				printf("바꿀 전화번호?");
-<<<<<<< HEAD
-				scanf("%s",phone_buff);
+				scanf("%[^\n]",phone_buff);
 				temp.phone_num = phone_buff;
-=======
-				scanf("%[^\n]",temp.phone_num);
 				getchar();
->>>>>>> upstream/master
 				if((flag = replace_client(result,temp)) ==Success)
 					return ;
 				else if (flag == Fail_Two_Same_Value)
@@ -151,7 +147,7 @@ void Revise(void)
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
-		default :
+		default : 
 			printf("1,2,3 만 입력하세요 !!");
 	}
 
