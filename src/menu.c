@@ -123,6 +123,7 @@ void Search_books()
 		printf(">> 도서 검색 <<\n");
 		printf("1. 도서명 검색\t\t2. 출판사 검색\n3. ISBN 검색\t\t4. 저자명 검색\n5. 전체 검색\t\t6. 이전메뉴\n");
 		printf("번호를 선택하세요: ");
+		while(getchar() != '\n');
 		scanf("%d", &o);
 
 		switch(o)
@@ -134,7 +135,7 @@ void Search_books()
 			case 5 : S_total_Search(); break;
 			case 6 : break;
 
-			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
+			default : printf("잘못 입력했습니다. 다시 입력해 주세요.\n\n");
 		}
 		if(o == 6)
 		{
@@ -148,7 +149,8 @@ void S_by_title()
 	char s_temp_c[100];
 	printf("\n>> 도서명 검색 <<\n");
 	printf("도서명을 입력하세요 : ");
-	scanf("%s", s_temp_c);
+	while(getchar() != '\n');
+	scanf("%[^\n]s", s_temp_c);
 	int keys[20];
 	int cnt, i, cy=0;
 	char yn = 'Y';
@@ -192,9 +194,10 @@ void S_by_title()
 void S_by_publisher()
 {
 	char s_temp_c[100];
-	printf(">> 출판사 검색 <<\n");
+	printf("\n>> 출판사 검색 <<\n");
 	printf("출판사명을 입력하세요 : ");
-	scanf("%s", s_temp_c);
+	while(getchar() != '\n');
+	scanf("%[^\n]s", s_temp_c);
 	int keys[100];
 	int cnt_r,cnt_g, i;
 
@@ -223,8 +226,9 @@ void S_by_publisher()
 		}
 	}
 	else
+	while(getchar() != '\n');
 	{
-		printf("해당 출판사의 도서는 존재하지 않습니다.\n");
+		printf("해당 출판사의 도서는 존재하지 않습니다.\n\n");
 	}
 
 }
@@ -235,6 +239,7 @@ void S_by_ISBN()
 	int long s_temp_l;
 	printf("\n>> ISBN 검색 <<\n");
 	printf("ISBN을 입력하세요 : ");
+	while(getchar() != '\n');
 	scanf("%ld", &s_temp_l);
 	int keys[20];
 	int cnt, i, cy=0;
@@ -283,7 +288,8 @@ void S_by_author()
 	char s_temp_c[100];
 	printf("\n>> 저자명 검색 <<\n");
 	printf("저자명을 입력하세요 : ");
-	scanf("%s", s_temp_c);
+	while(getchar() != '\n');
+	scanf("%[^\n]s", s_temp_c);
 	int keys[100];
 	int cnt_r,cnt_g, i;
 
@@ -313,7 +319,7 @@ void S_by_author()
 	}
 	else
 	{
-		printf("해당 출판사의 도서는 존재하지 않습니다.\n\n");
+		printf("해당 저자의 도서는 존재하지 않습니다.\n\n");
 	}
 
 }
@@ -326,7 +332,7 @@ void S_total_Search()
 	list_book -> current = list_book -> head;
 	while(list_book -> current)
 	{
-		printf("책번호: %d\nISBN: %ld\n책이름: %s\n출판사: %s\n저자: %s\n소장처:%s \n 대여가능여부: %c\n\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
+		printf("책번호: %d\nISBN: %ld\n책이름: %s\n출판사: %s\n저자: %s\n소장처:%s\n대여가능여부: %c\n\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
 
 //		printf("%d %ld %s %s %s %s %c\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
 		list_book -> current = list_book -> current -> next;
@@ -523,10 +529,10 @@ void Register_book()
 	scanf("%[^\n]s", input);
 	Btemp -> owner = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> owner, input);
-
+	getchar();
 	//add.book_num = ++(list_book -> last_book_num);
 	add.borrow_Y_N = 'Y';
-
+	
 
 	printf("등록하시겠습니까? (등록하려면 Y입력) ");
 	Y_N = getchar();
@@ -545,6 +551,10 @@ void Register_book()
 			printf("도서등록을 실패하였습니다.\n");
 			list_book -> last_book_num = (list_book -> last_book_num);
 		}
+	}
+	else
+	{
+		printf("Failed to accept\n");
 	}
 }
 
@@ -573,7 +583,7 @@ void D_by_title()
 {
 	char d_temp_c[50];
 	printf("도서명을 입력하세요 : ");
-	scanf("%s", d_temp_c);
+	scanf("%[^\n]s", d_temp_c);
 	int keys[20];
 	int cnt;
 	if((cnt = name2keys_on_book(keys, d_temp_c)) != 0)
@@ -670,7 +680,7 @@ void L_by_title()
 	int sch_id, book_n;
 	int YorN;
 	printf("도서명을 입력하세요: ");
-	scanf("%s", l_temp_c);
+	scanf("%[^\n]s", l_temp_c);
 	int keys[20];
 	int cnt, i;
 	if((cnt = name2keys_on_book(keys, l_temp_c)) != 0)
@@ -929,7 +939,7 @@ void Member_list()
 			case 3 : M_total_search(); break;
 			case 4 : escape = 1; break; 
 
-			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
+			default : printf("잘못 입력했습니다. 다시 입력해 주세요.\n\n");
 		}
 		if(escape == 1)
 		{
@@ -943,17 +953,17 @@ void Search_name()
 	char s_temp_c[30];
 	printf(">> 이름 검색 <<\n");
 	printf("이름을 입력하세요 : ");
-	scanf("%s", s_temp_c);
+	scanf("%[^\n]s", s_temp_c);
 	int keys[20];
 	int cnt, i;
 	if((cnt = name2keys_on_client(keys, s_temp_c)) != 0)
 	{
 		const Client * result = NULL;
-		printf(">> 회원 목록 <<\n");
+		printf("\n>> 회원 목록 <<\n\n");
 		for(i = 0; i < cnt; i++)
 			if(get_client(keys[i], &result) == Success)
 			{
-				printf("학번: %d\n이름: %s\n주소: %s\n전화번호: %s\n", result -> sch_num, result -> name, result -> address, result -> phone_num);
+				printf("학번: %d\n이름: %s\n주소: %s\n전화번호: %s\n\n", result -> sch_num, result -> name, result -> address, result -> phone_num);
 			}
 			else
 			{
@@ -962,7 +972,7 @@ void Search_name()
 	}
 	else
 	{
-	printf("존재하지 않는 이름입니다.\n");
+	printf("존재하지 않는 이름입니다.\n\n");
 	}
 
 }
@@ -977,8 +987,10 @@ void Search_ID()
 	const Client * picker = NULL;
 	if(get_client(s_temp_i, &picker) == Success)
 	{
-		printf("학번\t이름\t주소\t전화번호\n");
-		printf("%d\t%s\t%s\t%s\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
+		//printf("학번\t이름\t주소\t전화번호\n");
+		printf("\n학번: %d\n이름: %s\n주소: %s\n전화번호: %s\n\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
+
+//		printf("%d\t%s\t%s\t%s\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
 	}	
 	else
 	{
@@ -990,10 +1002,12 @@ void Search_ID()
 void M_total_search()
 {
 	list_client -> current = list_client -> head;
-	printf("학번\t이름\t주소\t전화번호\n");
+	//printf("학번\t이름\t주소\t전화번호\n");
 	while(list_client->current)
 	{
-		printf("%d\t%s\t%s\t%s\n", list_client -> current -> sch_num, list_client -> current -> name, list_client -> current -> address, list_client -> current -> phone_num);
+		printf("학번: %d\n이름: %s\n주소: %s\n전화번호: %s\n\n", list_client -> current -> sch_num, list_client -> current -> name, list_client -> current -> address, list_client -> current -> phone_num);
+
+		//printf("%d\t%s\t%s\t%s\n", list_client -> current -> sch_num, list_client -> current -> name, list_client -> current -> address, list_client -> current -> phone_num);
 		list_client -> current = list_client -> current -> next;
 	}
 }
