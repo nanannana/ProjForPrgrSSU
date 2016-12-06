@@ -35,25 +35,35 @@ void Sign_up(void)
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
 	printf("학번: ");
 	scanf("%s",temp);
+	getchar();
+	
 	if (get_client(atoi(temp),&compare) == Success)
 	{
 		printf("중복된 학번입니다");
 		return;
 	}
+	memset(temp,0,sizeof(temp));
+
 	printf("이름: ");
-	scanf("%s",temp);
+	scanf("%[^\n]",temp);
+	getchar();
 	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.name,temp);
+	memset(temp,0,sizeof(temp));
 
 	printf("비밀번호: ");
 	scanf("%s",temp);
+	getchar();
 	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.password,temp);
+	memset(temp,0,sizeof(temp));
 	
 	printf("주소: ");
-	scanf("%s",temp);
+	scanf("%[^\n]",temp);
+	getchar();
 	client.address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.address,temp);
+	memset(temp,0,sizeof(temp));
 
 	printf("전화번호: ");
 	scanf("%s",temp);
@@ -116,7 +126,8 @@ void Revise(void)
 			{
 				Client temp = *result; 
 				printf("바꿀 전화번호?");
-				scanf("%s",temp.phone_num);
+				scanf("%[^\n]",temp.phone_num);
+				getchar();
 				if((flag = replace_client(result,temp)) ==Success)
 					return ;
 				else if (flag == Fail_Two_Same_Value)
