@@ -507,30 +507,30 @@ void Register_book()
 	scanf("%[^\n]s", input);
 	Btemp -> name = (char *)malloc(sizeof(char) * (strlen(input) + 1));
 	strcpy(Btemp -> name, input);
-	getchar();
+	while(getchar() != '\n');
 
 	printf("출판사: ");
 	scanf("%[^\n]s", input);
 	Btemp -> publisher = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> publisher, input);
-	getchar();
+	while(getchar() != '\n');
 
 	printf("저자명: ");
 	scanf("%[^\n]s", input);
 	Btemp -> author = (char *)malloc(sizeof(char) * (strlen(input)+1));
 	strcpy(Btemp -> author, input);
-	getchar();
+	while(getchar() != '\n');
 
 	printf("ISBN: ");
 	scanf("%ld", &add.ISBN);
-	getchar();
+	while(getchar() != '\n');
 
 	printf("소장처: ");
 	scanf("%[^\n]s", input);
 	Btemp -> owner = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> owner, input);
-	getchar();
-	//add.book_num = ++(list_book -> last_book_num);
+	while(getchar() != '\n');
+	
 	add.borrow_Y_N = 'Y';
 	
 
