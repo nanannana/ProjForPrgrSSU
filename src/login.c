@@ -93,7 +93,7 @@ void Revise(void)
 	const Client *result = NULL;
 	while(1){
 	switch(flag){
-		case '1' :
+		case 1 :
 			if(get_client(my_ID,&result) == Success)
 			{
 				Client temp = *result; 
@@ -109,7 +109,7 @@ void Revise(void)
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
-		case '2' :
+		case 2 :
 			if(get_client(my_ID,&result) == Success)
 			{
 				Client temp = *result; 
@@ -125,7 +125,7 @@ void Revise(void)
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
-		case '3' :
+		case 3 :
 			if(get_client(my_ID,&result) == Success)
 			{
 				Client temp = *result; 
