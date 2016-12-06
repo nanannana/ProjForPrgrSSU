@@ -237,9 +237,15 @@ int get_client_file_data(FILE *fp)
 	strcpy(client -> phone_num, temp);
 	fseek(fp,1,SEEK_CUR);	
 	char a = fgetc(fp);
-	
+	while(a != '|')
+	{
+		if(a == EOF)
+			return 0;
+		a = fgetc(fp);
+	}
+	fseek(fp,-1,SEEK_CUR);	
 
-	if(a == EOF)
+/*	if(a == EOF)
 	{	
 		return 0;
 	}
@@ -259,9 +265,8 @@ int get_client_file_data(FILE *fp)
 	else
 	{
 		return 1;
-	}
-	printf("get client Error!!\n");
-	return 0;
+	}*/
+	return 1;
 }
 
 int get_book_file_data(FILE *fp)
@@ -295,7 +300,16 @@ int get_book_file_data(FILE *fp)
 	fseek(fp,1,SEEK_CUR);	
 	
 	char a = fgetc(fp);
+	while(a != '|')
+	{
+		if(a == EOF)
+			return 0;
+		a = fgetc(fp);
+	}
+	fseek(fp,-1,SEEK_CUR);	
 	
+	
+	/*printf("/////%d/////",a);
 	if(a == EOF)
 	{	
 		return 0;
@@ -316,9 +330,8 @@ int get_book_file_data(FILE *fp)
 	else
 	{
 		return 1;
-	}
-	printf("get book Error!!\n");
-	return 0;
+	}*/
+	return 1;
 }
 	
 int get_borrow_file_data(FILE *fp)
@@ -331,8 +344,14 @@ int get_borrow_file_data(FILE *fp)
 	borrow -> return_day = atol(get_oneWord(&fp));
 	fseek(fp,1,SEEK_CUR);	
 	char a = fgetc(fp);
+	while(a != '|')
+	{
+		if(a == EOF)
+			return 0;
+		a = fgetc(fp);
+	}
 
-	if(fgetc(fp) == EOF)
+/*	if(fgetc(fp) == EOF)
 	{	
 		return 0;
 	}
@@ -352,9 +371,8 @@ int get_borrow_file_data(FILE *fp)
 	else
 	{
 		return 1;
-	}
-	printf("get borrow Error!!\n");
-	return 0;
+	}*/
+	return 1;
 }
 
 /*********************************************************
