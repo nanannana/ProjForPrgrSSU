@@ -73,6 +73,7 @@ void Revise(void)
 	printf("전화번호 = 3\n");
 	scanf("%d",&flag);
 	const Client *result = NULL;
+	char pass_buff[50],address_buff[50],phone_buff[50];
 	while(1){
 	switch(flag){
 		case '1' :
@@ -80,7 +81,8 @@ void Revise(void)
 			{
 				Client temp = *result; 
 				printf("바꿀 패스워드?");
-				scanf("%s",temp.password);
+				scanf("%s",pass_buff);
+				temp.password = pass_buff;
 				if((flag = replace_client(result,temp)) == Success)
 					return ;
 				else if (flag == Fail_No_Element)
@@ -96,7 +98,8 @@ void Revise(void)
 			{
 				Client temp = *result; 
 				printf("바꿀 주소?");
-				scanf("%s",temp.address);
+				scanf("%s",address_buff);
+				temp.address = address_buff;
 				if((flag = replace_client(result,temp)) == Success)
 					return ;
 				else if (flag == Fail_No_Element)
@@ -112,7 +115,8 @@ void Revise(void)
 			{
 				Client temp = *result; 
 				printf("바꿀 전화번호?");
-				scanf("%s",temp.phone_num);
+				scanf("%s",phone_buff);
+				temp.phone_num = phone_buff;
 				if((flag = replace_client(result,temp)) ==Success)
 					return ;
 				else if (flag == Fail_Two_Same_Value)
