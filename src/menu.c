@@ -322,11 +322,13 @@ void S_by_author()
 void S_total_Search()
 {
 	printf("\n>> 전체 검색 <<\n");
-	printf("책번호\tISBN\t책이름\t출판사\t저자\t소장처\t대여가능여부\n");
+	printf("책번호\tISBN\t\t책이름\t\t출판사\t\t저자\t소장처\t\t대여가능여부\n");
 	list_book -> current = list_book -> head;
 	while(list_book -> current)
 	{
-		printf("%d %ld %s %s %s %s %c\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
+		printf("책번호: %d\nISBN: %ld\n책이름: %s\n출판사: %s\n저자: %s\n소장처:%s \n 대여가능여부: %c\n\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
+
+//		printf("%d %ld %s %s %s %s %c\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
 		list_book -> current = list_book -> current -> next;
 
 	}
@@ -521,7 +523,6 @@ void Register_book()
 	scanf("%[^\n]s", input);
 	Btemp -> owner = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> owner, input);
-	getchar();
 
 	//add.book_num = ++(list_book -> last_book_num);
 	add.borrow_Y_N = 'Y';
