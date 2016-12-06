@@ -35,12 +35,9 @@ void Sign_up(void)
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
 	printf("학번: ");
 	scanf("%s",temp);
-<<<<<<< HEAD
 	getchar();
-	if (get_client(sch_num = atoi(temp),&compare) == Success)
-=======
+	
 	if (get_client(atoi(temp),&compare) == Success)
->>>>>>> upstream/master
 	{
 		printf("중복된 학번입니다");
 		return;
@@ -52,24 +49,15 @@ void Sign_up(void)
 	getchar();
 	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.name,temp);
-<<<<<<< HEAD
 	memset(temp,0,sizeof(temp));
-	
-	printf("전화번호: ");
-=======
 
 	printf("비밀번호: ");
->>>>>>> upstream/master
 	scanf("%s",temp);
 	getchar();
 	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.password,temp);
-<<<<<<< HEAD
 	memset(temp,0,sizeof(temp));
-
-=======
 	
->>>>>>> upstream/master
 	printf("주소: ");
 	scanf("%[^\n]",temp);
 	getchar();
