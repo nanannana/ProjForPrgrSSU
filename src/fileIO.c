@@ -67,7 +67,6 @@ void file_write()
 void file_write_client()
 {
 	FILE *fp = fopen("data/client_s.txt", "w");
-
 	list_client -> current = list_client -> head;
 	while(list_client -> current)
 	{
