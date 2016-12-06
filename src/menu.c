@@ -146,7 +146,7 @@ void Search_books()
 void S_by_title()
 {
 	char s_temp_c[100];
-	printf(">> 도서명 검색 <<\n");
+	printf("\n>> 도서명 검색 <<\n");
 	printf("도서명을 입력하세요 : ");
 	scanf("%s", s_temp_c);
 	int keys[20];
@@ -203,13 +203,13 @@ void S_by_publisher()
 	{
 		if((cnt_g = publisher2keys_on_book(keys, s_temp_c)) != 0)
 		{
-			printf(">> 검색 결과 <<\n");
+			printf("\n>> 검색 결과 <<\n");
 			const Book * result = NULL;
 			for(i=0; i<cnt_g; i++)
 			{
 				if(get_book(keys[i], &result) == Success)
 				{
-					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
+					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)\n\n", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
 				}
 				else
 				{
@@ -233,7 +233,7 @@ void S_by_publisher()
 void S_by_ISBN()
 {
 	int long s_temp_l;
-	printf(">> ISBN 검색 <<\n");
+	printf("\n>> ISBN 검색 <<\n");
 	printf("ISBN을 입력하세요 : ");
 	scanf("%ld", &s_temp_l);
 	int keys[20];
@@ -281,7 +281,7 @@ void S_by_ISBN()
 void S_by_author()
 {
 	char s_temp_c[100];
-	printf(">> 저자명 검색 <<\n");
+	printf("\n>> 저자명 검색 <<\n");
 	printf("저자명을 입력하세요 : ");
 	scanf("%s", s_temp_c);
 	int keys[100];
@@ -292,13 +292,13 @@ void S_by_author()
 	{
 		if((cnt_g = author2keys_on_book(keys, s_temp_c)) != 0)
 		{
-			printf(">> 검색 결과 <<\n");
+			printf("\n>> 검색 결과 <<\n");
 			const Book * result = NULL;
 			for(i=0; i<cnt_g; i++)
 			{
 				if(get_book(keys[i], &result) == Success)
 				{
-					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
+					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)\n\n", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
 				}
 				else
 				{
@@ -313,7 +313,7 @@ void S_by_author()
 	}
 	else
 	{
-		printf("해당 출판사의 도서는 존재하지 않습니다.\n");
+		printf("해당 출판사의 도서는 존재하지 않습니다.\n\n");
 	}
 
 }
@@ -321,12 +321,14 @@ void S_by_author()
 
 void S_total_Search()
 {
-	printf(">> 전체 검색 <<\n");
-	printf("책번호\tISBN\t책이름\t출판사\t저자\t소장처\t대여가능여부");
+	printf("\n>> 전체 검색 <<\n");
+	printf("책번호\tISBN\t\t책이름\t\t출판사\t\t저자\t소장처\t\t대여가능여부\n");
 	list_book -> current = list_book -> head;
 	while(list_book -> current)
 	{
-		printf("%d %ld %s %s %s %s %c\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
+		printf("책번호: %d\nISBN: %ld\n책이름: %s\n출판사: %s\n저자: %s\n소장처:%s \n 대여가능여부: %c\n\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
+
+//		printf("%d %ld %s %s %s %s %c\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
 		list_book -> current = list_book -> current -> next;
 
 	}
@@ -465,6 +467,7 @@ int Admin_menu()
 	{
 		printf(">> 관리자  메뉴 <<\n");
 		printf("1. 도서 등록\t2. 도서 삭제\n3. 도서 대여\t4. 도서 반납\n5. 도서 검색\t6. 회원 목록\n7. 로그아웃\t8. 프로그램 종료\n");
+		printf("번호를 선택하세요: ");
 		scanf("%d", &o);
 
 		switch(o)
@@ -490,33 +493,38 @@ void Register_book()
 	Book *Btemp = NULL;
 	Book add;
 	Btemp = &add;
-	int Y_N;
+	int Y_N = '0';
 
 	char input[30];
+	getchar();
 	printf("도서명: ");
 	scanf("%[^\n]s", input);
 	Btemp -> name = (char *)malloc(sizeof(char) * (strlen(input) + 1));
 	strcpy(Btemp -> name, input);
+	getchar();
 
 	printf("출판사: ");
 	scanf("%[^\n]s", input);
 	Btemp -> publisher = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> publisher, input);
+	getchar();
 
 	printf("저자명: ");
 	scanf("%[^\n]s", input);
 	Btemp -> author = (char *)malloc(sizeof(char) * (strlen(input)+1));
 	strcpy(Btemp -> author, input);
+	getchar();
 
 	printf("ISBN: ");
 	scanf("%ld", &add.ISBN);
+	getchar();
 
 	printf("소장처: ");
-	scanf("%[^/n]s", input);
+	scanf("%[^\n]s", input);
 	Btemp -> owner = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> owner, input);
 
-	add.book_num = ++(list_book -> last_book_num);
+	//add.book_num = ++(list_book -> last_book_num);
 	add.borrow_Y_N = 'Y';
 
 
@@ -528,7 +536,9 @@ void Register_book()
 		add.borrow_Y_N = 'Y';
 		if(append_book(add) == Success)
 		{
+			file_write_book();
 			printf("도서등록이 완료되었습니다.\n");
+			
 		}
 		else
 		{
@@ -544,7 +554,7 @@ void Register_book()
 void Delete_book()
 {
 	int p;
-	printf(">> 도서 삭제 <<");
+	printf("\n>> 도서 삭제 <<\n");
 	printf("1. 도서명 검색\t\t2. ISBN 검색\n");
 	printf("검색 번호를 입력하세요: ");
 	scanf("%d", &p);
@@ -569,6 +579,7 @@ void D_by_title()
 	if((cnt = name2keys_on_book(keys, d_temp_c)) != 0)
 	{
 		delete_book(keys, cnt);
+		file_write_book();
 	}
 	else
 	{
@@ -588,6 +599,7 @@ void D_by_ISBN()
 	if((cnt = ISBN2keys_on_book(keys, d_temp_l)) != 0)
 	{
 		delete_book(keys, cnt);
+		file_write_book();
 	}
 	else
 	{
@@ -901,6 +913,7 @@ void Return_book()////
 
 void Member_list()
 {
+	int escape = 0;
 	while(1)
 	{
 		int  p;
@@ -911,12 +924,16 @@ void Member_list()
 
 		switch (p)
 		{
-			case 1 : Search_name();
-			case 2 : Search_ID();
-			case 3 : M_total_search();
-			case 4 : break; 
+			case 1 : Search_name(); break;
+			case 2 : Search_ID(); break;
+			case 3 : M_total_search(); break;
+			case 4 : escape = 1; break; 
 
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
+		}
+		if(escape == 1)
+		{
+			break;
 		}
 	}
 }

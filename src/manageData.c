@@ -151,7 +151,10 @@ int get_##sth(int key, const Sth** result)						\
 		return Success;											\
 	}															\
 	else														\
+	{															\
+		*result = list_##sth->current;							\
 		return Fail_No_Element;									\
+	}															\
 }																\
 																\
 int replace_##sth(const Sth* p_origin, Sth sth)					\

@@ -270,8 +270,8 @@ int get_book_file_data(FILE *fp)
 	Book *book;
 	book = list_book -> current;
 	
-	book -> book_num = atoi(get_oneWord(&fp));
 	book -> ISBN = atol(get_oneWord(&fp));
+	book -> book_num = atoi(get_oneWord(&fp));
 	if(list_book -> last_book_num < book -> book_num)
 		list_book -> last_book_num = book -> book_num;
 
