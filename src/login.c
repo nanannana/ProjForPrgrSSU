@@ -104,18 +104,17 @@ void Revise(void)
 				getchar();
 				temp.sch_num = result->sch_num;
 				
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)));
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
 				strcpy(temp.name ,result->name);
 			
 				temp.password = (char *)malloc(sizeof(char) * (strlen(buff) + 1));
 				strcpy(temp.password,buff);
-				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address)));
+				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address) + 1));
 				strcpy(temp.address ,result->address);
 
-				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num)));
+				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num) + 1));
 				strcpy(temp.phone_num , result->phone_num);
 
-	//			printf(" :: %s\n", temp.address); 주소 마지막 \0이 없어서 오류확인차 넣은 프린트입니다
 				if((flag = replace_client(result,temp)) == Success)
 					return ;
 				else if (flag == Fail_No_Element)
@@ -134,13 +133,13 @@ void Revise(void)
 				scanf("%[^\n]",buff);
 				getchar();
 				temp.sch_num = result->sch_num;
-				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password)));
+				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
 				strcpy(temp.password,result->password);
 				temp.address = (char *)malloc(sizeof(char) * (strlen(buff)+1));
 				strcpy(temp.address,buff);
-				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num)));
+				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num) + 1));
 				strcpy(temp.phone_num ,result->phone_num);
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)));
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
 				strcpy(temp.name, result->name);
 				if((flag = replace_client(result,temp)) == Success)
 					return ;
@@ -160,13 +159,13 @@ void Revise(void)
 				scanf("%[^\n]",buff);
 				getchar();
 				temp.sch_num = result->sch_num;
-				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password)));
+				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
 				strcpy(temp.password , result->password);
-				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address)));
+				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address) + 1));
 				strcpy(temp.address, result->address);
 				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(buff)+1));
 				strcpy(temp.phone_num,buff);
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)));
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
 				strcpy(temp.name ,result->name);
 				if((flag = replace_client(result,temp)) ==Success)
 					return ;
