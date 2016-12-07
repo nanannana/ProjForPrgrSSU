@@ -20,6 +20,7 @@ void Library_service()
 		printf(">>도서관 서비스<<\n");
 		printf("1. 회원 가입\t2. 로그인\t3. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
+		
 		scanf("%d", &n);
 		switch (n)
 		{
