@@ -20,6 +20,7 @@ void Library_service()
 		printf(">>도서관 서비스<<\n");
 		printf("1. 회원 가입\t2. 로그인\t3. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
+		
 		scanf("%d", &n);
 		switch (n)
 		{
@@ -35,53 +36,6 @@ void Library_service()
 
 	}
 }
-
-//void Sign_up()
-//{
-
-//}
-
-/*
-void LOG_IN()
-{
-	int check;
-	printf(">> 로그인 <<\n");
-	printf("학번: ");
-	scanf("%d", &my_sch_num);
-	printf("비밀번호: ");
-	scanf("%d", my_password);
-	check = log_in(my_sch_num, my_password);
-	if(check == in)
-	{
-		if(!strcyp(my_sch
-		Membermenu();
-	}
-	else if(check == out)
-	{
-		return;
-	}
-}*/
-	/*
-	   if(mem)
-	   {
-	   if(Member_menu() == 0)
-	   {
-	   break;
-	   }
-	   }
-	   if(adm)
-	   {
-	   if(Admin_nemue() == 0)
-	   {
-	   break;
-	   }
-
-
-	   }
-	   
-}*/
-
-
 
 
 int Member_menu()
@@ -106,7 +60,7 @@ int Member_menu()
 		}
 
 		if (rtnvalue < 0)
-			return (rtnvalue + 1);
+			return rtnvalue + 1;
 	}
 }
 
@@ -333,7 +287,6 @@ void S_total_Search()
 	{
 		printf("책번호: %d\nISBN: %ld\n책이름: %s\n출판사: %s\n저자: %s\n소장처:%s\n대여가능여부: %c\n\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
 
-//		printf("%d %ld %s %s %s %s %c\n", list_book -> current -> book_num, list_book -> current -> ISBN, list_book -> current -> name, list_book -> current -> publisher, list_book -> current -> author, list_book -> current -> owner, list_book -> current -> borrow_Y_N);
 		list_book -> current = list_book -> current -> next;
 
 	}
@@ -489,7 +442,7 @@ int Admin_menu()
 		}
 
 		if (rtnvalue < 0)
-			return (rtnvalue + 1);
+			return rtnvalue + 1;
 	}
 }
 
@@ -664,6 +617,7 @@ void Lend_book()
 	printf(">> 도서 대여 <<\n");
 	printf("1. 도서명 검색\t\t2. ISBN 검색\n");
 	printf("번호를 선택하세요: ");
+	while(getchar() != '\n');
 	scanf("%d", &p);
 
 	switch (p)
@@ -679,6 +633,7 @@ void L_by_title()
 	char l_temp_c[100];
 	int sch_id, book_n;
 	int YorN;
+	while(getchar() != '\n');
 	printf("도서명을 입력하세요: ");
 	scanf("%[^\n]s", l_temp_c);
 	int keys[20];
@@ -690,7 +645,7 @@ void L_by_title()
 		Borrow * binput = &btemp;
 		if(get_book(keys[0], &result) == Success)
 		{
-			printf(">>검색 결과 <<\n");
+			printf("\n>>검색 결과 <<\n");
 			for(i = 0; i<cnt; i++)
 			{
 				if(get_book(keys[i], &result) == Success)
@@ -860,6 +815,7 @@ void Return_book()////
 	char YorN;
 
 	printf(">> 도서 반납 <<\n");
+	while(getchar() != '\n');
 	printf("학번을 입력하세요 : ");
 	scanf("%d", &r_temp_i);
 
@@ -951,6 +907,7 @@ void Member_list()
 void Search_name()
 {
 	char s_temp_c[30];
+	while(getchar() != '\n');
 	printf(">> 이름 검색 <<\n");
 	printf("이름을 입력하세요 : ");
 	scanf("%[^\n]s", s_temp_c);
@@ -982,15 +939,14 @@ void Search_name()
 void Search_ID()
 {
 	int s_temp_i;
+	while(getchar() != '\n');
 	printf("학번을 입력하세요 : ");
 	scanf("%d", &s_temp_i);
 	const Client * picker = NULL;
 	if(get_client(s_temp_i, &picker) == Success)
 	{
-		//printf("학번\t이름\t주소\t전화번호\n");
 		printf("\n학번: %d\n이름: %s\n주소: %s\n전화번호: %s\n\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
 
-//		printf("%d\t%s\t%s\t%s\n", picker -> sch_num, picker -> name, picker -> address, picker -> phone_num);
 	}	
 	else
 	{
@@ -1002,12 +958,10 @@ void Search_ID()
 void M_total_search()
 {
 	list_client -> current = list_client -> head;
-	//printf("학번\t이름\t주소\t전화번호\n");
 	while(list_client->current)
 	{
 		printf("학번: %d\n이름: %s\n주소: %s\n전화번호: %s\n\n", list_client -> current -> sch_num, list_client -> current -> name, list_client -> current -> address, list_client -> current -> phone_num);
 
-		//printf("%d\t%s\t%s\t%s\n", list_client -> current -> sch_num, list_client -> current -> name, list_client -> current -> address, list_client -> current -> phone_num);
 		list_client -> current = list_client -> current -> next;
 	}
 }
