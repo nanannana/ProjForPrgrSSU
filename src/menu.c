@@ -106,7 +106,7 @@ int Member_menu()
 		}
 
 		if (rtnvalue < 0)
-			return (rtnvalue + 1);
+			return rtnvalue + 1;
 	}
 }
 
@@ -489,7 +489,7 @@ int Admin_menu()
 		}
 
 		if (rtnvalue < 0)
-			return (rtnvalue + 1);
+			return rtnvalue + 1;
 	}
 }
 
