@@ -69,6 +69,3 @@ int Log_in();
 
 
 #endif // _LOGIN_H_	
-
-
-
