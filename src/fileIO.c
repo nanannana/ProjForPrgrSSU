@@ -66,7 +66,7 @@ void file_write()
 
 void file_write_client()
 {
-	FILE *fp = fopen("data/client_s.txt", "w");
+	FILE *fp = fopen("data/client.txt", "w");
 	list_client -> current = list_client -> head;
 	while(list_client -> current)
 	{
@@ -84,7 +84,7 @@ void file_write_client()
 
 void file_write_book()
 {
-	FILE *fp =fopen("data/book_s.txt", "w");
+	FILE *fp =fopen("data/book.txt", "w");
 
 	list_book -> current = list_book -> head;
 
@@ -111,7 +111,7 @@ void file_write_book()
 
 void file_write_borrow()
 {
-	FILE *fp = fopen("data/borrow_s.txt", "w");
+	FILE *fp = fopen("data/borrow.txt", "w");
 
 	list_borrow ->current = list_borrow -> head;
 	
