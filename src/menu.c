@@ -91,7 +91,7 @@ int Member_menu()
 	while(1)
 	{
 		printf(">> 회원 메뉴 <<\n");
-		printf("1. 도서 검색\t\t2. 내 대여 목록\n3. 개인정보 수정\t\t 4.회원 탈퇴\n5. 로그아웃\t\t6. 프로그램 종료\n");
+		printf("1. 도서 검색\t\t2. 내 대여 목록\n3. 개인정보 수정\t  4.회원 탈퇴\n5. 로그아웃\t\t6. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
 		scanf("%d", &m);
 		switch (m)
@@ -100,13 +100,13 @@ int Member_menu()
 			case 2 : My_BB_list(); break;
 			case 3 : Revise(); break;
 			case 4 : rtnvalue = Sign_down();
-			case 5 : return -1;
+			case 5 : return 0;
 			case 6 : return -2;
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
 		}
 
 		if (rtnvalue < 0)
-			return rtnvalue + 1;
+			return (rtnvalue + 1);
 	}
 }
 
@@ -226,7 +226,6 @@ void S_by_publisher()
 		}
 	}
 	else
-	while(getchar() != '\n');
 	{
 		printf("해당 출판사의 도서는 존재하지 않습니다.\n\n");
 	}
@@ -484,13 +483,13 @@ int Admin_menu()
 			case 4 : Return_book(); break;
 			case 5 : Search_books(); break;
 			case 6 : Member_list(); break;
-			case 7 : return -1;
+			case 7 : return 0;
 			case 8 : return -2;
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.\n");
 		}
 
 		if (rtnvalue < 0)
-			return rtnvalue + 1;
+			return (rtnvalue + 1);
 	}
 }
 
@@ -583,6 +582,7 @@ void D_by_title()
 {
 	char d_temp_c[50];
 	printf("도서명을 입력하세요 : ");
+	while(getchar() != '\n');
 	scanf("%[^\n]s", d_temp_c);
 	int keys[20];
 	int cnt;
