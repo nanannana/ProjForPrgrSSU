@@ -230,8 +230,3 @@ int Log_in()
 }
 
 
-void Log_out(void)
-{
-	Library_service();
-	return ;
-}
