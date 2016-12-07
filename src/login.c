@@ -92,7 +92,7 @@ void Revise(void)
 	scanf("%d",&flag);
 	const Client *result = NULL;
 	Client temp; 
-	char pass_buff[50],address_buff[50],phone_buff[50];
+	char buff[500] = {0};
 	while(1){
 	switch(flag){
 		case 1 :
@@ -100,19 +100,22 @@ void Revise(void)
 			{
 				printf("바꿀 패스워드?");
 				getchar();
-				scanf("%[^\n]",pass_buff);
+				scanf("%[^\n]",buff);
 				getchar();
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)+1));
-				temp.name = result->name;
-				temp.password = (char *)malloc(sizeof(char) * (strlen(pass_buff)+1));
-				strcpy(temp.password,pass_buff);
 				temp.sch_num = result->sch_num;
-				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address)+1));
-				temp.address = result->address;
-				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num)+1));
-				temp.phone_num = result->phone_num;
-
 				
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)));
+				strcpy(temp.name ,result->name);
+			
+				temp.password = (char *)malloc(sizeof(char) * (strlen(buff) + 1));
+				strcpy(temp.password,buff);
+				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address)));
+				strcpy(temp.address ,result->address);
+
+				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num)));
+				strcpy(temp.phone_num , result->phone_num);
+
+	//			printf(" :: %s\n", temp.address); 주소 마지막 \0이 없어서 오류확인차 넣은 프린트입니다
 				if((flag = replace_client(result,temp)) == Success)
 					return ;
 				else if (flag == Fail_No_Element)
@@ -128,17 +131,17 @@ void Revise(void)
 			{
 				printf("바꿀 주소?");
 				getchar();
-				scanf("%[^\n]",address_buff);
+				scanf("%[^\n]",buff);
 				getchar();
 				temp.sch_num = result->sch_num;
-				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password)+1));
-				temp.password = result->password;
-				temp.address = (char *)malloc(sizeof(char) * (strlen(address_buff)+1));
-				strcpy(temp.address,address_buff);
-				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num)+1));
-				temp.phone_num = result->phone_num;
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)+1));
-				temp.name = result->name;
+				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password)));
+				strcpy(temp.password,result->password);
+				temp.address = (char *)malloc(sizeof(char) * (strlen(buff)+1));
+				strcpy(temp.address,buff);
+				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num)));
+				strcpy(temp.phone_num ,result->phone_num);
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)));
+				strcpy(temp.name, result->name);
 				if((flag = replace_client(result,temp)) == Success)
 					return ;
 				else if (flag == Fail_No_Element)
@@ -154,17 +157,17 @@ void Revise(void)
 			{
 				printf("바꿀 전화번호?");
 				getchar();
-				scanf("%[^\n]",phone_buff);
+				scanf("%[^\n]",buff);
 				getchar();
 				temp.sch_num = result->sch_num;
-				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password)+1));
-				temp.password = result->password;
-				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address)+1));
-				temp.address = result->address;
-				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(phone_buff)+1));
-				strcpy(temp.phone_num,phone_buff);
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)+1));
-				temp.name = result->name;
+				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password)));
+				strcpy(temp.password , result->password);
+				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address)));
+				strcpy(temp.address, result->address);
+				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(buff)+1));
+				strcpy(temp.phone_num,buff);
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)));
+				strcpy(temp.name ,result->name);
 				if((flag = replace_client(result,temp)) ==Success)
 					return ;
 				else if (flag == Fail_Two_Same_Value)
