@@ -47,28 +47,24 @@ void Sign_up(void)
 	{
 		client.sch_num = atoi(temp);
 	}
-	memset(temp,0,sizeof(temp));
 	
 	printf("이름: ");
 	scanf("%[^\n]",temp);
 	getchar();
 	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.name,temp);
-	memset(temp,0,sizeof(temp));
 	
 	printf("비밀번호: ");
 	scanf("%[^\n]",temp);
 	getchar();
 	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.password,temp);
-	memset(temp,0,sizeof(temp));
 	
 	printf("주소: ");
 	scanf("%[^\n]",temp);
 	getchar();
 	client.address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.address,temp);
-	memset(temp,0,sizeof(temp));
 
 	printf("전화번호: ");
 	scanf("%[^\n]",temp);
