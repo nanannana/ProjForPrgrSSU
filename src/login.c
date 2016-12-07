@@ -14,6 +14,7 @@ int Sign_down(void){
 	if (sch_num2keys_on_borrow(NULL, my_ID) == 0)
 	{
 		remove_client(my_ID);
+		file_write_client();
 		printf("\n회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
 		return -2;
 	}
@@ -70,9 +71,11 @@ void Sign_up(void)
 	client.phone_num = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.phone_num,temp);
 
-	append_client(client);
-	printf("회원가입 되셨습니다.\n");
-
+	if((append_client(client) == Success))
+	{
+		printf("회원가입 되셨습니다.\n");
+		file_write_client();
+	}
 
 	return ;
 }
@@ -164,7 +167,10 @@ void Revise(void)
 				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
 				strcpy(temp.name ,result->name);
 				if((flag = replace_client(result,temp)) ==Success)
+				{
+					file_write_client();
 					return ;
+				}
 				else if (flag == Fail_Two_Same_Value)
 				{
 					printf("같은 번호입니다");
@@ -198,7 +204,7 @@ int Log_in()
 	
 	printf(">> 로그인 <<\n");
 
-
+	while(getchar() != '\n');
 	printf("학번: ");
 	scanf("%s", buff);
 	
@@ -207,7 +213,7 @@ int Log_in()
 	else
 		my_ID = atoi(buff);
 
-
+	while(getchar() != '\n');
 	printf("비밀번호: ");
 	scanf("%s", my_password);
 
