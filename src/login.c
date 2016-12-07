@@ -14,6 +14,7 @@ int Sign_down(void){
 	if (sch_num2keys_on_borrow(NULL, my_ID) == 0)
 	{
 		remove_client(my_ID);
+		file_write_client();
 		printf("\n회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
 		return -2;
 	}
@@ -46,37 +47,35 @@ void Sign_up(void)
 	{
 		client.sch_num = atoi(temp);
 	}
-	memset(temp,0,sizeof(temp));
 	
 	printf("이름: ");
 	scanf("%[^\n]",temp);
 	getchar();
 	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.name,temp);
-	memset(temp,0,sizeof(temp));
 	
 	printf("비밀번호: ");
 	scanf("%[^\n]",temp);
 	getchar();
 	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.password,temp);
-	memset(temp,0,sizeof(temp));
 	
 	printf("주소: ");
 	scanf("%[^\n]",temp);
 	getchar();
 	client.address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.address,temp);
-	memset(temp,0,sizeof(temp));
 
 	printf("전화번호: ");
 	scanf("%[^\n]",temp);
 	client.phone_num = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.phone_num,temp);
 
-	append_client(client);
-	printf("회원가입 되셨습니다.\n");
-
+	if((append_client(client) == Success))
+	{
+		printf("회원가입 되셨습니다.\n");
+		file_write_client();
+	}
 
 	return ;
 }
@@ -92,7 +91,7 @@ void Revise(void)
 	scanf("%d",&flag);
 	const Client *result = NULL;
 	Client temp; 
-	char pass_buff[50],address_buff[50],phone_buff[50];
+	char buff[500] = {0};
 	while(1){
 	switch(flag){
 		case 1 :
@@ -100,19 +99,21 @@ void Revise(void)
 			{
 				printf("바꿀 패스워드?");
 				getchar();
-				scanf("%[^\n]",pass_buff);
+				scanf("%[^\n]",buff);
 				getchar();
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)+1));
-				temp.name = result->name;
-				temp.password = (char *)malloc(sizeof(char) * (strlen(pass_buff)+1));
-				strcpy(temp.password,pass_buff);
 				temp.sch_num = result->sch_num;
-				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address)+1));
-				temp.address = result->address;
-				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num)+1));
-				temp.phone_num = result->phone_num;
-
 				
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
+				strcpy(temp.name ,result->name);
+			
+				temp.password = (char *)malloc(sizeof(char) * (strlen(buff) + 1));
+				strcpy(temp.password,buff);
+				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address) + 1));
+				strcpy(temp.address ,result->address);
+
+				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num) + 1));
+				strcpy(temp.phone_num , result->phone_num);
+
 				if((flag = replace_client(result,temp)) == Success)
 					return ;
 				else if (flag == Fail_No_Element)
@@ -128,17 +129,17 @@ void Revise(void)
 			{
 				printf("바꿀 주소?");
 				getchar();
-				scanf("%[^\n]",address_buff);
+				scanf("%[^\n]",buff);
 				getchar();
 				temp.sch_num = result->sch_num;
-				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password)+1));
-				temp.password = result->password;
-				temp.address = (char *)malloc(sizeof(char) * (strlen(address_buff)+1));
-				strcpy(temp.address,address_buff);
-				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num)+1));
-				temp.phone_num = result->phone_num;
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)+1));
-				temp.name = result->name;
+				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
+				strcpy(temp.password,result->password);
+				temp.address = (char *)malloc(sizeof(char) * (strlen(buff)+1));
+				strcpy(temp.address,buff);
+				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num) + 1));
+				strcpy(temp.phone_num ,result->phone_num);
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
+				strcpy(temp.name, result->name);
 				if((flag = replace_client(result,temp)) == Success)
 					return ;
 				else if (flag == Fail_No_Element)
@@ -154,19 +155,22 @@ void Revise(void)
 			{
 				printf("바꿀 전화번호?");
 				getchar();
-				scanf("%[^\n]",phone_buff);
+				scanf("%[^\n]",buff);
 				getchar();
 				temp.sch_num = result->sch_num;
-				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password)+1));
-				temp.password = result->password;
-				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address)+1));
-				temp.address = result->address;
-				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(phone_buff)+1));
-				strcpy(temp.phone_num,phone_buff);
-				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)+1));
-				temp.name = result->name;
+				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
+				strcpy(temp.password , result->password);
+				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address) + 1));
+				strcpy(temp.address, result->address);
+				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(buff)+1));
+				strcpy(temp.phone_num,buff);
+				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
+				strcpy(temp.name ,result->name);
 				if((flag = replace_client(result,temp)) ==Success)
+				{
+					file_write_client();
 					return ;
+				}
 				else if (flag == Fail_Two_Same_Value)
 				{
 					printf("같은 번호입니다");
@@ -200,7 +204,7 @@ int Log_in()
 	
 	printf(">> 로그인 <<\n");
 
-
+	while(getchar() != '\n');
 	printf("학번: ");
 	scanf("%s", buff);
 	
@@ -209,7 +213,7 @@ int Log_in()
 	else
 		my_ID = atoi(buff);
 
-
+	while(getchar() != '\n');
 	printf("비밀번호: ");
 	scanf("%s", my_password);
 
