@@ -316,13 +316,14 @@ void My_BB_list()//need to modify.(at if)
 			{
 				const time_t BT = result -> borrow_day;
 				const time_t RT = result -> return_day;
+				printf("bt = %ld, rt = %ld", BT, RT);
 				bt = localtime(&BT);
 				rt = localtime(&RT);
 
 				if(get_book(keys[i], &Binfo) == Success)
 				{
 					printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n반납일자: %d년 %d월 %d일 %s\n\n",\
-							result -> book_num, Binfo -> name, bt -> tm_year + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
+							result -> book_num, Binfo -> name, bt -> tm_year + 1900, (bt -> tm_mon) + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
 
 				}
 				else
@@ -672,7 +673,7 @@ void L_by_title()
 			if(YorN == 'Y')
 			{
 				//struct tm *t;
-				//struct tm *bt;
+				struct tm *bt;
 				struct tm *rt;
 				//time_t now;
 				time_t bn;
@@ -680,26 +681,27 @@ void L_by_title()
 
 
 				bn = time(NULL);
-				//bt = localtime(&bn);
+				bt = localtime(&bn);
 
 				rn = bn + (30*24*60*60);
 				rt = localtime(&rn);
 
+				printf("bd = %dday ***rd = %dday**",bt -> tm_mon, rt->tm_mon);
 				printf("bn = %ld, rn = %ld", bn, rn);
 
 				binput -> borrow_day = bn;
 				binput -> return_day = rn;
 
 				/*now  = time(NULL);
-				t = localtime(&now);
-				bt = localtime(&now);
-				printf("시간 : %ld", now);
-				binput -> borrow_day = now;
-				printf("binput -> borrow_day : %ld\n", binput -> borrow_day);
-				
-				now = time(NULL) + 2592000;
-				printf("더한 값 : %ld\n", now);
-				binput -> return_day = now;*/
+				  t = localtime(&now);
+				  bt = localtime(&now);
+				  printf("시간 : %ld", now);
+				  binput -> borrow_day = now;
+				  printf("binput -> borrow_day : %ld\n", binput -> borrow_day);
+
+				  now = time(NULL) + 2592000;
+				  printf("더한 값 : %ld\n", now);
+				  binput -> return_day = now;*/
 				//t -> tm_wday = (t -> tm_wday) + 2592000;
 
 				if(( rt -> tm_wday) == 0)
@@ -713,8 +715,23 @@ void L_by_title()
 				{
 					printf("return day : %ld\n", binput -> return_day);
 
-					Book modi = *result;
-					/////////////const 포인터임 바꿔줘야함 append 라던가
+					Book modi;
+
+					modi.book_num = result -> book_num;
+
+					modi.name = (char *)malloc(sizeof(char) * (strlen(result -> name) +1));
+					strcpy(modi.name, result -> name);
+
+					modi.publisher = (char *)malloc(sizeof(char) * (strlen(result -> publisher) +1));
+					strcpy(modi.publisher, result -> publisher);
+
+					modi.author = (char *)malloc(sizeof(char) * (strlen(result -> author) +1));
+					strcpy(modi.author, result -> author);
+
+					modi.ISBN = result  -> ISBN;
+					modi.owner = (char *)malloc(sizeof(char) * (strlen(result -> owner) +1));
+					strcpy(modi.owner, result -> owner);
+
 					modi.borrow_Y_N = 'N';
 					Return_Flags flag;
 
@@ -817,7 +834,23 @@ void L_by_ISBN()
 			const Book *Btemp = NULL;
 			if(get_book(book_n, &Btemp) == Success)
 			{
-				Book modi = *Btemp;
+				Book modi;
+
+				modi.book_num = result -> book_num;
+
+				modi.name = (char *)malloc(sizeof(char) * (strlen(result -> name) +1));
+				strcpy(modi.name, result -> name);
+
+				modi.publisher = (char *)malloc(sizeof(char) * (strlen(result -> publisher) +1));
+				strcpy(modi.publisher, result -> publisher);
+
+				modi.author = (char *)malloc(sizeof(char) * (strlen(result -> author) +1));
+				strcpy(modi.author, result -> author);
+
+				modi.ISBN = result  -> ISBN;
+				modi.owner = (char *)malloc(sizeof(char) * (strlen(result -> owner) +1));
+				strcpy(modi.owner, result -> owner);
+
 				modi.borrow_Y_N = 'N';
 				Return_Flags flag;
 
