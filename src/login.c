@@ -4,16 +4,16 @@
 #include"menu.h"
 #include"login.h"
 
-static const char* ADMIN_ID = "admin";
-static const char* ADMIN_PWD = "lib_admin7";
+static const char* ADMIN_ID = "admin";//log_in 함수에서 admin으로 로그인 받을경우를 위해
+static const char* ADMIN_PWD = "lib_admin7";//마찬가지
 
-extern int my_ID;
-extern char my_password[50];
+extern int my_ID;//log_in함수 입력 버퍼
+extern char my_password[50];//마찬가지
 
 int Sign_down(void){
-	if (sch_num2keys_on_borrow(NULL, my_ID) == 0)
-	{
-		remove_client(my_ID);
+	if (sch_num2keys_on_borrow(NULL, my_ID) == 0)//sch_num2keys_on_borrow는 my_ID를 통해 NULL에다가 my_ID와 일치하는 원소가 포함된 구조체 포인터를 넘겨준다
+	{                                            //넘겨받는 포인터가 NULL이여도 일치하는 id 원소가 있으면 1을 리턴하기 때문에 else로 가게된다)
+		remove_client(my_ID);//my_ID가 포함된 클라이언트 구조체 삭제
 		file_write_client();
 		printf("\n회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
 		return -2;
@@ -28,9 +28,9 @@ int Sign_down(void){
 
 void Sign_up(void)
 {
-	Client client,client_temp;
-	const Client *compare = &client_temp;
-	char temp[500];
+	Client client,client_temp;//동적 할당을 받기위해 client 구조체와 temp 선언
+	const Client *compare = &client_temp;// get_client 함수는 학번을 입력받아 이와 일치하는 원소가 있는 client 구조체의 포인터를 넘겨준다 이때 입력을 const로 받기
+	char temp[500];                      // 때문에
 
 	printf("\n>>회원 가입<<\n");
 	printf("학번, 비밀번호, 이름, 주소, 전화번호를 입력하세요\n");
