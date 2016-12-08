@@ -74,7 +74,6 @@ void Sign_up(void)
 	if((append_client(client) == Success))
 	{
 		printf("회원가입 되셨습니다.\n");
-		file_write_client();
 	}
 
 	return ;
@@ -241,6 +240,7 @@ void Revise(void)
 			break;
 		default : 
 			printf("1,2,3 만 입력하세요 !!");
+			return;
 	}
 
 		}	 
