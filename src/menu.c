@@ -17,7 +17,7 @@ void Library_service()
 	int rtnvalue = 0;
 	while(1)
 	{
-		printf(">>도서관 서비스<<\n");
+		printf("\n>>도서관 서비스<<\n");
 		printf("1. 회원 가입\t2. 로그인\t3. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
 		
@@ -44,7 +44,7 @@ int Member_menu()
 	int rtnvalue = 0;
 	while(1)
 	{
-		printf(">> 회원 메뉴 <<\n");
+		printf("\n>> 회원 메뉴 <<\n");
 		printf("1. 도서 검색\t\t2. 내 대여 목록\n3. 개인정보 수정\t  4.회원 탈퇴\n5. 로그아웃\t\t6. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
 		scanf("%d", &m);
@@ -74,7 +74,7 @@ void Search_books()
 	int o;
 	while(1)
 	{
-		printf(">> 도서 검색 <<\n");
+		printf("\n>> 도서 검색 <<\n");
 		printf("1. 도서명 검색\t\t2. 출판사 검색\n3. ISBN 검색\t\t4. 저자명 검색\n5. 전체 검색\t\t6. 이전메뉴\n");
 		printf("번호를 선택하세요: ");
 		while(getchar() != '\n');
@@ -127,7 +127,7 @@ void S_by_title()
 				yn = 'N';
 			}
 
-			printf(">> 검색 결과 <<\n");
+			printf("\n>> 검색 결과 <<\n");
 			printf("도서명: %s\n출판사: %s\n저자명:%s\nISBN: %ld\n소장처: %s\n",\
 					s_temp_c, result -> publisher, result -> author, result -> ISBN, result -> owner);
 			printf("대여가능 여부 : %c(%d/%d)\n", yn, cy,cnt);
@@ -217,7 +217,7 @@ void S_by_ISBN()
 						yn = 'N';
 					}
 
-					printf(">> 검색 결과 <<\n");
+					printf("\n>> 검색 결과 <<\n");
 					printf("도서명: %s\n출판사: %s\n저자명:%s\nISBN: %ld\n소장처: %s\n",\
 							result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner);
 					printf("대여가능 여부: %c(%d/%d)\n", yn, cy, cnt);
@@ -306,11 +306,11 @@ void My_BB_list()//need to modify.(at if)
 	char day[7][15] = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
 
 	//int check = 0;
-	printf(">>내 대여 목록 <<\n");
+	printf("\n>>내 대여 목록 <<\n");
 
 	if((cnt = (sch_num2keys_on_borrow(keys, my_sch_num))) != 0)
 	{
-		printf(">> 회원의 대여 목록 <<\n");
+		printf("\n>> 회원의 대여 목록 <<\n");
 		for(i = 0; i < cnt; i++)
 		{
 			if(get_borrow(keys[i], &result) == Success)
@@ -579,7 +579,7 @@ void delete_book(int *keys, int cnt)
 	int i;
 	if(get_book(keys[0], &result) == Success)
 	{
-		printf(">> 검색 결과 <<\n");
+		printf("\n>> 검색 결과 <<\n");
 		printf("도서번호: ");
 		printf("%d(삭제 가능 여부 : %c)", result -> book_num, result -> borrow_Y_N);
 		for(i = 1; i < cnt; i++)
@@ -614,7 +614,7 @@ void delete_book(int *keys, int cnt)
 void Lend_book()
 {
 	int p;
-	printf(">> 도서 대여 <<\n");
+	printf("\n>> 도서 대여 <<\n");
 	printf("1. 도서명 검색\t\t2. ISBN 검색\n");
 	printf("번호를 선택하세요: ");
 	while(getchar() != '\n');
@@ -727,7 +727,7 @@ void L_by_ISBN()
 	scanf("%ld", &l_temp_l);
 	if((cnt = ISBN2keys_on_book(keys, l_temp_l)) == Success)
 	{
-		printf(">> 검색 결과 <<\n");
+		printf("\n>> 검색 결과 <<\n");
 		for(i = 0; i < cnt; i++)
 		{
 			if(get_book(keys[i], &result) == Success)
@@ -814,14 +814,14 @@ void Return_book()////
 	int book_n;
 	char YorN;
 
-	printf(">> 도서 반납 <<\n");
+	printf("\n>> 도서 반납 <<\n");
 	while(getchar() != '\n');
 	printf("학번을 입력하세요 : ");
 	scanf("%d", &r_temp_i);
 
 	if((cnt = sch_num2keys_on_borrow(keys, r_temp_i)) != 0)
 	{
-		printf(">> 회원의 대여 목록 <<\n");
+		printf("\n>> 회원의 대여 목록 <<\n");
 		for(i = 0; i < cnt; i++)
 		{
 			if(get_borrow(keys[i], &result) == Success)
@@ -883,7 +883,7 @@ void Member_list()
 	while(1)
 	{
 		int  p;
-		printf(">> 회원 목록<<\n");
+		printf("\n>> 회원 목록<<\n");
 		printf("1. 이름 검색\t2. 학번 검색\n3. 전체 검색\t4. 이전 메뉴\n");
 		printf("번호를 선택하세요: ");
 		scanf("%d", &p);
