@@ -155,6 +155,7 @@ void S_by_publisher()
 	int keys[100];
 	int cnt_r,cnt_g, i;
 
+	long  last_ISBN = 0;
 	int ratio[50][2];
 	if((cnt_r = get_ratio_books_from_publisher(ratio, s_temp_c)) != 0)
 	{
@@ -166,7 +167,10 @@ void S_by_publisher()
 			{
 				if(get_book(keys[i], &result) == Success)
 				{
+					if (result->ISBN == last_ISBN)
+						continue;
 					printf("도서명: %s\n출판사: %s\n저자명: %s\nISBN: %ld\n소장처: %s\n대여가능 여부: %c(%d/%d)\n\n", result -> name, result -> publisher, result -> author, result -> ISBN, result -> owner, result -> borrow_Y_N, ratio[i][0], ratio[i][1]);
+					last_ISBN = result->ISBN;
 				}
 				else
 				{
@@ -304,30 +308,21 @@ void My_BB_list()//need to modify.(at if)
 	struct tm *rt;
 	char day[7][15] = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
 
-	//int check = 0;
 	printf("\n>>내 대여 목록 <<\n");
 
 	if((cnt = (sch_num2keys_on_borrow(keys, my_sch_num))) != 0)
 	{
-		//printf(">> 회원의 대여 목록 <<\n");
 		for(i = 0; i < cnt; i++)
 		{
 			if(get_borrow(keys[i], &result) == Success)
 			{
 				const time_t BT = result -> borrow_day;
 				const time_t RT = result -> return_day;
-				//printf("bt = %ld, rt = %ld", BT, RT);
 				bt = localtime(&BT);
-				//rt = localtime(RT);
-				//printf("****bt = %d, rt = %ld", *bt, *rt);
-				//printf("BT.tm_mon : %d, mday : %d\n RT.tm_mon: %d, mday : %d\n", bt -> tm_mon, bt -> tm_mday, rt -> tm_mon, rt -> tm_mday);
 				if(get_book(keys[i], &Binfo) == Success)
 				{
-					//printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n반납일자: %d년 %d월 %d일 %s\n\n",
-					//result -> book_num, Binfo -> name, bt -> tm_year + 1900, (bt -> tm_mon) + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
 					printf("도서번호: %d\n도서명: %s\n", result  -> book_num,Binfo -> name);
 					printf("대여일자: %d년 %d월 %d일 %s\n", bt -> tm_year  + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_wday]);
-					printf("**%d", bt->tm_wday);
 					rt = localtime(&RT);
 					printf("반납일자: %d년 %d월 %d일 %s\n\n",rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_wday]);
 				}
@@ -350,77 +345,6 @@ void My_BB_list()//need to modify.(at if)
 		printf("대여 목록이 존재하지 않습니다.\n");
 	}
 }
-
-/*list_borrow -> current = list_borrow -> head;
-  while(list_borrow -> current)
-  {
-  list_book -> current = book_client 
-  while(list_book -> current)
-  {
-  if(my_sch_num == (list_borrow -> current -> sch_num) && (strcmp((list_borrow -> current -> book_num, list_book -> current -> name))))
-  {
-  bt = list_borrow -> current -> borrow_day;
-  rt = list_borrow -> current -> return_day;
-
-  printf("도서번호\t도서명\t대여일자\t반납일자\n");	
-  printf("%d %s %d/%d %d/%d\n" list_book -> current -> book_num, list_book -> current -> name, (bt -> mon) + 1, bt -> mday, (rt -> mon) + 1, rt -> mday);
-  check = 1;
-  }
-  list_book -> current = list_book -> current -> next;
-  }
-  }
-  if(check != 1)
-  {
-  printf("대여 목록이 존재하지 않습니다.\n");
-  }
-  }
-  */
-
-/*
-   void Modi_my_info()//replace 함수?.. 
-   {
-   int my_sch_num = my_ID;
-   char m_temp_c[100];
-   printf(">> 개인정보 수정 <<\n");
-
-   list_client -> current = list_client -> head;
-   while(list_client -> current)
-   {
-   if((list_client -> current -> sch_num) == my_sch_num)
-   {
-   printf("수정할 정보를 입력하세요\n");
-
-   printf("이름: ");
-   scanf("%s", m_temp_c);
-   list_client -> current -> name = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
-   strcpy(list_client -> current -> name, m_temp_c);
-
-   printf("비밀번호: ");
-   scanf("%s", m_temp_c);
-   list_client -> current -> password = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
-   strcpy(list_client -> current -> password, m_temp_c);
-
-   printf("주소: ");
-   scanf("%[^\n]s", list_client -> current -> address);
-   list_client -> current -> address = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
-   strcpy(list_client -> current -> address, m_temp_c);
-
-   printf("연락처: ");
-   scanf("%s", list_client -> current -> phone_num);
-   list_client -> current -> phone_num = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
-   strcpy(list_client -> current -> phone_num, m_temp_c);
-
-   file_write_client();
-
-   printf("개인정보가 수정되었습니다.\n");
-
-   break;
-   }
-
-   list_client -> current = list_client -> current -> next;
-   }
-   }
-   */
 
 int Admin_menu()
 {
@@ -677,54 +601,26 @@ void L_by_title()
 
 			if(YorN == 'Y')
 			{
-				//struct tm *t;
-				struct tm *bt;
 				struct tm *rt;
-				struct tm *tt;
-				//time_t now;
 				time_t bn;
 				time_t rn;
-				time_t tn;
-
-				tn = time(NULL);
-				tt = gmtime(&tn);
 
 				bn = time(NULL);
-				bt = gmtime(&bn);
 
 				rn = bn + (30*24*60*60);
-				rt = gmtime(&rn);
-
-				printf("now : %dm %dday", tt->tm_mon, tt-> tm_mday);
-
-				printf("bt_mon = %dm bt_day = %dday ***rt_mon = %dm, rt_day = %dday",bt -> tm_mon, bt -> tm_mday, rt->tm_mon, rt -> tm_mday);
-				printf("bn = %ld, rn = %ld", bn, rn);
+				rt = localtime(&rn);
 
 				binput -> borrow_day = bn;
 				binput -> return_day = rn;
 
-				/*now  = time(NULL);
-				  t = localtime(&now);
-				  bt = localtime(&now);
-				  printf("시간 : %ld", now);
-				  binput -> borrow_day = now;
-				  printf("binput -> borrow_day : %ld\n", binput -> borrow_day);
-
-				  now = time(NULL) + 2592000;
-				  printf("더한 값 : %ld\n", now);
-				  binput -> return_day = now;*/
-				//t -> tm_wday = (t -> tm_wday) + 2592000;
-
-				if(( rt -> tm_wday) == 0)
+				if((rt -> tm_wday) == 0)
 				{
 					rn = rn + (1 * 24 * 60 * 60);
-					//binput -> return_day = (now +  86400);
 					binput -> return_day = rn;
 				}
 
 				if(get_book(book_n, &result) == Success)
 				{
-					printf("return day : %ld\n", binput -> return_day);
 
 					Book modi;
 
@@ -793,9 +689,8 @@ void L_by_ISBN()
 	long int l_temp_l;
 	int keys[20];
 	int cnt, i;
-	Borrow *btemp = NULL;
-	Borrow add;
-	btemp = &add;
+	Borrow btemp;
+	Borrow *binput = &btemp;
 	const Book * result = NULL;
 
 	printf("ISBN을 입력하세요: ");
@@ -819,32 +714,39 @@ void L_by_ISBN()
 		}
 		printf("학번을 입력하세요: ");
 		scanf("%d", &sch_id);
-		btemp -> sch_num = sch_id;
+		binput -> sch_num = sch_id;
 
 		printf("도서번호를 입력하세요: ");
 		scanf("%d", &book_n);
-		btemp -> book_num = book_n;
+		binput -> book_num = book_n;
 
+		while(getchar() != '\n');
 		printf("이 도서를 대여합니까? ");
 		YorN = getchar();
 		if(YorN == 'Y')
 		{
-			struct tm *t;
-			time_t now;
-			now  = time(NULL);
-			t = localtime(&now);
-			btemp -> borrow_day = now;
-			if(( t -> tm_wday) == 0)
+			struct tm *rt;
+			time_t bn;
+			time_t rn;
+
+
+			bn = time(NULL);
+
+			rn = bn + (30*24*60*60);
+			rt = localtime(&rn);
+
+			binput -> borrow_day = bn;
+			binput -> return_day = rn;
+
+			if((rt -> tm_wday) == 0)
 			{
-				btemp -> return_day = (now +  2678400);
+				rn = rn + (1 * 24 * 60 * 60);
+				binput -> return_day = rn;
 			}
-			else
+
+			if(get_book(book_n, &result) == Success)
 			{
-				btemp -> borrow_day = (now  + 2592000);
-			}
-			const Book *Btemp = NULL;
-			if(get_book(book_n, &Btemp) == Success)
-			{
+
 				Book modi;
 
 				modi.book_num = result -> book_num;
@@ -865,9 +767,19 @@ void L_by_ISBN()
 				modi.borrow_Y_N = 'N';
 				Return_Flags flag;
 
-				if((flag = replace_book(Btemp, modi)) == Success)
+				if((flag = replace_book(result, modi)) == Success)
 				{
-					printf("도서가 대여 되었습니다.\n");
+					if(append_borrow(btemp) == Success)
+					{
+						printf("도서가 대여 되었습니다.\n");
+						file_write_book();
+						file_write_borrow();
+					}
+					else
+					{
+						printf("도서 대여를 실패하였습니다.(Same_Two_Same_Value)\n");	
+					}
+
 				}
 				else if(flag == Fail_Two_Same_Value)
 				{
@@ -880,19 +792,23 @@ void L_by_ISBN()
 			}
 			else
 			{
-				printf("Failed to read book info\n");
+				printf("등록되지 않은 도서입니다.\n");
 			}
+		}
+		else
+		{
+			printf("도서대여가 취소되었습니다.\n");
 		}
 	}
 	else
 	{
-		printf("Failed to convert\n");
-
+		printf("failed to convert\n");
 	}
 }
 
 
-void Return_book()///
+
+void Return_book()
 {
 	int r_temp_i;
 	int keys[20];
@@ -943,82 +859,74 @@ void Return_book()///
 		printf("반납할 도서번호를 입력하세요: ");
 		scanf("%d", &book_n);
 
-		const Book *itemp = NULL;
-		if(get_book(book_n, &itemp) == Success)
-		{
-			Book pick;
-
-			pick.book_num = itemp -> book_num;
-
-			pick.ISBN = itemp -> ISBN;
-
-			pick.name = (char *)malloc(sizeof(char) * (strlen(itemp -> name) +1));
-			strcpy(pick.name, itemp -> name);
-
-			pick.publisher = (char *)malloc(sizeof(char) * (strlen(itemp -> publisher) +1));
-			strcpy(pick.publisher, itemp -> publisher);
-
-			pick.author = (char *)malloc(sizeof(char) * (strlen(itemp -> author) +1));
-			strcpy(pick.author, itemp -> author);
-
-			pick.owner = (char *)malloc(sizeof(char) * (strlen(itemp -> owner) +1));
-			strcpy(pick.owner, itemp -> owner);
-
-			pick.borrow_Y_N = 'Y';
-
-			Return_Flags flag;
-
-			if((flag = replace_book(itemp, pick)) == Success)
-			{
-				//printf("반납이 완료되었습니다.\n");
-			}
-			else if(flag == Fail_Two_Same_Value)
-			{
-				printf("Fail. there is same value\n");
-			}
-			else  if(flag == Fail_No_Element)
-			{
-				printf("There is no element\n");
-			}
-		}
-
-
-		else
-		{
-			printf("도서정보를 불러오는데 실패하였습니다.//get_book\n");
-		}
-
 		getchar();
 		printf("도서 반납처리를 할까요? ");
 		scanf("%c", &YorN);
 
+
 		if(YorN == 'Y')
 		{
-			if(remove_borrow(book_n) == Success)
+
+			const Book *itemp = NULL;
+			if(get_book(book_n, &itemp) == Success)
 			{
-				printf("반납이 완료되었습니다.\n");
-				file_write_book();
-				file_write_borrow();
-	
-			}
-			else
-			{
-				printf("반납 실패 (Fail_No_element)\n");
+				Book pick;
+
+				pick.book_num = itemp -> book_num;
+
+				pick.ISBN = itemp -> ISBN;
+
+				pick.name = (char *)malloc(sizeof(char) * (strlen(itemp -> name) +1));
+				strcpy(pick.name, itemp -> name);
+
+				pick.publisher = (char *)malloc(sizeof(char) * (strlen(itemp -> publisher) +1));
+				strcpy(pick.publisher, itemp -> publisher);
+
+				pick.author = (char *)malloc(sizeof(char) * (strlen(itemp -> author) +1));
+				strcpy(pick.author, itemp -> author);
+
+				pick.owner = (char *)malloc(sizeof(char) * (strlen(itemp -> owner) +1));
+				strcpy(pick.owner, itemp -> owner);
+
+				pick.borrow_Y_N = 'Y';
+
+				Return_Flags flag;
+
+				if((flag = replace_book(itemp, pick)) == Success)
+				{
+					if(remove_borrow(book_n) == Success)
+					{
+						printf("반납이 완료되었습니다.\n");
+						file_write_book();
+						file_write_borrow();
+
+					}
+					else
+					{
+						printf("반납 실패 (Fail_No_element)\n");
+					}
+
+				}
+				else if(flag == Fail_Two_Same_Value)
+				{
+					printf("Fail. there is same value\n");
+				}
+				else  if(flag == Fail_No_Element)
+				{
+					printf("There is no element\n");
+				}
 			}
 		}
 		else
 		{
-			printf("도서반남을 취소하였습니다.\n");//이거 구현안됨..
+			printf("반납을 취소하였습니다.\n");
 		}
-
 	}
 	else
 	{
-		printf("Failed to convert\n");
+		printf("failed to convert\n");
 	}
 }
-
-
 
 void Member_list()
 {
