@@ -324,11 +324,11 @@ void My_BB_list()//need to modify.(at if)
 				if(get_book(keys[i], &Binfo) == Success)
 				{
 					//printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n반납일자: %d년 %d월 %d일 %s\n\n",
-							//result -> book_num, Binfo -> name, bt -> tm_year + 1900, (bt -> tm_mon) + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
+					//result -> book_num, Binfo -> name, bt -> tm_year + 1900, (bt -> tm_mon) + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
 					printf("도서번호: %d\n도서명: %s\n", result  -> book_num,Binfo -> name);
 					printf("대여일자: %d년 %d월 %d일 %s\n", bt -> tm_year  + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_wday]);
 					printf("**%d", bt->tm_wday);
-				rt = localtime(&RT);
+					rt = localtime(&RT);
 					printf("반납일자: %d년 %d월 %d일 %s\n\n",rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_wday]);
 				}
 				else
@@ -694,7 +694,7 @@ void L_by_title()
 
 				rn = bn + (30*24*60*60);
 				rt = gmtime(&rn);
-				
+
 				printf("now : %dm %dday", tt->tm_mon, tt-> tm_mday);
 
 				printf("bt_mon = %dm bt_day = %dday ***rt_mon = %dm, rt_day = %dday",bt -> tm_mon, bt -> tm_mday, rt->tm_mon, rt -> tm_mday);
@@ -924,48 +924,99 @@ void Return_book()////
 
 				if(get_book(keys[i], &Binfo) == Success)
 				{
-					printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n 반납일자: %d년 %d월 %d일 %s\n",\
-							result -> book_num, Binfo -> name, bt -> tm_year + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_yday]);
-
-					printf("반납할 도서번호를 입력하세요: ");
-					scanf("%d", &book_n);
-
-					getchar();
-					printf("도서 반납처리를 할까요? ");
-					scanf("%c", &YorN);
-
-					if(YorN == 'Y')
-					{
-						if(remove_borrow(book_n) == Success)
-						{
-							printf("반납이 완료되었습니다.\n");
-						}
-						else
-						{
-							printf("반납 실패 (Fail_No_element)\n");
-						}
-					}
+					printf("도서번호: %d\n도서명: %s\n", result  -> book_num,Binfo -> name);
+					printf("대여일자: %d년 %d월 %d일 %s\n", bt -> tm_year  + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_wday]);
+					printf("**%d", bt->tm_wday);
+					rt = localtime(&RT);
+					printf("반납일자: %d년 %d월 %d일 %s\n\n",rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_wday]);
 
 				}
-
 				else
 				{
-					printf("Failed to read book info\n");
+					printf("failed to read  book info");
 				}
 			}
 			else
 			{
-				printf("Failed to read borrow list\n");
-
+				printf("failed to read book list");
 			}
 		}
+
+		printf("반납할 도서번호를 입력하세요: ");
+		scanf("%d", &book_n);
+
+		const Book *itemp = NULL;
+		if(get_book(book_n, &itemp) == Success)
+		{
+			Book pick;
+
+			pick.book_num = itemp -> book_num;
+
+			pick.name = (char *)malloc(sizeof(char) * (strlen(itemp -> name) +1));
+			strcpy(pick.name, itemp -> name);
+
+			pick.publisher = (char *)malloc(sizeof(char) * (strlen(itemp -> publisher) +1));
+			strcpy(pick.publisher, itemp -> publisher);
+
+			pick.author = (char *)malloc(sizeof(char) * (strlen(itemp -> author) +1));
+			strcpy(pick.author, itemp -> author);
+
+			pick.owner = (char *)malloc(sizeof(char) * (strlen(itemp -> owner) +1));
+			strcpy(pick.owner, itemp -> owner);
+
+			pick.borrow_Y_N = 'Y';
+
+			Return_Flags flag;
+
+			if((flag = replace_book(itemp, pick)) == Success)
+			{
+				//printf("반납이 완료되었습니다.\n");
+			}
+			else if(flag == Fail_Two_Same_Value)
+			{
+				printf("Fail. there is same value\n");
+			}
+			else  if(flag == Fail_No_Element)
+			{
+				printf("There is no element\n");
+			}
+		}
+
+
+		else
+		{
+			printf("도서정보를 불러오는데 실패하였습니다.//get_book\n");
+		}
+
+		getchar();
+		printf("도서 반납처리를 할까요? ");
+		scanf("%c", &YorN);
+
+		if(YorN == 'Y')
+		{
+			if(remove_borrow(book_n) == Success)
+			{
+				printf("반납이 완료되었습니다.\n");
+				file_write_book();
+				file_write_borrow();
+	
+			}
+			else
+			{
+				printf("반납 실패 (Fail_No_element)\n");
+			}
+		}
+		else
+		{
+			printf("도서반남을 취소하였습니다.\n");//이거 구현안됨..
+		}
+
 	}
 	else
 	{
-		printf("Failed to convert");
+		printf("Failed to convert\n");
 	}
 }
-
 
 
 
