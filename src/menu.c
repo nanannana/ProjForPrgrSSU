@@ -20,7 +20,7 @@ void Library_service()
 		printf("\n>>도서관 서비스<<\n");
 		printf("1. 회원 가입\t2. 로그인\t3. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
-		
+
 		scanf("%d", &n);
 		switch (n)
 		{
@@ -45,7 +45,7 @@ int Member_menu()
 	while(1)
 	{
 		printf("\n>> 회원 메뉴 <<\n");
-		printf("1. 도서 검색\t\t2. 내 대여 목록\n3. 개인정보 수정\t  4.회원 탈퇴\n5. 로그아웃\t\t6. 프로그램 종료\n");
+		printf("1. 도서 검색\t\t2. 내 대여 목록\n3. 개인정보 수정\t\t4.회원 탈퇴\n5. 로그아웃\t\t6. 프로그램 종료\n");
 		printf("번호를 선택하세요: ");
 		scanf("%d", &m);
 		switch (m)
@@ -281,7 +281,6 @@ void S_by_author()
 void S_total_Search()
 {
 	printf("\n>> 전체 검색 <<\n");
-	printf("책번호\tISBN\t\t책이름\t\t출판사\t\t저자\t소장처\t\t대여가능여부\n");
 	list_book -> current = list_book -> head;
 	while(list_book -> current)
 	{
@@ -311,20 +310,25 @@ void My_BB_list()//need to modify.(at if)
 	if((cnt = (sch_num2keys_on_borrow(keys, my_sch_num))) != 0)
 	{
 		printf("\n>> 회원의 대여 목록 <<\n");
+
 		for(i = 0; i < cnt; i++)
 		{
 			if(get_borrow(keys[i], &result) == Success)
 			{
 				const time_t BT = result -> borrow_day;
 				const time_t RT = result -> return_day;
+				printf("bt = %ld, rt = %ld", BT, RT);
 				bt = localtime(&BT);
 				rt = localtime(&RT);
-
+				//printf("****bt = %d, rt = %ld", *bt, *rt);
+				printf("BT.tm_mon : %d, mday : %d\n RT.tm_mon: %d, mday : %d\n", bt -> tm_mon, bt -> tm_mday, rt -> tm_mon, rt -> tm_mday);
 				if(get_book(keys[i], &Binfo) == Success)
 				{
-					printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n 반납일자: %d년 %d월 %d일 %s",\
-							result -> book_num, Binfo -> name, bt -> tm_year + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
-
+					//printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n반납일자: %d년 %d월 %d일 %s\n\n",
+							//result -> book_num, Binfo -> name, bt -> tm_year + 1900, (bt -> tm_mon) + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
+					printf("도서번호: %d\n도서명: %s\n", result  -> book_num,Binfo -> name);
+					printf("대여일자: %d년 %d월 %d일 %s\n", bt -> tm_year  + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_yday]);
+					printf("반납일자: %d년 %d월 %d일 %s\n\n",rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_yday]);
 				}
 				else
 				{
@@ -372,50 +376,50 @@ void My_BB_list()//need to modify.(at if)
   */
 
 /*
-void Modi_my_info()//replace 함수?.. 
-{
-	int my_sch_num = my_ID;
-	char m_temp_c[100];
-	printf(">> 개인정보 수정 <<\n");
+   void Modi_my_info()//replace 함수?.. 
+   {
+   int my_sch_num = my_ID;
+   char m_temp_c[100];
+   printf(">> 개인정보 수정 <<\n");
 
-	list_client -> current = list_client -> head;
-	while(list_client -> current)
-	{
-		if((list_client -> current -> sch_num) == my_sch_num)
-		{
-			printf("수정할 정보를 입력하세요\n");
+   list_client -> current = list_client -> head;
+   while(list_client -> current)
+   {
+   if((list_client -> current -> sch_num) == my_sch_num)
+   {
+   printf("수정할 정보를 입력하세요\n");
 
-			printf("이름: ");
-			scanf("%s", m_temp_c);
-			list_client -> current -> name = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
-			strcpy(list_client -> current -> name, m_temp_c);
+   printf("이름: ");
+   scanf("%s", m_temp_c);
+   list_client -> current -> name = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
+   strcpy(list_client -> current -> name, m_temp_c);
 
-			printf("비밀번호: ");
-			scanf("%s", m_temp_c);
-			list_client -> current -> password = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
-			strcpy(list_client -> current -> password, m_temp_c);
+   printf("비밀번호: ");
+   scanf("%s", m_temp_c);
+   list_client -> current -> password = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
+   strcpy(list_client -> current -> password, m_temp_c);
 
-			printf("주소: ");
-			scanf("%[^\n]s", list_client -> current -> address);
-			list_client -> current -> address = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
-			strcpy(list_client -> current -> address, m_temp_c);
+   printf("주소: ");
+   scanf("%[^\n]s", list_client -> current -> address);
+   list_client -> current -> address = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
+   strcpy(list_client -> current -> address, m_temp_c);
 
-			printf("연락처: ");
-			scanf("%s", list_client -> current -> phone_num);
-			list_client -> current -> phone_num = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
-			strcpy(list_client -> current -> phone_num, m_temp_c);
+   printf("연락처: ");
+   scanf("%s", list_client -> current -> phone_num);
+   list_client -> current -> phone_num = (char *)malloc(sizeof(strlen(m_temp_c) + 1));
+   strcpy(list_client -> current -> phone_num, m_temp_c);
 
-			file_write_client();
+   file_write_client();
 
-			printf("개인정보가 수정되었습니다.\n");
+   printf("개인정보가 수정되었습니다.\n");
 
-			break;
-		}
+   break;
+   }
 
-		list_client -> current = list_client -> current -> next;
-	}
-}
-*/
+   list_client -> current = list_client -> current -> next;
+   }
+   }
+   */
 
 int Admin_menu()
 {
@@ -482,9 +486,9 @@ void Register_book()
 	Btemp -> owner = (char *)malloc(sizeof(char) * (strlen(input) +1));
 	strcpy(Btemp -> owner, input);
 	while(getchar() != '\n');
-	
+
 	add.borrow_Y_N = 'Y';
-	
+
 
 	printf("등록하시겠습니까? (등록하려면 Y입력) ");
 	Y_N = getchar();
@@ -496,7 +500,7 @@ void Register_book()
 		{
 			file_write_book();
 			printf("도서등록이 완료되었습니다.\n");
-			
+
 		}
 		else
 		{
@@ -632,7 +636,7 @@ void L_by_title()
 {
 	char l_temp_c[100];
 	int sch_id, book_n;
-	int YorN;
+	char YorN;
 	while(getchar() != '\n');
 	printf("도서명을 입력하세요: ");
 	scanf("%[^\n]s", l_temp_c);
@@ -658,40 +662,96 @@ void L_by_title()
 			printf("학번을 입력하세요: ");
 			scanf("%d", &sch_id);
 			binput -> sch_num = sch_id;
+			printf("%d", binput -> sch_num);
 
 			printf("도서번호를 입력하세요: ");
 			scanf("%d", &book_n);
 			binput -> book_num = book_n;
+			printf("%d", binput -> book_num);
+
+			while(getchar() != '\n');
 
 			printf("이 도서를 대여합니까? ");
-			YorN = getchar();
+			scanf("%c", &YorN);
+
 			if(YorN == 'Y')
 			{
-				struct tm *t;
-				time_t now;
-				now  = time(NULL);
-				t = localtime(&now);
-				binput -> borrow_day = now;
-				if(( t -> tm_wday) == 0)
+				//struct tm *t;
+				struct tm *bt;
+				struct tm *rt;
+				//time_t now;
+				time_t bn;
+				time_t rn;
+
+
+				bn = time(NULL);
+				bt = localtime(&bn);
+
+				rn = bn + (30*24*60*60);
+				rt = localtime(&rn);
+
+				printf("bd = %dday ***rd = %dday**",bt -> tm_mon, rt->tm_mon);
+				printf("bn = %ld, rn = %ld", bn, rn);
+
+				binput -> borrow_day = bn;
+				binput -> return_day = rn;
+
+				/*now  = time(NULL);
+				  t = localtime(&now);
+				  bt = localtime(&now);
+				  printf("시간 : %ld", now);
+				  binput -> borrow_day = now;
+				  printf("binput -> borrow_day : %ld\n", binput -> borrow_day);
+
+				  now = time(NULL) + 2592000;
+				  printf("더한 값 : %ld\n", now);
+				  binput -> return_day = now;*/
+				//t -> tm_wday = (t -> tm_wday) + 2592000;
+
+				if(( rt -> tm_wday) == 0)
 				{
-					binput -> return_day = (now +  2678400);
-				}
-				else
-				{
-					binput -> borrow_day = (now  + 2592000);
+					rn = rn + (1 * 24 * 60 * 60);
+					//binput -> return_day = (now +  86400);
+					binput -> return_day = rn;
 				}
 
 				if(get_book(book_n, &result) == Success)
 				{
+					printf("return day : %ld\n", binput -> return_day);
 
-					Book modi = *result;
-					/////////////const 포인터임 바꿔줘야함 append 라던가
+					Book modi;
+
+					modi.book_num = result -> book_num;
+
+					modi.name = (char *)malloc(sizeof(char) * (strlen(result -> name) +1));
+					strcpy(modi.name, result -> name);
+
+					modi.publisher = (char *)malloc(sizeof(char) * (strlen(result -> publisher) +1));
+					strcpy(modi.publisher, result -> publisher);
+
+					modi.author = (char *)malloc(sizeof(char) * (strlen(result -> author) +1));
+					strcpy(modi.author, result -> author);
+
+					modi.ISBN = result  -> ISBN;
+					modi.owner = (char *)malloc(sizeof(char) * (strlen(result -> owner) +1));
+					strcpy(modi.owner, result -> owner);
+
 					modi.borrow_Y_N = 'N';
 					Return_Flags flag;
 
 					if((flag = replace_book(result, modi)) == Success)
 					{
-						printf("도서가 대여 되었습니다.\n");
+						if(append_borrow(btemp) == Success)
+						{
+							printf("도서가 대여 되었습니다.\n");
+							file_write_book();
+							file_write_borrow();
+						}
+						else
+						{
+							printf("도서 대여를 실패하였습니다.(Same_Two_Same_Value)\n");	
+						}
+
 					}
 					else if(flag == Fail_Two_Same_Value)
 					{
@@ -707,7 +767,15 @@ void L_by_title()
 					printf("failed finding book.\n");
 				}
 			}
+			else
+			{
+				printf("도서대여가 취소되었습니다.\n");
+			}
 		}
+	}
+	else
+	{
+		printf("해당 도서는 존재하지 않습니다.\n");
 	}
 }
 
@@ -767,14 +835,30 @@ void L_by_ISBN()
 			{
 				btemp -> borrow_day = (now  + 2592000);
 			}
-
-			if(get_book(book_n, &result) == Success)
+			const Book *Btemp = NULL;
+			if(get_book(book_n, &Btemp) == Success)
 			{
-				Book modi = *result;
+				Book modi;
+
+				modi.book_num = result -> book_num;
+
+				modi.name = (char *)malloc(sizeof(char) * (strlen(result -> name) +1));
+				strcpy(modi.name, result -> name);
+
+				modi.publisher = (char *)malloc(sizeof(char) * (strlen(result -> publisher) +1));
+				strcpy(modi.publisher, result -> publisher);
+
+				modi.author = (char *)malloc(sizeof(char) * (strlen(result -> author) +1));
+				strcpy(modi.author, result -> author);
+
+				modi.ISBN = result  -> ISBN;
+				modi.owner = (char *)malloc(sizeof(char) * (strlen(result -> owner) +1));
+				strcpy(modi.owner, result -> owner);
+
 				modi.borrow_Y_N = 'N';
 				Return_Flags flag;
 
-				if((flag = replace_book(result, modi)) == Success)
+				if((flag = replace_book(Btemp, modi)) == Success)
 				{
 					printf("도서가 대여 되었습니다.\n");
 				}
@@ -833,12 +917,13 @@ void Return_book()////
 
 				if(get_book(keys[i], &Binfo) == Success)
 				{
-					printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n 반납일자: %d년 %d월 %d일 %s",\
+					printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n 반납일자: %d년 %d월 %d일 %s\n",\
 							result -> book_num, Binfo -> name, bt -> tm_year + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_yday]);
 
 					printf("반납할 도서번호를 입력하세요: ");
 					scanf("%d", &book_n);
 
+					getchar();
 					printf("도서 반납처리를 할까요? ");
 					scanf("%c", &YorN);
 
@@ -929,7 +1014,7 @@ void Search_name()
 	}
 	else
 	{
-	printf("존재하지 않는 이름입니다.\n\n");
+		printf("존재하지 않는 이름입니다.\n\n");
 	}
 
 }

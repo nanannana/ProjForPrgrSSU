@@ -225,6 +225,7 @@ void Revise(void)
 			break;
 		default : 
 			printf("1,2,3 만 입력하세요 !!");
+			return;
 	}
 
 		}	 
