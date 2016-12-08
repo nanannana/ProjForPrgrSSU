@@ -78,7 +78,7 @@ void Search_books()
 		printf("1. 도서명 검색\t\t2. 출판사 검색\n3. ISBN 검색\t\t4. 저자명 검색\n5. 전체 검색\t\t6. 이전메뉴\n");
 		printf("번호를 선택하세요: ");
 		scanf("%d", &o);
-
+		while(getchar() != '\n');
 		switch(o)
 		{
 			case 1 : S_by_title(); break;
@@ -99,7 +99,7 @@ void Search_books()
 
 void S_by_title()
 {
-	char s_temp_c[100];
+	char s_temp_c[500];
 	printf("\n>> 도서명 검색 <<\n");
 	printf("도서명을 입력하세요 : ");
 	scanf("%[^\n]s", s_temp_c);
@@ -543,12 +543,7 @@ void delete_book(int *keys, int cnt)
 void Lend_book()
 {
 	int p;
-<<<<<<< HEAD
-	printf(">> 도서 대여 <<\n");
-		
-=======
 	printf("\n>> 도서 대여 <<\n");
->>>>>>> upstream/master
 	printf("1. 도서명 검색\t\t2. ISBN 검색\n");
 	printf("번호를 선택하세요: ");
 	while(getchar() != '\n');

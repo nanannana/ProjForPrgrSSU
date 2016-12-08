@@ -94,9 +94,9 @@ void file_write_book()
 		
 		fprintf(fp, "|%d", list_book -> current -> book_num);
 			
-		fprintf(fp, "|%s", list_book -> current -> publisher);
-		
 		fprintf(fp, "|%s", list_book -> current -> name);
+		
+		fprintf(fp, "|%s", list_book -> current -> publisher);
 		
 		fprintf(fp, "|%s", list_book -> current -> author);
 		
@@ -245,27 +245,6 @@ int get_client_file_data(FILE *fp)
 	}
 	fseek(fp,-1,SEEK_CUR);	
 
-/*	if(a == EOF)
-	{	
-		return 0;
-	}
-	else if(a == '\n')
-	{
-		while(a == '\n')
-		{
-			a=fgetc(fp);
-		}
-		fseek(fp,-1,SEEK_CUR);
-	
-		if(a == '|')
-			return 1;
-		else if(a == EOF)
-			return 0;
-	}
-	else
-	{
-		return 1;
-	}*/
 	return 1;
 }
 
@@ -278,14 +257,15 @@ int get_book_file_data(FILE *fp)
 	book -> book_num = atoi(get_oneWord(&fp));
 	if(list_book -> last_book_num < book -> book_num)
 		list_book -> last_book_num = book -> book_num;
+	
+	get_oneWord(&fp);
+	book -> name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
+	strcpy(book -> name,temp);
 
 	get_oneWord(&fp);
 	book -> publisher = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(book -> publisher,temp);
 	
-	get_oneWord(&fp);
-	book -> name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	strcpy(book -> name,temp);
 	
 	get_oneWord(&fp);
 	book -> author = (char *)malloc(sizeof(char) * (strlen(temp) + 1));

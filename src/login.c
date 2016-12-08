@@ -49,17 +49,10 @@ void Sign_up(void)
 	}
 	
 	printf("이름: ");
-<<<<<<< HEAD
-	scanf("%[^\n]",temp);
-	while(getchar() != '\n');
-	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
-	strcpy(client.name,temp);
-=======
 	scanf("%[^\n]",temp);// 공백 문자 또한 읽어들임
 	getchar();// 입력버퍼에 \n 제거
 	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));//동적 배열 할당
 	strcpy(client.name,temp);// 할당된 포인터에 값을 넘겨준다
->>>>>>> upstream/master
 	
 	printf("비밀번호: ");// 반복
 	scanf("%[^\n]",temp);
@@ -75,11 +68,6 @@ void Sign_up(void)
 
 	printf("전화번호: ");
 	scanf("%[^\n]",temp);
-<<<<<<< HEAD
-	while(getchar() != '\n');
-=======
-	getchar();
->>>>>>> upstream/master
 	client.phone_num = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.phone_num,temp);
 	if(client.phone_num == '\0' || client.address == '\0' || client.password == '\0' || client.name == '\0' || client.sch_num == '\0'){// \n 입력받았을 경우 버그해결
@@ -113,19 +101,11 @@ void Revise(void)
 			if(get_client(my_ID,&result) == Success)//log_in에서 입력받은 my_id가 실제 리스트에 있는지 확인 
 			{
 				printf("바꿀 패스워드?");
-<<<<<<< HEAD
-				getchar();
-				scanf("%[^\n]",buff);
-				while(getchar() != '\n');
-				temp.sch_num = result->sch_num;
-				
-=======
 				while(getchar() != '\n');// \n 입력받을시 오류 해결위해
 				scanf("%[^\n]",buff);// 공백 문자 입력받음
 				getchar();//마찬가지
 				strcpy(sub_buff,result -> password);//링크드 리스트에 구조체가 없을 경우의 오류 해결을 위해 변경되기 전의 내용을 저장한다
 				temp.sch_num = result->sch_num;// sch_num은 안바꿀꺼므로
->>>>>>> upstream/master
 				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
 				strcpy(temp.name ,result->name);
 			
@@ -172,12 +152,8 @@ void Revise(void)
 				printf("바꿀 주소?");
 				while(getchar() != '\n');
 				scanf("%[^\n]",buff);
-<<<<<<< HEAD
-				while(getchar() != '\n');
-=======
 				getchar();
 				strcpy(sub_buff,result -> address);
->>>>>>> upstream/master
 				temp.sch_num = result->sch_num;
 				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
 				strcpy(temp.password,result->password);
@@ -221,12 +197,8 @@ void Revise(void)
 				printf("바꿀 전화번호?");
 				while(getchar() != '\n');
 				scanf("%[^\n]",buff);
-<<<<<<< HEAD
-				while(getchar() != '\n');
-=======
 				getchar();
 				strcpy(sub_buff,result -> phone_num);
->>>>>>> upstream/master
 				temp.sch_num = result->sch_num;
 				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
 				strcpy(temp.password , result->password);
