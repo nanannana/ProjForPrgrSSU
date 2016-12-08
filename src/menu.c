@@ -892,7 +892,7 @@ void L_by_ISBN()
 }
 
 
-void Return_book()////
+void Return_book()///
 {
 	int r_temp_i;
 	int keys[20];
@@ -920,13 +920,11 @@ void Return_book()////
 				const time_t BT = result -> borrow_day;
 				const time_t RT = result -> return_day;
 				bt = localtime(&BT);
-				rt = localtime(&RT);
 
 				if(get_book(keys[i], &Binfo) == Success)
 				{
 					printf("도서번호: %d\n도서명: %s\n", result  -> book_num,Binfo -> name);
 					printf("대여일자: %d년 %d월 %d일 %s\n", bt -> tm_year  + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_wday]);
-					printf("**%d", bt->tm_wday);
 					rt = localtime(&RT);
 					printf("반납일자: %d년 %d월 %d일 %s\n\n",rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_wday]);
 
@@ -951,6 +949,8 @@ void Return_book()////
 			Book pick;
 
 			pick.book_num = itemp -> book_num;
+
+			pick.ISBN = itemp -> ISBN;
 
 			pick.name = (char *)malloc(sizeof(char) * (strlen(itemp -> name) +1));
 			strcpy(pick.name, itemp -> name);
