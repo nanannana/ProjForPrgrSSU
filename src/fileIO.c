@@ -94,9 +94,9 @@ void file_write_book()
 		
 		fprintf(fp, "|%d", list_book -> current -> book_num);
 			
-		fprintf(fp, "|%s", list_book -> current -> name);
-		
 		fprintf(fp, "|%s", list_book -> current -> publisher);
+		
+		fprintf(fp, "|%s", list_book -> current -> name);
 		
 		fprintf(fp, "|%s", list_book -> current -> author);
 		

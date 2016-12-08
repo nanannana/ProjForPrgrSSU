@@ -50,24 +50,25 @@ void Sign_up(void)
 	
 	printf("이름: ");
 	scanf("%[^\n]",temp);
-	getchar();
+	while(getchar() != '\n');
 	client.name = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.name,temp);
 	
 	printf("비밀번호: ");
 	scanf("%[^\n]",temp);
-	getchar();
+	while(getchar() != '\n');
 	client.password = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.password,temp);
 	
 	printf("주소: ");
 	scanf("%[^\n]",temp);
-	getchar();
+	while(getchar() != '\n');
 	client.address = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.address,temp);
 
 	printf("전화번호: ");
 	scanf("%[^\n]",temp);
+	while(getchar() != '\n');
 	client.phone_num = (char *)malloc(sizeof(char) * (strlen(temp) + 1));
 	strcpy(client.phone_num,temp);
 
@@ -100,7 +101,7 @@ void Revise(void)
 				printf("바꿀 패스워드?");
 				getchar();
 				scanf("%[^\n]",buff);
-				getchar();
+				while(getchar() != '\n');
 				temp.sch_num = result->sch_num;
 				
 				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
@@ -130,7 +131,7 @@ void Revise(void)
 				printf("바꿀 주소?");
 				getchar();
 				scanf("%[^\n]",buff);
-				getchar();
+				while(getchar() != '\n');
 				temp.sch_num = result->sch_num;
 				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
 				strcpy(temp.password,result->password);
@@ -156,7 +157,7 @@ void Revise(void)
 				printf("바꿀 전화번호?");
 				getchar();
 				scanf("%[^\n]",buff);
-				getchar();
+				while(getchar() != '\n');
 				temp.sch_num = result->sch_num;
 				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
 				strcpy(temp.password , result->password);
@@ -213,7 +214,6 @@ int Log_in()
 	else
 		my_ID = atoi(buff);
 
-	while(getchar() != '\n');
 	printf("비밀번호: ");
 	scanf("%s", my_password);
 

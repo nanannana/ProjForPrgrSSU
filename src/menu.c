@@ -123,7 +123,6 @@ void Search_books()
 		printf(">> 도서 검색 <<\n");
 		printf("1. 도서명 검색\t\t2. 출판사 검색\n3. ISBN 검색\t\t4. 저자명 검색\n5. 전체 검색\t\t6. 이전메뉴\n");
 		printf("번호를 선택하세요: ");
-		while(getchar() != '\n');
 		scanf("%d", &o);
 
 		switch(o)
@@ -149,8 +148,8 @@ void S_by_title()
 	char s_temp_c[100];
 	printf("\n>> 도서명 검색 <<\n");
 	printf("도서명을 입력하세요 : ");
-	while(getchar() != '\n');
 	scanf("%[^\n]s", s_temp_c);
+	while(getchar() != '\n');
 	int keys[20];
 	int cnt, i, cy=0;
 	char yn = 'Y';
@@ -196,8 +195,8 @@ void S_by_publisher()
 	char s_temp_c[100];
 	printf("\n>> 출판사 검색 <<\n");
 	printf("출판사명을 입력하세요 : ");
-	while(getchar() != '\n');
 	scanf("%[^\n]s", s_temp_c);
+	while(getchar() != '\n');
 	int keys[100];
 	int cnt_r,cnt_g, i;
 
@@ -238,7 +237,6 @@ void S_by_ISBN()
 	int long s_temp_l;
 	printf("\n>> ISBN 검색 <<\n");
 	printf("ISBN을 입력하세요 : ");
-	while(getchar() != '\n');
 	scanf("%ld", &s_temp_l);
 	int keys[20];
 	int cnt, i, cy=0;
@@ -287,8 +285,8 @@ void S_by_author()
 	char s_temp_c[100];
 	printf("\n>> 저자명 검색 <<\n");
 	printf("저자명을 입력하세요 : ");
-	while(getchar() != '\n');
 	scanf("%[^\n]s", s_temp_c);
+	while(getchar() != '\n');
 	int keys[100];
 	int cnt_r,cnt_g, i;
 
@@ -662,6 +660,7 @@ void Lend_book()
 {
 	int p;
 	printf(">> 도서 대여 <<\n");
+		
 	printf("1. 도서명 검색\t\t2. ISBN 검색\n");
 	printf("번호를 선택하세요: ");
 	scanf("%d", &p);
@@ -681,6 +680,7 @@ void L_by_title()
 	int YorN;
 	printf("도서명을 입력하세요: ");
 	scanf("%[^\n]s", l_temp_c);
+	while(getchar() != '\n');
 	int keys[20];
 	int cnt, i;
 	if((cnt = name2keys_on_book(keys, l_temp_c)) != 0)
@@ -954,6 +954,7 @@ void Search_name()
 	printf(">> 이름 검색 <<\n");
 	printf("이름을 입력하세요 : ");
 	scanf("%[^\n]s", s_temp_c);
+	while(getchar() != '\n');
 	int keys[20];
 	int cnt, i;
 	if((cnt = name2keys_on_client(keys, s_temp_c)) != 0)
