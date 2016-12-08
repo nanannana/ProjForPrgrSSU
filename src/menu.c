@@ -53,7 +53,7 @@ int Member_menu()
 			case 1 : Search_books(); break;
 			case 2 : My_BB_list(); break;
 			case 3 : Revise(); break;
-			case 4 : rtnvalue = Sign_down();
+			case 4 : rtnvalue = Sign_down(); break;
 			case 5 : return 0;
 			case 6 : return -2;
 			default : printf("잘못 입력했습니다. 다시 입력해 주세요.");
@@ -146,7 +146,7 @@ void S_by_title()
 
 void S_by_publisher()
 {
-	char s_temp_c[100];
+	char s_temp_c[500];
 	printf("\n>> 출판사 검색 <<\n");
 	printf("출판사명을 입력하세요 : ");
 	scanf("%[^\n]s", s_temp_c);
@@ -240,7 +240,7 @@ void S_by_ISBN()
 
 void S_by_author()
 {
-	char s_temp_c[100];
+	char s_temp_c[500];
 	printf("\n>> 저자명 검색 <<\n");
 	printf("저자명을 입력하세요 : ");
 	scanf("%[^\n]s", s_temp_c);
@@ -382,7 +382,7 @@ void Register_book()
 	Btemp = &add;
 	int Y_N = '0';
 
-	char input[30];
+	char input[500];
 	getchar();
 	printf("도서명: ");
 	scanf("%[^\n]s", input);
@@ -462,7 +462,7 @@ void Delete_book()
 
 void D_by_title()
 {
-	char d_temp_c[50];
+	char d_temp_c[500];
 	printf("도서명을 입력하세요 : ");
 	while(getchar() != '\n');
 	scanf("%[^\n]s", d_temp_c);
@@ -559,7 +559,7 @@ void Lend_book()
 
 void L_by_title()
 {
-	char l_temp_c[100];
+	char l_temp_c[500];
 	int sch_id, book_n;
 	char YorN;
 	while(getchar() != '\n');
@@ -958,7 +958,7 @@ void Member_list()
 
 void Search_name()
 {
-	char s_temp_c[30];
+	char s_temp_c[500];
 	while(getchar() != '\n');
 	printf(">> 이름 검색 <<\n");
 	printf("이름을 입력하세요 : ");

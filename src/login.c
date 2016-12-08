@@ -15,12 +15,12 @@ int Sign_down(void){
 	{                                 
 		remove_client(my_ID);//my_ID가 포함된 클라이언트 구조체 삭제
 		printf("\n회원 탈퇴가 성공적으로 실행되었습니다.\n다시 로그인 해주십시오.\n");
-		return -2;
+		return -1;
 	}
 	else
 	{
 		printf("\n대여한 도서가 있어, 탈퇴가 불가능합니다.\n");
-		return 0;
+		return 1;
 	}
 }
 
