@@ -319,12 +319,15 @@ void My_BB_list()//need to modify.(at if)
 				printf("bt = %ld, rt = %ld", BT, RT);
 				bt = localtime(&BT);
 				rt = localtime(&RT);
-
+				//printf("****bt = %d, rt = %ld", *bt, *rt);
+				printf("BT.tm_mon : %d, mday : %d\n RT.tm_mon: %d, mday : %d\n", bt -> tm_mon, bt -> tm_mday, rt -> tm_mon, rt -> tm_mday);
 				if(get_book(keys[i], &Binfo) == Success)
 				{
-					printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n반납일자: %d년 %d월 %d일 %s\n\n",\
-							result -> book_num, Binfo -> name, bt -> tm_year + 1900, (bt -> tm_mon) + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
-
+					//printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n반납일자: %d년 %d월 %d일 %s\n\n",
+							//result -> book_num, Binfo -> name, bt -> tm_year + 1900, (bt -> tm_mon) + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
+					printf("도서번호: %d\n도서명: %s\n", result  -> book_num,Binfo -> name);
+					printf("대여일자: %d년 %d월 %d일 %s\n", bt -> tm_year  + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_yday]);
+					printf("반납일자: %d년 %d월 %d일 %s\n\n",rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[bt -> tm_yday]);
 				}
 				else
 				{
