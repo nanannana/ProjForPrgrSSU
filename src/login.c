@@ -91,50 +91,54 @@ void Revise(void)
 	scanf("%d",&flag);
 	const Client *result = NULL;
 	Client temp,temp2; 
-	char buff[500] = {0},sub_buff[500] = {0};
+	char buff[500] = {0},sub_buff[500] = {0},nu_ll[2] = {0};
 	while(1){
 	switch(flag){
 		case 1 :
 			if(get_client(my_ID,&result) == Success)
 			{
 				printf("바꿀 패스워드?");
-				getchar();
+				while(getchar() != '\n');
 				scanf("%[^\n]",buff);
 				getchar();
+				strcpy(sub_buff,result -> password);
 				temp.sch_num = result->sch_num;
-				
 				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
 				strcpy(temp.name ,result->name);
 			
 				temp.password = (char *)malloc(sizeof(char) * (strlen(buff) + 1));
 				strcpy(temp.password,buff);
-				strcpy(sub_buff,result -> password);
 				temp.address = (char *)malloc(sizeof(char) * (strlen(result->address) + 1));
 				strcpy(temp.address ,result->address);
 
 				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num) + 1));
 				strcpy(temp.phone_num , result->phone_num);
-
+				if(!strncmp(buff,nu_ll,1))
+				{
+					printf("입력은 한개이상입니다\n");
+					return; 
+				}
 				if((flag = replace_client(result,temp)) == Success)
 				{
-					printf("변경 되었습니다.");
+					printf("변경 되었습니다.\n");
 					return ;
 				}
 				else if (flag == Fail_No_Element)
 				{
-					printf("비밀번호는 한글자 이상입니다");
+					printf("해당하는 구성요소가 없습니다\n");
 					temp2.address = (char *)malloc(sizeof(char) * (strlen(temp.address)+1));
-					strcpy(temp2.address,buff);
+					strcpy(temp2.address,temp.address);
 					temp2.password = (char *)malloc(sizeof(char) * (strlen(sub_buff)+1));
 					strcpy(temp2.password,sub_buff);
 					temp2.sch_num = temp.sch_num;
 					temp2.name = (char *)malloc(sizeof(char) * (strlen(temp.name)+1));
 					strcpy(temp2.name,temp.name);
-					temp2.phone_num = (char *)malloc(sizeof(char) * (strlen(sub_buff)+1));
+					temp2.phone_num = (char *)malloc(sizeof(char) * (strlen(temp.phone_num)+1));
 					strcpy(temp2.phone_num,temp.phone_num);
 					flag = replace_client(&temp,temp2);
-					return ;
+					return;
 				}
+				
 			}
 			else printf("잘못된 학번입니다.\n");
 			break;
@@ -142,27 +146,32 @@ void Revise(void)
 			if(get_client(my_ID,&result) == Success)
 			{
 				printf("바꿀 주소?");
-				getchar();
+				while(getchar() != '\n');
 				scanf("%[^\n]",buff);
 				getchar();
+				strcpy(sub_buff,result -> address);
 				temp.sch_num = result->sch_num;
 				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
 				strcpy(temp.password,result->password);
 				temp.address = (char *)malloc(sizeof(char) * (strlen(buff)+1));
 				strcpy(temp.address,buff);
-				strcpy(sub_buff,result -> address);
 				temp.phone_num = (char *)malloc(sizeof(char) * (strlen(result->phone_num) + 1));
 				strcpy(temp.phone_num ,result->phone_num);
 				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name) + 1));
 				strcpy(temp.name, result->name);
+				if(!strncmp(buff,nu_ll,1))
+				{
+					printf("입력은 한개이상입니다\n");
+					return; 
+				}
 				if((flag = replace_client(result,temp)) == Success)
 				{
-					printf("변경 되었습니다.");
+					printf("변경 되었습니다.\n");
 					return ;
 				}
 				else if (flag == Fail_No_Element)
 				{
-					printf("주소는 한글자 이상");
+					printf("해당하는 구성요소가 없습니다.\n");
 					temp2.address = (char *)malloc(sizeof(char) * (strlen(sub_buff)+1));
 					strcpy(temp2.address,sub_buff);
 					temp2.password = (char *)malloc(sizeof(char) * (strlen(temp.password)+1));
@@ -182,9 +191,10 @@ void Revise(void)
 			if(get_client(my_ID,&result) == Success)
 			{
 				printf("바꿀 전화번호?");
-				getchar();
+				while(getchar() != '\n');
 				scanf("%[^\n]",buff);
 				getchar();
+				strcpy(sub_buff,result -> phone_num);
 				temp.sch_num = result->sch_num;
 				temp.password = (char *)malloc(sizeof(char) * (strlen(result->password) + 1));
 				strcpy(temp.password , result->password);
@@ -195,20 +205,25 @@ void Revise(void)
 				strcpy(sub_buff,result -> phone_num);
 				temp.name = (char *)malloc(sizeof(char) * (strlen(result->name)+1));
 				strcpy(temp.name ,result->name);
+				if(!strncmp(buff,nu_ll,1))
+				{
+					printf("입력은 한개이상입니다\n");
+					return; 
+				}
 				if((flag = replace_client(result,temp)) ==Success)
 				{
 					file_write_client();
-					printf("변경되었습니다.");
+					printf("변경되었습니다.\n");
 					return ;
 				}
 				else if (flag == Fail_Two_Same_Value)
 				{
-					printf("같은 번호입니다");
+					printf("같은 번호입니다\n");
 					return ;
 				}
 				else if (flag == Fail_No_Element)
 				{
-					printf("입력은 한개 이상입니다");
+					printf("해당하는 구성요소가 없습니다.");
 					temp2.address = (char *)malloc(sizeof(char) * (strlen(temp.address)+1));
 					strcpy(temp2.address,buff);
 					temp2.password = (char *)malloc(sizeof(char) * (strlen(temp.password)+1));
@@ -217,7 +232,7 @@ void Revise(void)
 					temp2.name = (char *)malloc(sizeof(char) * (strlen(temp.name)+1));
 					strcpy(temp2.name,temp.name);
 					temp2.phone_num = (char *)malloc(sizeof(char) * (strlen(sub_buff)+1));
-					strcpy(temp2.phone_num,temp.phone_num);
+					strcpy(temp2.phone_num,sub_buff);
 					flag = replace_client(&temp,temp2);
 					return ;
 				}
@@ -243,19 +258,18 @@ int Log_in()
 
 	
 	printf(">> 로그인 <<\n");
-
 	while(getchar() != '\n');
 	printf("학번: ");
-	scanf("%s", buff);
-	
+	scanf("%[^\n]", buff);
+
 	if (!strcmp(buff, ADMIN_ID))
 		my_ID = -1;
 	else
 		my_ID = atoi(buff);
-
 	while(getchar() != '\n');
+
 	printf("비밀번호: ");
-	scanf("%s", my_password);
+	scanf("%[^\n]", my_password);
 
 	if (my_ID == -1 && !strcmp(my_password, ADMIN_PWD))
 	{
