@@ -203,7 +203,7 @@ void free_all_borrow(Borrow *obj)
 /// 구조체의 특정 값을 검색하여 해당하는 값의 개수를 반환합니다.
 /// sth, key는 CODE 매크로와 같이 넣어주면 됩니다.
 /// T는 thg의 자료형을 의미합니다. thg는 비교할 값
-/// same는 T 자료형 변수 둘이 일치하는지 확인하는 함수이름이 필요합니다.
+/// compare는 T 자료형 변수 둘이 일치하는지 확인하는 함수이름이 필요합니다.
 /// 둘이 일치하면 1을 반환해야 합니다.
 #define GET_KEY_FROM_THING(sth, key, T, thg, compare)			\
 int thg##2keys_on_##sth(int * keys, T thg)						\
@@ -240,6 +240,8 @@ int intcomp(int a, int b){
 	return a == b;
 }
 
+/// 직접 접근 없이 책의 비율을 알아내는 일이 너무 어려웠기 때문에
+/// 따로 함수를 만듭니다.
 #define GET_RATIO_BOOKS_FROM_THG(T, thg) 								\
 int get_ratio_books_from_##thg(int ratio[][2], T thg)					\
 {																		\
@@ -281,6 +283,7 @@ CODE(Client, client, sch_num, int, sch_num)
 CODE(Book, book, book_num, long, ISBN)
 CODE(Borrow, borrow, book_num, int, book_num)
 
+// 필요에 따라 손쉽게 추가됩니다.
 GET_KEY_FROM_THING(client, sch_num, char*, name, strcomp)
 GET_KEY_FROM_THING(client, sch_num, char*, password, strcomp)
 
@@ -295,7 +298,7 @@ GET_RATIO_BOOKS_FROM_THG(char*, author)
 GET_RATIO_BOOKS_FROM_THG(char*, publisher)
 
 
-
+// 디버깅용 함수입니다.
 #ifdef DEBUG
 int main(void)
 {

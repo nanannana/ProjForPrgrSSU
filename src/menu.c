@@ -327,15 +327,9 @@ void My_BB_list()//need to modify.(at if)
 					//printf("도서번호: %d\n도서명: %s\n대여일자: %d년 %d월 %d일 %s\n반납일자: %d년 %d월 %d일 %s\n\n",
 					//result -> book_num, Binfo -> name, bt -> tm_year + 1900, (bt -> tm_mon) + 1, bt -> tm_mday, day[bt -> tm_yday], rt -> tm_year + 1900, (rt -> tm_mon) + 1, rt -> tm_mday, day[rt -> tm_yday]);
 					printf("도서번호: %d\n도서명: %s\n", result  -> book_num,Binfo -> name);
-<<<<<<< HEAD
-					printf("대여일자: %d년 %d월 %d일 %s\n", bt -> tm_year  + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_yday]);
-					printf("반납일자: %d년 %d월 %d일 %s\n\n",rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_yday]);
-=======
 					printf("대여일자: %d년 %d월 %d일 %s\n", bt -> tm_year  + 1900, bt -> tm_mon + 1, bt -> tm_mday, day[bt -> tm_wday]);
-					printf("**%d", bt->tm_wday);
 					rt = localtime(&RT);
 					printf("반납일자: %d년 %d월 %d일 %s\n\n",rt -> tm_year + 1900, rt -> tm_mon + 1, rt -> tm_mday, day[rt -> tm_wday]);
->>>>>>> grape/master
 				}
 				else
 				{
